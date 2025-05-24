@@ -1,7 +1,12 @@
+"use client";
 import React from "react";
 import Image from "next/image";
+import {motion} from "framer-motion";
+import {useFadeIn} from "@/hooks/ui/useFadeIn";
 
 const Header = () => {
+  const fadeIn = useFadeIn();
+
   return (
     <section className="bg-[var(--light-yellow)] flex min-h-screen justify-center items-center w-full px-4">
       <div className="max-w-[1200px] w-full h-full flex flex-grow max-[1050px]:items-end min-[1050px]:justify-end max-[1050px]:justify-center items-center relative min-h-screen">
@@ -15,7 +20,11 @@ const Header = () => {
           ></Image>
         </div>
 
-        <div className="z-20 max-w-[600px] h-full flex items-center max-[1050px]:justify-end min-[1050px]:justify-center max-[1050px] flex-col w-full pb-16 gap-y-20">
+        <motion.div
+          ref={fadeIn.ref}
+          {...fadeIn.animationProps}
+          className="z-20 max-w-[600px] h-full flex items-center max-[1050px]:justify-end min-[1050px]:justify-center max-[1050px] flex-col w-full pb-16 gap-y-20"
+        >
           <h1 className=" max-[400px]:text-wrap text-center max-[500px]:text-5xl max-[600px]:text-6xl min-[600px]:text-7xl font-extrabold text-nowrap tracking-wide text-[var(--brown)]">
             Adopt a Pet.
           </h1>
@@ -30,7 +39,7 @@ const Header = () => {
               necessitatibus asperiores corporis numquam.
             </p>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

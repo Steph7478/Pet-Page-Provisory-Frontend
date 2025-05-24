@@ -1,9 +1,10 @@
 import {cn} from "@/libs/cn";
 import {cva, VariantProps} from "class-variance-authority";
+import {motion} from "framer-motion";
 import React from "react";
 
 const inputVariants = cva(
-  "rounded-full hover:brightness-125 focus:outline-none  min-w-[150px] px-8 py-4",
+  "rounded-full hover:brightness-125 focus:outline-none transition-colors duration-150 ease-in-out min-w-[150px] px-8 py-4",
   {
     variants: {
       intent: {
@@ -19,11 +20,11 @@ type InputProps = React.InputHTMLAttributes<HTMLInputElement> &
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({className, type, intent, ...props}, ref) => {
     return (
-      <input
+      <motion.input
         ref={ref}
         type={type}
         className={cn(inputVariants({intent}), className)}
-        {...props}
+        {...(props as React.ComponentProps<typeof motion.input>)}
       />
     );
   }
