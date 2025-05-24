@@ -4,7 +4,7 @@ import Image from "next/image";
 
 const Adoption = () => {
   return (
-    <section className="items-center flex relative justify-center min-h-screen w-full bg-[var(--dark-yellow)]">
+    <section className="items-center flex relative justify-center min-h-screen w-full bg-[var(--dark-yellow)] px-4">
       <div className="w-fit h-[300px] absolute top-0 right-0 -translate-y-[50%]">
         <Image
           src="/bone.png"
@@ -25,8 +25,8 @@ const Adoption = () => {
           />
         </div>
         <div className="flex flex-col max-w-[800px] w-full h-full max-[820px]:-translate-y-1/6 items-center">
-          <div className="flex flex-col gap-y-20 h-full max-w-[80%]">
-            <h2 className="max-[400px]:text-wrap max-[600px]:text-4xl min-[600px]:text-5xl font-extrabold text-nowrap text-[var(--yellow)]">
+          <div className="flex flex-col justify-center gap-y-20 h-full w-full">
+            <h2 className=" max-[600px]:text-4xl min-[600px]:text-5xl font-extrabold text-[var(--yellow)]">
               Be an angel for pets
             </h2>
             <p className="min-[820px]:w-[75%] max-[820px]:w-full text-white/75">

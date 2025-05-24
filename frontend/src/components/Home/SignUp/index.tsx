@@ -7,17 +7,17 @@ const SignUp = () => {
     return <Input intent={intent} placeholder={placeholder} type={type} />;
   };
   return (
-    <section className="items-center flex justify-center min-h-screen w-full bg-[var(--brown)]">
+    <section className="items-center flex justify-center min-h-screen w-full bg-[var(--brown)] px-4">
       <div className="max-w-[1200px] flex w-full min-h-screen min-[1050px]:justify-center items-center relative max-[1050px]:justify-between max-[1050px] max-[1050px]:flex-col">
-        <div className="flex w-[50%] items-center justify-center">
-          <div className="flex flex-col w-[75%] max-[1050px]:items-center min-[1050px]:items-start justify-center max-[1050px]:text-center gap-y-8">
-            <h2 className="max-[400px]:text-wrap max-[1050px]:mt-32 max-[600px]:text-5xl min-[600px]:text-6xl font-extrabold text-nowrap text-[var(--light-yellow)]">
+        <div className="flex max-w-[400px] items-center justify-center">
+          <div className="flex flex-col w-full max-[1050px]:items-center min-[1050px]:items-start justify-center max-[1050px]:text-center gap-y-8">
+            <h2 className="max-[1050px]:mt-32 max-[400px]:text-4xl min-[400px]:text-6xl font-extrabold text-center text-[var(--light-yellow)]">
               Interested?
             </h2>
             <h3 className="font-bold text-2xl text-[var(--light-yellow)]/75">
               Sign Up!
             </h3>
-            <p>
+            <p className="max-w-[300px] w-full">
               Lorem, ipsum dolor sit amet consectetur adipisicing elit.
               Accusamus, quasi autem? Eveniet delectus exercitationem vel
               veritatis maiores a, qui architecto sequi perferendis quasi quam
