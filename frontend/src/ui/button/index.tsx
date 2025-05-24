@@ -3,14 +3,14 @@ import {cva, VariantProps} from "class-variance-authority";
 import React from "react";
 
 const buttonVariants = cva(
-  "uppercase py-2 px-8 flex justify-center items-center w-auto cursor-pointer hover:brightness-152",
+  "uppercase py-2 px-8 flex justify-center transition-colors duration-150 ease-in-out items-center w-auto cursor-pointer hover:brightness-150",
   {
     variants: {
       intent: {
         first: "bg-[var(--yellow)] text-[var(--brown)]",
         second: "bg-[var(--brown)] text-[var(--yellow)]",
         third: "bg-[var(--light-yellow)] text-black",
-        fourth: "bg-[var(--dark-yellow)] text-white",
+        fourth: "bg-[var(--dark-yellow)]  hover:brightness-110 text-white",
         secondVar: "bg-[var(--brown)] text-white]",
       },
     },
