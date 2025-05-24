@@ -1,12 +1,24 @@
 "use client";
 import {useFadeIn} from "@/hooks/ui/useFadeIn";
+import Button from "@/ui/button";
 import Input from "@/ui/input";
 import {motion} from "framer-motion";
 import Image from "next/image";
 import React from "react";
+import {FcGoogle} from "react-icons/fc";
 
 const SignUp = () => {
-  const fadeIn = Array.from({length: 8}, () => useFadeIn());
+  const fadeIn = [
+    useFadeIn(),
+    useFadeIn(),
+    useFadeIn(),
+    useFadeIn(),
+    useFadeIn(),
+    useFadeIn(),
+    useFadeIn(),
+    useFadeIn(),
+    useFadeIn(),
+  ];
 
   const input = (
     n: number,
@@ -57,7 +69,7 @@ const SignUp = () => {
         </div>
 
         <div
-          className="flex w-[50%]  
+          className="flex max-[1050px]:w-auto min-[1050px]:w-[50%]  
         items-center h-full justify-center"
         >
           <div className="flex justify-center relative items-center w-full flex-col min-h-[650px]">
@@ -70,14 +82,29 @@ const SignUp = () => {
                 src="/whitefloor.png"
               />
             </div>
-            <div className="z-20 w-full h-full flex flex-col gap-y-8 justify-center items-center ">
+            <div className="z-20 w-full h-full flex flex-col gap-y-6 justify-center items-center ">
               {input(3, "first", "NAME", "text")}
-              {input(4, "first", "SURNAME", "text")}
-              {input(5, "first", "CITY", "text")}
-              {input(6, "first", "PHONE NUMBER", "text")}
+              {input(4, "first", "EMAIL", "text")}
+              {input(5, "first", "PASSWORD", "text")}
               <motion.p
+                ref={fadeIn[6].ref}
+                {...fadeIn[6].animationProps}
+                className="font-semibold text-[var(--brown)]"
+              >
+                Or
+              </motion.p>
+              <Button
                 ref={fadeIn[7].ref}
                 {...fadeIn[7].animationProps}
+                intent={"secondVar"}
+                className="flex gap-3 justify-center items-center"
+              >
+                <FcGoogle className="w-6 h-6" />
+                Sign up with Google
+              </Button>
+              <motion.p
+                ref={fadeIn[8].ref}
+                {...fadeIn[8].animationProps}
                 className="text-[var(--brown)] text-xl underline cursor-pointer hover:brightness-125 font-bold"
               >
                 Submit
