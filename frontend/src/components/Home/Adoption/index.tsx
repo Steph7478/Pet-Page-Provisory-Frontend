@@ -2,11 +2,11 @@
 import React from "react";
 import Button from "@/ui/button";
 import Image from "next/image";
-import {useFadeIn} from "@/hooks/ui/useFadeIn";
 import {motion} from "framer-motion";
+import {useFadeIn} from "@/hooks/ui/useFadeIn";
 
 const Adoption = () => {
-  const fadeIn = Array.from({length: 3}, () => useFadeIn());
+  const fadeIn = [useFadeIn(), useFadeIn(), useFadeIn()];
 
   return (
     <section className="items-center flex relative justify-center min-h-screen w-full bg-[var(--dark-yellow)] px-4">

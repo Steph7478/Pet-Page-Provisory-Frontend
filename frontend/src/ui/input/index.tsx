@@ -9,6 +9,8 @@ const inputVariants = cva(
     variants: {
       intent: {
         first: "focus:bg-[var(--brown)]/75 bg-[var(--brown)]/60",
+        second:
+          "text-black focus:bg-[var(--light-yellow)]/75 bg-[var(--light-yellow)]/50",
       },
     },
   }

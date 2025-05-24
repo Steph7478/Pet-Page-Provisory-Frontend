@@ -6,7 +6,7 @@ import Image from "next/image";
 import React from "react";
 
 const OurPets = () => {
-  const fadeIn = Array.from({length: 4}, () => useFadeIn());
+  const fadeIn = [useFadeIn(), useFadeIn(), useFadeIn(), useFadeIn()];
 
   const pets = (
     n: number,

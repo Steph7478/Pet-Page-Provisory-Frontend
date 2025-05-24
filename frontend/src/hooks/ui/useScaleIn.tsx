@@ -1,20 +1,20 @@
 import {useInView} from "react-intersection-observer";
 
-export const useFadeIn = (options = {triggerOnce: true, threshold: 0.3}) => {
+export const useScaleIn = (options = {triggerOnce: true, threshold: 0.3}) => {
   const [ref, inView] = useInView(options);
 
-  const fadeInVariants = {
+  const blurScaleInVariants = {
     hidden: {
       opacity: 0,
-      y: 50,
-      filter: "blur(2px)",
+      scale: 0.95,
+      filter: "blur(1px)",
     },
     visible: {
       opacity: 1,
-      y: 0,
+      scale: 1,
       filter: "blur(0px)",
       transition: {
-        duration: 0.8,
+        duration: 0.6,
         ease: "easeOut",
       },
     },
@@ -23,7 +23,7 @@ export const useFadeIn = (options = {triggerOnce: true, threshold: 0.3}) => {
   const animationProps = {
     initial: "hidden",
     animate: inView ? "visible" : "hidden",
-    variants: fadeInVariants,
+    variants: blurScaleInVariants,
   };
 
   return {ref, animationProps};

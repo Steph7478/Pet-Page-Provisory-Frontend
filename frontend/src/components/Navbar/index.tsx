@@ -5,12 +5,13 @@ const Navbar = () => {
   const links = [
     {name: "Home", href: "/"},
     {name: "About", href: "/about"},
-    {name: "Sign Up", href: "/signup"},
     {name: "Contact", href: "/contact"},
+    {name: "Sign Up", href: "/signup"},
+    {name: "Login", href: "/login"},
   ];
 
   return (
-    <nav className="w-full bg-[var(--brown)] h-[50px] flex justify-center">
+    <nav className="w-full absolute top-0 z-10 bg-[var(--brown)] h-[50px] flex justify-center">
       <ul className=" flex w-full max-w-[90%] h-full items-center">
         <Link className="mr-auto" href={"/"}>
           Logo

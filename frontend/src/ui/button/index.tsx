@@ -1,9 +1,10 @@
 import {cn} from "@/libs/cn";
 import {cva, VariantProps} from "class-variance-authority";
+import {motion} from "framer-motion";
 import React from "react";
 
 const buttonVariants = cva(
-  "uppercase py-2 px-8 flex justify-center transition-colors duration-150 ease-in-out items-center w-auto cursor-pointer hover:brightness-150",
+  "uppercase py-2 px-8 flex justify-center transition-colors duration-200 ease-in-out items-center w-auto cursor-pointer hover:brightness-150",
   {
     variants: {
       intent: {
@@ -23,13 +24,13 @@ type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> &
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({className, intent, children, ...props}, ref) => {
     return (
-      <button
+      <motion.button
         ref={ref}
         className={cn(buttonVariants({intent}), className)}
-        {...props}
+        {...(props as React.ComponentProps<typeof motion.button>)}
       >
         {children}
-      </button>
+      </motion.button>
     );
   }
 );
