@@ -4,20 +4,20 @@ import Button from "@/ui/button";
 
 export default function SimpleSlider() {
   const sliderstest = [
-    {name: "test 1", description: "raca", age: 10, img: "/defaultdog.png"},
-    {name: "test 2", description: "raca", age: 10, img: "/defaultdog.png"},
-    {name: "test 3", description: "raca", age: 10, img: "/defaultdog.png"},
-    {name: "test 4", description: "raca", age: 10, img: "/defaultdog.png"},
+    {name: "Kiwi", description: "raca", age: 10, img: "/defaultdog.png"},
+    {name: "Kiwi", description: "raca", age: 10, img: "/defaultdog.png"},
+    {name: "Kiwi", description: "raca", age: 10, img: "/defaultdog.png"},
+    {name: "Kiwi", description: "raca", age: 10, img: "/defaultdog.png"},
   ];
 
   return (
     <div className="w-full max-w-[1000px] max-h-[500px] py-20 max-[800px]:px-2 flex justify-center items-center">
-      <div className="  overflow-y-auto h-full flex justify-center scroll-container">
+      <div className="overflow-y-auto h-full flex justify-center scroll-container">
         <div className="flex flex-wrap gap-5 w-full items-center justify-center">
           {sliderstest.map((item, index) => (
             <div
               key={index}
-              className="bg-[var(--light-yellow)] h-[350px] w-[200px] flex flex-col justify-center items-center shadow rounded overflow-hidden"
+              className="bg-[var(--light-yellow)] h-[330px] w-[200px] flex flex-col justify-center items-center shadow rounded overflow-hidden"
             >
               <div className="relative  h-[65%] w-full">
                 <Image

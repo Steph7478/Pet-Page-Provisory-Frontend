@@ -11,7 +11,7 @@ const Adotar = () => {
     <div className="min-h-screen flex justify-center py-20 flex-col items-center relative bg-[var(--light-yellow)] ">
       <div className="max-w-[1000px] w-full relative justify-center flex items-center flex-col">
         <h2 className="mb-10 max-[400px]:text-wrap h-[75px] text-center max-[500px]:text-5xl max-[600px]:text-6xl min-[600px]:text-7xl font-extrabold text-nowrap max-[800px]:-translate-y-[65%] tracking-wide text-[var(--brown)]">
-          Our Pets.
+          Seu pet.
         </h2>{" "}
         <Image
           src="/lyingcat.png"

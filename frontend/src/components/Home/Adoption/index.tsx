@@ -4,6 +4,7 @@ import Button from "@/ui/button";
 import Image from "next/image";
 import {motion} from "framer-motion";
 import {useFadeIn} from "@/hooks/ui/useFadeIn";
+import Link from "next/link";
 
 const Adoption = () => {
   const fadeIn = [useFadeIn(), useFadeIn(), useFadeIn()];
@@ -53,9 +54,11 @@ const Adoption = () => {
               {...fadeIn[2].animationProps}
               className="flex gap-6"
             >
-              <Button intent={"first"} className="w-[100px]">
-                Adopt
-              </Button>
+              <Link href="/adotar">
+                <Button intent={"first"} className="w-[100px]">
+                  Adopt
+                </Button>
+              </Link>
               <Button
                 intent={"second"}
                 className="w-[100px] max-[440px]:ml-auto"
