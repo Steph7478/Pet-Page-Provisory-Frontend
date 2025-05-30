@@ -9,9 +9,11 @@ import {FcGoogle} from "react-icons/fc";
 export default function AuthLayout({
   children,
   type,
+  onSubmit,
 }: {
   children: React.ReactNode;
   type: "login" | "signup";
+  onSubmit?: () => void;
 }) {
   const scaleIn = useScaleIn();
   return (
@@ -44,7 +46,7 @@ export default function AuthLayout({
               {type === "login" ? "Bem-vindo de volta!" : "Crie sua conta"}
             </h2>
             {children}
-            <Button intent={"secondVar"}>
+            <Button intent={"secondVar"} onClick={onSubmit}>
               {type === "login" ? "Entrar" : "Cadastrar"}
             </Button>
             <p className="font-semibold text-white">Ou</p>
