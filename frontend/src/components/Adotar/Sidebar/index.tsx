@@ -21,28 +21,33 @@ const Sidebar = ({
     );
   };
 
+  const filterBar = (
+    <>
+      <h2 className="text-4xl my-4 text-[var(--light-yellow)]">Filtros</h2>
+      <div className="flex flex-col gap-2 w-full">
+        <p className="font-semibold text-left">Tamanho</p>
+        <div className="flex flex-col gap-1 items-start">
+          {filter("size", "small", "pequeno")}
+          {filter("size", "medium", "medio")}
+          {filter("size", "large", "grande")}
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-2 w-full">
+        <p className="font-semibold text-left">Idade</p>
+        <div className="flex flex-col gap-1 items-start">
+          {filter("age", "under1", "menos de 1 ano")}
+          {filter("age", "1to5", "entre 1 a 5 anos")}
+          {filter("age", "over5", "mais de 5 anos")}
+        </div>
+      </div>
+    </>
+  );
+
   return (
     <>
       <div className="hidden md:flex bg-[var(--brown)] min-w-[200px] flex-col p-4 gap-6 justify-start ">
-        <h2 className="text-4xl my-4 text-[var(--light-yellow)]">Filtros</h2>
-
-        <div className="flex flex-col gap-2 w-full">
-          <p className="font-semibold text-left">Tamanho</p>
-          <div className="flex flex-col gap-1 items-start">
-            {filter("size", "small", "pequeno")}
-            {filter("size", "medium", "medio")}
-            {filter("size", "large", "grande")}
-          </div>
-        </div>
-
-        <div className="flex flex-col gap-2 w-full">
-          <p className="font-semibold text-left">Idade</p>
-          <div className="flex flex-col gap-1 items-start">
-            {filter("age", "under1", "menos de 1 ano")}
-            {filter("age", "1to5", "entre 1 a 5 anos")}
-            {filter("age", "over5", "mais de 5 anos")}
-          </div>
-        </div>
+        {filterBar}
       </div>
 
       <div className="block md:hidden p-4 absolute left-0">
@@ -62,27 +67,7 @@ const Sidebar = ({
               className="absolute right-0 text-[var(--light-yellow)] top-0"
               size={28}
             />
-            <h2 className="text-4xl my-4 text-[var(--light-yellow)]">
-              Filtros
-            </h2>
-
-            <div className="flex flex-col gap-2 w-full">
-              <p className="font-semibold text-left">Tamanho</p>
-              <div className="flex flex-col gap-1 items-start">
-                {filter("size", "small", "pequeno")}
-                {filter("size", "medium", "medio")}
-                {filter("size", "large", "grande")}
-              </div>
-            </div>
-
-            <div className="flex flex-col gap-2 w-full">
-              <p className="font-semibold text-left">Idade</p>
-              <div className="flex flex-col gap-1 items-start">
-                {filter("age", "under1", "menos de 1 ano")}
-                {filter("age", "1to5", "entre 1 a 5 anos")}
-                {filter("age", "over5", "mais de 5 anos")}
-              </div>
-            </div>
+            {filterBar}
           </div>
         </div>
       )}
