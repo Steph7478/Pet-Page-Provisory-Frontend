@@ -38,12 +38,15 @@ export default function AuthLayout({
           <motion.div
             ref={scaleIn.ref}
             {...scaleIn.animationProps}
-            className="w-full flex max-[500px]:min-h-screen flex-col gap-5 justify-center items-center backdrop-blur-[1px] px-2 py-6 backdrop-brightness-80 bg-[var(--light-brown)]/50 backdrop-saturate-150 min-[500px]:rounded-3xl shadow-lg"
+            className="w-full flex max-[500px]:min-h-screen flex-col gap-4 justify-center items-center backdrop-blur-[1px] px-2 py-6 backdrop-brightness-80 bg-[var(--light-brown)]/50 backdrop-saturate-150 min-[500px]:rounded-3xl shadow-lg"
           >
             <h2 className="text-white text-3xl font-semibold py-4">
               {type === "login" ? "Bem-vindo de volta!" : "Crie sua conta"}
             </h2>
             {children}
+            <Button intent={"secondVar"}>
+              {type === "login" ? "Entrar" : "Cadastrar"}
+            </Button>
             <p className="font-semibold text-white">Ou</p>
             <Button
               intent={"secondVar"}
