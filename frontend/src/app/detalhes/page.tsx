@@ -1,9 +1,11 @@
 "use client";
+import Modal from "@/components/Detalhes/modal";
 import Button from "@/ui/button";
 import Image from "next/image";
-import React from "react";
+import React, {useState} from "react";
 
 const Detalhes = () => {
+  const [isOpen, setIsOpen] = useState(false);
   const span = (title: string, text: string | number) => (
     <p>
       <span className="font-semibold text-[var(--brown)]">{title}</span> {text}
@@ -11,7 +13,7 @@ const Detalhes = () => {
   );
 
   return (
-    <div className="bg-[var(--light-brown)] flex justify-center items-center min-h-screen px-2">
+    <div className="bg-[var(--light-brown)] flex justify-center items-center min-h-screen px-2 py-20">
       <div className="max-w-[800px] w-full h-full flex justify-center items-center">
         <div className="w-full bg-[var(--light-yellow)] max-[800px]:max-w-[400px] max-[800px]:flex-col flex rounded-lg overflow-x-hidden">
           <div className="w-full min-[800px]:w-[40%] max-[800px]:h-[400px]  md:h-auto relative">
@@ -33,9 +35,15 @@ const Detalhes = () => {
                 "Lorem ipsum dolor sit amet consectetur adipisicing elit. Error, temporibus ex saepe placeat distinctio deleniti laboriosam fugalaudantium maxime quidem tenetur eos nulla soluta debitis animi obcaecati ratione accusamus quo!"
               )}
             </div>
-            <Button className="mt-5" intent={"fourth"}>
+            <Button
+              onClick={() => setIsOpen(true)}
+              className="mt-5"
+              intent={"fourth"}
+            >
               Iniciar adoção
             </Button>
+
+            {isOpen && <Modal setIsOpen={setIsOpen} />}
           </div>
         </div>
       </div>
