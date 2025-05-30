@@ -1,27 +1,36 @@
 package com.patamansa.backend.model;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.EnumType;
 
-import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
-import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbPartitionKey;
+import jakarta.persistence.*;
 
-@DynamoDbBean
+@Table(name = "pets")
+@Entity
 public class Pet {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    private String id;
     private String nome;
     private String tipo;
     private String raca;
     private String porte;
     private String idade;
     private String descricao;
-    private String status;
     private String fotoUrl;
 
-    @DynamoDbPartitionKey
-    public String getId() {
+    @Enumerated(EnumType.STRING)
+    private StatusPet status;
+
+    public Pet() {
+        this.status = StatusPet.DISPONIVEL;
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -73,11 +82,11 @@ public class Pet {
         this.descricao = descricao;
     }
 
-    public String getStatus() {
+    public StatusPet getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(StatusPet status) {
         this.status = status;
     }
 
@@ -88,6 +97,4 @@ public class Pet {
     public String getFotoUrl() {
         return fotoUrl;
     }
-
 }
-
