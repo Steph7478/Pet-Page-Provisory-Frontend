@@ -52,7 +52,10 @@ const Sidebar = ({
 
       <div className="block md:hidden p-4 absolute left-0">
         <button onClick={() => setIsOpen(!isOpen)}>
-          <BsFillFilterCircleFill size={35} className="text-[var(--brown)]" />
+          <BsFillFilterCircleFill
+            size={35}
+            className="text-[var(--brown)] hover:brightness-125 cursor-pointer"
+          />
         </button>
       </div>
 
@@ -64,7 +67,7 @@ const Sidebar = ({
           <div className="w-full h-full relative flex justify-start max-[448px]:items-center gap-6 flex-col">
             <IoIosCloseCircleOutline
               onClick={() => setIsOpen(false)}
-              className="absolute right-0 text-[var(--light-yellow)] top-0"
+              className="absolute hover:brightness-125 cursor-pointer right-0 text-[var(--light-yellow)] top-0"
               size={28}
             />
             {filterBar}

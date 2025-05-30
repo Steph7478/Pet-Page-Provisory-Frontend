@@ -13,6 +13,8 @@ const buttonVariants = cva(
         third: "bg-[var(--light-yellow)] text-black",
         fourth: "bg-[var(--dark-yellow)]  hover:brightness-110 text-white",
         secondVar: "bg-[var(--brown)] text-white]",
+        formulario:
+          "mt-4 bg-[var(--brown)] text-white py-2 px-4 rounded hover:opacity-90",
       },
     },
   }
