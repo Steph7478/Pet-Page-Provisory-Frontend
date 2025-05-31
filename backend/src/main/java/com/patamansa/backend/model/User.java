@@ -18,12 +18,12 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String nome;
+    private String name;
 
     @Column(unique = true)
     private String email;
 
-    private String senha;
+    private String password;
 
     @Enumerated(EnumType.STRING)
     private Role role;

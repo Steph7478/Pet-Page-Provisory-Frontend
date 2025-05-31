@@ -29,7 +29,7 @@ public class SecurityConfig {
                 .and()
                 .authorizeHttpRequests()
                 .requestMatchers("/auth/**").permitAll()
-                .requestMatchers("/api/pets/**").hasAnyRole("ADMIN", "ADOTANTE")
+                .requestMatchers("/api/pets/**").hasAnyRole("Anunciante")
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);

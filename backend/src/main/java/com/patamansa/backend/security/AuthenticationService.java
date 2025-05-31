@@ -29,9 +29,10 @@ public class AuthenticationService {
 
     public LoginResponse register(RegisterRequest request) {
         User user = new User();
+        user.setName(request.getNome());
         user.setEmail(request.getUserEmail());
-        user.setSenha(passwordEncoder.encode(request.getPassword()));
-        user.setRole(Role.valueOf(request.getRole().toUpperCase())); // ADMIN ou ADOTANTE
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setRole(Role.fromString(request.getRole()));
 
         userRepository.save(user);
 

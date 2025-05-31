@@ -23,7 +23,7 @@ public class Pet {
     private StatusPet status;
 
     public Pet() {
-        this.status = StatusPet.DISPONIVEL;
+        this.status = StatusPet.Disponivel;
     }
 
     public Long getId() {

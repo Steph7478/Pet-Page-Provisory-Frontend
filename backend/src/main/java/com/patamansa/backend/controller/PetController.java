@@ -22,7 +22,6 @@ public class PetController {
     @Autowired
     private PetRepository petRepository;
 
-    // ✅ CORRIGIDO: Removido setId manual, o JPA cuida disso com @GeneratedValue
     @PostMapping
     public Pet criarPet(@RequestBody Pet pet) {
         return petService.save(pet);
