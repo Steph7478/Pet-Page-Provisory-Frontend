@@ -1,6 +1,6 @@
 "use client";
 
-import Modal from "@/components/Detalhes/modal";
+import Modal from "@/components/Detalhes/formulario";
 import {usePetById} from "@/hooks/api/usePetInfo";
 import Button from "@/ui/button";
 import Image from "next/image";
@@ -46,7 +46,7 @@ const Detalhes = () => {
                   <>
                     {span("Raça", pet.raca)}
                     {span("Idade", pet.idade)}
-                    {span("Localização:", pet.Localizacao)}
+                    {span("Localização:", pet.localizacao)}
                     {span("Descrição", pet.descricao)}
                   </>
                 )}

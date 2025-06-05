@@ -4,6 +4,8 @@ import React, {useState} from "react";
 import AuthLayout from "../AuthLayout";
 import {useLogin} from "@/hooks/api/useLogin";
 import {toast} from "@/ui/CustomToaster";
+import {createHandleSubmit} from "@/hooks/forms/handleSubmit";
+import {createHandleChange} from "@/hooks/forms/handleChange";
 
 const Login = () => {
   const {mutate, isPending, error} = useLogin();
@@ -13,22 +15,9 @@ const Login = () => {
     password: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!login.userEmail.trim() || !login.password.trim()) {
-      toast.error("Credenciais inválidas");
-      return;
-    }
-    mutate(login);
-  };
+  const handleSubmit = createHandleSubmit(login, mutate);
 
-  const handleChange =
-    (field: keyof typeof login) => (e: React.ChangeEvent<HTMLInputElement>) => {
-      setLogin((prev) => ({
-        ...prev,
-        [field]: e.target.value,
-      }));
-    };
+  const handleChange = createHandleChange(setLogin);
 
   return (
     <AuthLayout

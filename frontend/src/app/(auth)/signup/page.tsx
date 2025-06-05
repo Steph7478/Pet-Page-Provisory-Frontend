@@ -5,6 +5,8 @@ import Input from "@/ui/input";
 import {useSignup} from "@/hooks/api/useRegister";
 import Button from "@/ui/button";
 import {toast} from "@/ui/CustomToaster";
+import {createHandleChange} from "@/hooks/forms/handleChange";
+import {createHandleSubmit} from "@/hooks/forms/handleSubmit";
 
 const SignUp = () => {
   const {mutate, isPending, error} = useSignup();
@@ -16,8 +18,7 @@ const SignUp = () => {
     role: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = createHandleSubmit(signUp, mutate, (signUp) => {
     if (
       !signUp.name.trim() ||
       !signUp.userEmail.trim() ||
@@ -27,17 +28,9 @@ const SignUp = () => {
       toast.error("Credenciais inválidas");
       return;
     }
-    mutate(signUp);
-  };
+  });
 
-  const handleChange =
-    (field: keyof typeof signUp) =>
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setSignUp((prev) => ({
-        ...prev,
-        [field]: e.target.value,
-      }));
-    };
+  const handleChange = createHandleChange(setSignUp);
 
   const handleSelectRole = (role: "adotante" | "anunciante") => {
     setSignUp((prev) => ({
