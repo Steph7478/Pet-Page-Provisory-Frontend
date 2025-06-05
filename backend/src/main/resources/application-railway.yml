@@ -20,4 +20,5 @@ agenda:
   api:
     security:
       token:
-        secret: chave_secreta_agenda_api
+        secret: chave_secreta_api_patamansa
+

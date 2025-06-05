@@ -1,7 +1,11 @@
 package com.patamansa.backend.dto;
 
+import jakarta.validation.constraints.Email;
+
 public class RegisterRequest {
     private String name;
+
+    @Email(message = "Formato de e-mail inválido")
     private String userEmail;
     private String password;
     private String role; // usuário (ADMIN ou ADOTANTE)
