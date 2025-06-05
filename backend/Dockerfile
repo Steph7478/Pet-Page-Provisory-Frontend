@@ -20,9 +20,6 @@ RUN ./mvnw clean package -DskipTests
 # debug
 RUN ls -la target
 
-# copia o JAR que foi gerado
-COPY target/app.jar app.jar
-
 EXPOSE 8080
 
 CMD ["java", "-Dspring.profiles.active=railway", "-jar", "/app.jar"]
