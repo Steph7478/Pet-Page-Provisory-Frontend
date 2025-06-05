@@ -19,7 +19,7 @@ public class CorsConfig {
                                 "https://patamansasitedeadocao-production.up.railway.app"
                         )
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                        .allowedHeaders("*")
+                        .allowedHeaders("Authorization", "Content-Type", "*")
                         .allowCredentials(true);
             }
         };
