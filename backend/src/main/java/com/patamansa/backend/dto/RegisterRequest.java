@@ -8,7 +8,7 @@ public class RegisterRequest {
     @Email(message = "Formato de e-mail inválido")
     private String userEmail;
     private String password;
-    private String role; // usuário (ADMIN ou ADOTANTE)
+    private String role; // usuário
 
     public String getNome() {
         return name;

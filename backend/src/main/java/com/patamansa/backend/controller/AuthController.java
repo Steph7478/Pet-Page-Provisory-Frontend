@@ -24,18 +24,24 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequest request) {
+    public ResponseEntity<?> login(@RequestBody LoginRequest request, HttpServletResponse response) {
         LoginResponse token = authenticationService.login(request);
-        return ResponseEntity.ok(token.getToken());
+
+        // Pra criar o cookie
+        String cookie = String.format(
+                "token=%s; Path=/; HttpOnly; Secure; SameSite=None",
+                token.getToken()
+        );
+        // Adiciona o cookie na resposta
+        response.addHeader("Set-Cookie", cookie);
+
+        return ResponseEntity.ok("Login realizado com sucesso");
     }
 
     @GetMapping("/logout")
     public ResponseEntity<Void> logout(HttpServletResponse response) {
-        Cookie cookie = new Cookie("jwt", "");
-        cookie.setMaxAge(0);
-        cookie.setPath("/");
-        cookie.setHttpOnly(true);
-        response.addCookie(cookie);
+        response.setHeader("Set-Cookie",
+                "jwt=; Path=/; Max-Age=0; HttpOnly; Secure; SameSite=None");
 
         return ResponseEntity.noContent().build();
     }
