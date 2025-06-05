@@ -17,8 +17,12 @@ COPY src ./src
 # Gerar o .jar sem rodar os testes
 RUN ./mvnw clean package -DskipTests
 
-# Expor a porta usada pela aplicação
+# Expõe a porta usada pela aplicação
 EXPOSE 8080
 
-# Rodar o .jar diretamente com o profile railway
-CMD ["java", "-Dspring.profiles.active=railway", "-jar", "target/*.jar"]
+# Copia o JAR final para o container
+COPY target/app.jar app.jar
+
+# Rodar o .jar diretamente com o profile definido pela variável de ambiente
+CMD ["java", "-Dspring.profiles.active=${APP_PROFILE}", "-jar", "/app.jar"]
+
