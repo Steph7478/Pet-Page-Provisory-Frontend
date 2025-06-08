@@ -7,7 +7,7 @@ import {toast} from "@/ui/CustomToaster";
 import {PetInfos} from "@/types/pet";
 import {Formulário} from "@/types/formulario";
 
-const mockDogs: PetInfos[] = [
+const mockDogs = [
   {
     porte: "pequeno",
     petId: "1",
@@ -28,7 +28,7 @@ const mockDogs: PetInfos[] = [
     idade: 2,
     raca: "Border Collie",
     fotoUrl:
-      "https://imidades.unsplash.com/photo-1551717743-49959800b1f6?w=400&h=400&fit=crop",
+      "https://images.unsplash.com/photo-1551717743-49959800b1f6?w=400&h=400&fit=crop",
     localizacao: "Rio de Janeiro, RJ",
     descricao: "Luna é extremamente inteligente e energética...",
     status: "adopted",
@@ -41,7 +41,7 @@ const mockDogs: PetInfos[] = [
     idade: 5,
     raca: "Pastor Alemão",
     fotoUrl:
-      "https://imidades.unsplash.com/photo-1589941013453-ec89f33b5e95?w=400&h=400&fit=crop",
+      "https://images.unsplash.com/photo-1589941013453-ec89f33b5e95?w=400&h=400&fit=crop",
     localizacao: "Belo Horizonte, MG",
     descricao: "Thor é um cão leal e protetor...",
     status: "adopted",
@@ -54,7 +54,7 @@ const mockDogs: PetInfos[] = [
     idade: 1,
     raca: "Labrador",
     fotoUrl:
-      "https://imidades.unsplash.com/photo-1583337130417-3346a1be7dee?w=400&h=400&fit=crop",
+      "https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=400&h=400&fit=crop",
     localizacao: "Porto Alegre, RS",
     descricao: "Bella é uma cadela jovem, muito dócil e amorosa...",
     status: "pending",
@@ -67,7 +67,7 @@ const mockDogs: PetInfos[] = [
     idade: 4,
     raca: "Bulldog Francês",
     fotoUrl:
-      "https://imidades.unsplash.com/photo-1583511655857-d19b40a7a54e?w=400&h=400&fit=crop",
+      "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?w=400&h=400&fit=crop",
     localizacao: "Brasília, DF",
     descricao: "Max é um cão calmo e muito companheiro...",
     status: "adopted",
@@ -89,17 +89,30 @@ const STATUS_ORDER = {
 const AdoptionPanel: React.FC<AdoptionPanelProps> = ({
   type,
   formulario = [],
+  userId,
 }) => {
   const [dogs, setDogs] = useState(mockDogs);
   const [selectedDog, setSelectedDog] = useState<PetInfos | null>(null);
 
   const sortedmockDogs = useMemo(() => {
-    return [...(mockDogs ?? [])].sort(
+    const sortedDogs = [...(mockDogs ?? [])].sort(
       (a, b) =>
         STATUS_ORDER[a.status as keyof typeof STATUS_ORDER] -
         STATUS_ORDER[b.status as keyof typeof STATUS_ORDER]
     );
-  }, [mockDogs]);
+
+    if (type === "adopter") {
+      return sortedDogs.filter((dog) =>
+        formulario.some((f) => f.petId === dog.petId && f.clientId === userId)
+      );
+    }
+
+    if (type === "advertiser") {
+      return sortedDogs.filter((dog) => dog.ownerId === userId);
+    }
+
+    return sortedDogs;
+  }, [mockDogs, formulario, type, userId]);
 
   const formularioSelecionado = useMemo(() => {
     if (type !== "advertiser" || !selectedDog) return null;
@@ -227,7 +240,7 @@ const AdoptionPanel: React.FC<AdoptionPanelProps> = ({
               </h2>
             </div>
 
-            <div className="flex-1 overflow-y-auto min-[735px]:max-h-[80vh] max-h-[35vh] p-4">
+            <div className="flex-1 overflow-y-auto min-[735px]:max-h-[510px] max-h-[35vh] p-4">
               <div className="space-y-3">
                 <AnimatePresence>
                   {sortedmockDogs.map((dog, index) => (
@@ -354,7 +367,7 @@ const AdoptionPanel: React.FC<AdoptionPanelProps> = ({
                     </p>
                   )}
                 </div>
-                <div className="mt-6 flex gap-4 self-center justify-self-center">
+                <div className="mt-4 flex gap-4 self-center justify-self-center">
                   {type === "adopter" && selectedDog.status === "pending" && (
                     <button
                       onClick={() => handleCancelAdoption(selectedDog.petId)}
