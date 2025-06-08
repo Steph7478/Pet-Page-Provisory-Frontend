@@ -17,6 +17,9 @@ const buttonVariants = cva(
           "mt-4 bg-[var(--brown)] text-white py-2 px-4 rounded hover:opacity-90",
         painel:
           "bg-amber-100 border border-amber-600 text-amber-800 px-4 py-2 rounded-lg disabled:opacity-50 hover:bg-amber-300 hover:brightness-100",
+        accept:
+          "px-6 py-2 rounded-md bg-green-500 text-white font-semibold hover:bg-green-600 transition font-semibold text-sm",
+        deny: "px-6 py-2 rounded-md bg-red-500 text-white font-semibold hover:bg-red-600 transition font-semibold text-sm",
       },
     },
   }

@@ -6,6 +6,65 @@ import {FaHeart, FaMapMarkerAlt, FaCalendarAlt} from "react-icons/fa";
 import {toast} from "@/ui/CustomToaster";
 import {PetInfos} from "@/types/pet";
 import {Formulário} from "@/types/formulario";
+import Button from "@/ui/button";
+
+const formulario: Formulário[] = [
+  {
+    petId: "1",
+    clientId: "yes",
+    email: "ana.silva@email.com",
+    telefone: "11999998888",
+    motivo: "Quero um pet para companhia.",
+    ambiente: "Casa com quintal grande.",
+    espacoExterno: true,
+    teveAnimaisAntes: true,
+    ambienteSeguro: true,
+  },
+  {
+    petId: "2",
+    clientId: "yes",
+    email: "bruno.martins@email.com",
+    telefone: null,
+    motivo: "Sempre quis adotar um gato.",
+    ambiente: "Apartamento pequeno, sem varanda.",
+    espacoExterno: false,
+    teveAnimaisAntes: false,
+    ambienteSeguro: true,
+  },
+  {
+    petId: "3",
+    clientId: "client_003",
+    email: "carla.oliveira@email.com",
+    telefone: "21987654321",
+    motivo: "Moro sozinho e quero um cão para companhia.",
+    ambiente: "Apartamento com varanda ampla.",
+    espacoExterno: true,
+    teveAnimaisAntes: undefined,
+    ambienteSeguro: undefined,
+  },
+  {
+    petId: "4",
+    clientId: "client_004",
+    email: "daniel.souza@email.com",
+    telefone: "31912345678",
+    motivo: "Quero dar um lar a um pet resgatado.",
+    ambiente: "Casa com jardim médio e muros altos.",
+    espacoExterno: true,
+    teveAnimaisAntes: true,
+    ambienteSeguro: true,
+  },
+  {
+    petId: "5",
+    clientId: "client_005",
+    email: "elisa.ferreira@email.com",
+    telefone: null,
+    motivo: "Meus filhos querem um animal de estimação.",
+    ambiente: "Apartamento térreo com acesso ao jardim comum.",
+    espacoExterno: undefined,
+    teveAnimaisAntes: false,
+    ambienteSeguro: false,
+  },
+];
 
 const mockDogs = [
   {
@@ -77,7 +136,6 @@ const mockDogs = [
 interface AdoptionPanelProps {
   type: "adopter" | "advertiser";
   userId: string;
-  formulario?: Formulário[];
 }
 
 const STATUS_ORDER = {
@@ -86,11 +144,7 @@ const STATUS_ORDER = {
   available: 2,
 };
 
-const AdoptionPanel: React.FC<AdoptionPanelProps> = ({
-  type,
-  formulario = [],
-  userId,
-}) => {
+const AdoptionPanel: React.FC<AdoptionPanelProps> = ({type, userId}) => {
   const [dogs, setDogs] = useState(mockDogs);
   const [selectedDog, setSelectedDog] = useState<PetInfos | null>(null);
 
@@ -102,9 +156,15 @@ const AdoptionPanel: React.FC<AdoptionPanelProps> = ({
     );
 
     if (type === "adopter") {
-      return sortedDogs.filter((dog) =>
-        formulario.some((f) => f.petId === dog.petId && f.clientId === userId)
+      const petIdsDoUsuario = formulario
+        .filter((f) => f.clientId === userId)
+        .map((f) => f.petId);
+
+      const resultado = sortedDogs.filter((dog) =>
+        petIdsDoUsuario.includes(dog.petId)
       );
+
+      return resultado;
     }
 
     if (type === "advertiser") {
@@ -300,7 +360,7 @@ const AdoptionPanel: React.FC<AdoptionPanelProps> = ({
           >
             {selectedDog ? (
               <div className="p-8 flex flex-col h-full">
-                <div className="flex gap-8 flex-wrap max-[900px]:flex-col items-center mb-6">
+                <div className="flex gap-8 flex-wrap max-[900px]:flex-col items-center mb-4">
                   <img
                     src={selectedDog.fotoUrl}
                     alt={selectedDog.nome}
@@ -369,33 +429,33 @@ const AdoptionPanel: React.FC<AdoptionPanelProps> = ({
                 </div>
                 <div className="mt-4 flex gap-4 self-center justify-self-center">
                   {type === "adopter" && selectedDog.status === "pending" && (
-                    <button
+                    <Button
                       onClick={() => handleCancelAdoption(selectedDog.petId)}
-                      className="px-6 py-2 rounded-md bg-red-500 text-white font-semibold hover:bg-red-600 transition"
+                      intent={"deny"}
                     >
                       Cancelar Adoção
-                    </button>
+                    </Button>
                   )}
 
                   {type === "advertiser" &&
                     selectedDog.status === "pending" && (
                       <>
-                        <button
+                        <Button
+                          intent={"accept"}
                           onClick={() =>
                             handleApproveAdoption(selectedDog.petId)
                           }
-                          className="px-6 py-2 rounded-md bg-green-500 text-white font-semibold hover:bg-green-600 transition"
                         >
                           Aprovar
-                        </button>
-                        <button
+                        </Button>
+                        <Button
+                          intent={"deny"}
                           onClick={() =>
                             handleRejectAdoption(selectedDog.petId)
                           }
-                          className="px-6 py-2 rounded-md bg-red-500 text-white font-semibold hover:bg-red-600 transition"
                         >
                           Rejeitar
-                        </button>
+                        </Button>
                       </>
                     )}
                 </div>
