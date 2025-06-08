@@ -4,11 +4,11 @@ import {getPetsByAdvertiserId, updatePet} from "@/services/api/pets";
 import {ApproveAdoptionPayload} from "@/types/adopton";
 import {useMutation, useQuery} from "@tanstack/react-query";
 
-export const usePetsByAdvertiser = (clientId: string) => {
+export const usePetsByAdvertiser = (ownerId: string) => {
   return useQuery({
-    queryKey: ["pets-by-advertiser", clientId],
-    queryFn: () => getPetsByAdvertiserId(clientId),
-    enabled: !!clientId,
+    queryKey: ["pets-by-advertiser", ownerId],
+    queryFn: () => getPetsByAdvertiserId(ownerId),
+    enabled: !!ownerId,
   });
 };
 
