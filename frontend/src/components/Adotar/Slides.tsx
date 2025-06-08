@@ -28,7 +28,10 @@ export default function SimpleSlider() {
   }, [pets, filters]);
 
   return (
-    <div
+    <motion.section
+      initial={{y: -100, opacity: 0}}
+      animate={{y: 0, opacity: 1}}
+      transition={{duration: 0.5}}
       className="w-full rounded-lg overflow-hidden bg-[var(--light-brown)]/50 h-full flex justify-center"
       onClick={() => isOpen && setIsOpen(false)}
     >
@@ -89,6 +92,6 @@ export default function SimpleSlider() {
           </div>
         </div>
       </div>
-    </div>
+    </motion.section>
   );
 }

@@ -30,37 +30,51 @@ const Navbar = () => {
 
   return (
     <nav className="w-full absolute top-0 z-50 bg-[var(--brown)] h-[50px] flex justify-center">
-      <ul className="flex w-full max-w-[90%] h-full items-center">
+      <ul className="flex w-full max-w-[90%] justify-center h-full items-center">
         <Link className="mr-auto text-white font-bold tracking-wide" href="/">
           Logo
         </Link>
 
-        <div className="text-[var(--gray)] uppercase font-semibold text-sm flex gap-5 items-center">
+        <div className="text-[var(--gray)] h-full uppercase font-semibold text-sm flex gap-5 items-center">
           <div className="flex gap-5 max-[600px]:hidden">
             {links.map((link, index) => (
-              <li className="hover:brightness-150" key={index}>
-                <Link href={link.href}>{link.name}</Link>
+              <li
+                className="hover:brightness-150 h-full flex justify-center items-center"
+                key={index}
+              >
+                <Link className="h-full py-4" href={link.href}>
+                  {link.name}
+                </Link>
               </li>
             ))}
           </div>
 
           <AuthSwitch
             fallback={authLinks.map((link, index) => (
-              <li className="hover:brightness-150" key={index}>
-                <Link href={link.href}>{link.name}</Link>
-              </li>
+              <div className="flex gap-5">
+                <li
+                  className="hover:brightness-150 h-full flex justify-center items-center"
+                  key={index}
+                >
+                  <Link className="h-full py-4" href={link.href}>
+                    {link.name}
+                  </Link>
+                </li>
+              </div>
             ))}
           >
-            <li
-              className="flex text-[var(--yellow)] justify-center items-center gap-1"
-              onClick={() => logout()}
-            >
-              <span>Sair</span>
-              <MdLogout
-                className=" cursor-pointer hover:brightness-150"
-                size={20}
-              />
-            </li>
+            <div className="flex gap-5">
+              <li
+                className="flex text-[var(--yellow)] justify-center items-center gap-1 py-4"
+                onClick={() => logout()}
+              >
+                <span>Sair</span>
+                <MdLogout
+                  className="cursor-pointer hover:brightness-150"
+                  size={20}
+                />
+              </li>
+            </div>
           </AuthSwitch>
 
           {isOpen ? (

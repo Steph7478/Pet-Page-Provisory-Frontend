@@ -66,7 +66,7 @@ const formulario: Formulário[] = [
   },
 ];
 
-const mockDogs = [
+const dataDogs = [
   {
     porte: "pequeno",
     petId: "1",
@@ -77,7 +77,7 @@ const mockDogs = [
     fotoUrl: "/defaultdog.png",
     localizacao: "São Paulo, SP",
     descricao: "Rex é um cão muito carinhoso e brincalhão...",
-    status: "adopted",
+    status: "pending",
   },
   {
     porte: "pequeno",
@@ -145,11 +145,11 @@ const STATUS_ORDER = {
 };
 
 const AdoptionPanel: React.FC<AdoptionPanelProps> = ({type, userId}) => {
-  const [dogs, setDogs] = useState(mockDogs);
+  const [dogs, setDogs] = useState(dataDogs);
   const [selectedDog, setSelectedDog] = useState<PetInfos | null>(null);
 
-  const sortedmockDogs = useMemo(() => {
-    const sortedDogs = [...(mockDogs ?? [])].sort(
+  const sorteddataDogs = useMemo(() => {
+    const sortedDogs = [...(dataDogs ?? [])].sort(
       (a, b) =>
         STATUS_ORDER[a.status as keyof typeof STATUS_ORDER] -
         STATUS_ORDER[b.status as keyof typeof STATUS_ORDER]
@@ -172,7 +172,7 @@ const AdoptionPanel: React.FC<AdoptionPanelProps> = ({type, userId}) => {
     }
 
     return sortedDogs;
-  }, [mockDogs, formulario, type, userId]);
+  }, [dataDogs, formulario, type, userId]);
 
   const formularioSelecionado = useMemo(() => {
     if (type !== "advertiser" || !selectedDog) return null;
@@ -180,17 +180,17 @@ const AdoptionPanel: React.FC<AdoptionPanelProps> = ({type, userId}) => {
   }, [formulario, selectedDog, type]);
 
   useEffect(() => {
-    if (sortedmockDogs.length === 0) {
+    if (sorteddataDogs.length === 0) {
       setSelectedDog(null);
       return;
     }
     setSelectedDog((prev) => {
-      if (prev && sortedmockDogs.find((d) => d.petId === prev.petId)) {
+      if (prev && sorteddataDogs.find((d) => d.petId === prev.petId)) {
         return prev;
       }
-      return sortedmockDogs[0];
+      return sorteddataDogs[0];
     });
-  }, [sortedmockDogs]);
+  }, [sorteddataDogs]);
 
   const getDogNameById = useCallback(
     (id: string) => dogs.find((dog) => dog.petId === id)?.nome || "cachorro",
@@ -241,12 +241,12 @@ const AdoptionPanel: React.FC<AdoptionPanelProps> = ({type, userId}) => {
 
   const getTitle = useMemo(() => {
     if (type === "adopter") {
-      return `Meus mockDogs Adotados (${sortedmockDogs.length})`;
+      return `Meus Animais Adotados (${sorteddataDogs.length})`;
     }
     return `Solicitações de Adoção (${
-      sortedmockDogs.filter((dog) => dog.status === "pending").length
+      sorteddataDogs.filter((dog) => dog.status === "pending").length
     })`;
-  }, [type, sortedmockDogs]);
+  }, [type, sorteddataDogs]);
 
   const getStatusBadge = useCallback((dog: PetInfos) => {
     const baseClass = "px-2 py-1 rounded-md text-xs font-medium";
@@ -300,10 +300,10 @@ const AdoptionPanel: React.FC<AdoptionPanelProps> = ({type, userId}) => {
               </h2>
             </div>
 
-            <div className="flex-1 overflow-y-auto min-[735px]:max-h-[510px] max-h-[35vh] p-4">
+            <div className="flex-1 overflow-y-auto min-[735px]:max-h-[510px] min-[735px]:min-h-[410px] max-h-[35vh] p-4">
               <div className="space-y-3">
                 <AnimatePresence>
-                  {sortedmockDogs.map((dog, index) => (
+                  {sorteddataDogs.map((dog, index) => (
                     <motion.div
                       key={index}
                       initial={{y: 50, opacity: 0}}
@@ -339,7 +339,7 @@ const AdoptionPanel: React.FC<AdoptionPanelProps> = ({type, userId}) => {
                     </motion.div>
                   ))}
                 </AnimatePresence>
-                {sortedmockDogs.length === 0 && (
+                {sorteddataDogs.length === 0 && (
                   <div className="text-center py-8 text-gray-500">
                     <p>
                       {type === "adopter"

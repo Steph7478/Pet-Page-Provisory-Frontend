@@ -24,22 +24,23 @@ const SobreNos = () => {
     t: number
   ) => (
     <section className=" flex gap-8 justify-center items-center flex-col">
-      <motion.h2
-        className=" max-[400px]:text-wrap text-center text-4xl  font-extrabold text-nowrap tracking-wide text-[var(--brown)]"
-        ref={fadeIn[f].ref}
-        {...fadeIn[f].animationProps}
-      >
-        {title}
-      </motion.h2>
-
       <div className="flex justify-center items-center w-full gap-6 max-w-[800px] max-[795px]:flex-col max-[795px]: text-center min-[795px]:text-start px-4">
-        <motion.div
-          className="border-2 shrink-0 border-[var(--brown)] w-[250px] h-[250px] rounded-full flex justify-center items-center"
-          ref={fadeIn[s].ref}
-          {...fadeIn[s].animationProps}
-        >
-          {image}
-        </motion.div>
+        <div className="flex flex-col gap-8 justify-center items-center">
+          <motion.h2
+            className=" max-[400px]:text-wrap text-center text-4xl  font-extrabold text-nowrap tracking-wide text-[var(--brown)]"
+            ref={fadeIn[f].ref}
+            {...fadeIn[f].animationProps}
+          >
+            {title}
+          </motion.h2>
+          <motion.div
+            className="border-2 shrink-0 border-[var(--brown)] w-[250px] h-[250px] rounded-full flex justify-center items-center"
+            ref={fadeIn[s].ref}
+            {...fadeIn[s].animationProps}
+          >
+            {image}
+          </motion.div>
+        </div>
         <motion.div
           className="flex flex-col gap-5"
           ref={fadeIn[t].ref}
@@ -77,7 +78,7 @@ const SobreNos = () => {
 
         {sobre(
           [
-            `Ola! Eu sou a <span class="text-green-500">Stephanie.</span>`,
+            `Ola! Eu sou a <span class="text-green-500">Stephanie Gurgel.</span>`,
             `Sou desenvolvedora <span class="text-red-500">Frontend.</span>`,
           ],
           "Front-end",
