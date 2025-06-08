@@ -2,10 +2,10 @@
 
 import React from "react";
 import AdoptionPanel from "../../painelLayout";
-
-const userId = "yes";
+import {useRouteParam} from "@/hooks/routes/useRouteParams";
 
 const Adotante = () => {
+  const userId = useRouteParam("id");
   return <AdoptionPanel type="advertiser" userId={userId} />;
 };
 
