@@ -1,9 +1,11 @@
+"use client";
 import {usePetInfo} from "@/hooks/api/usePetInfo";
 import Button from "@/ui/button";
 import Image from "next/image";
 import Link from "next/link";
-import {useState} from "react";
+import {useMemo, useState} from "react";
 import Sidebar from "./Sidebar";
+import {motion} from "framer-motion";
 
 export default function SimpleSlider() {
   const {data: pets, isLoading, error} = usePetInfo();
@@ -19,10 +21,17 @@ export default function SimpleSlider() {
     return sizeMatch && ageMatch;
   };
 
-  const filteredPets = pets?.filter(applyFilters);
+  const filteredPets = useMemo(() => {
+    return pets
+      ?.filter((pet: any) => pet.status?.toLowerCase() === "disponivel")
+      ?.filter(applyFilters);
+  }, [pets, filters]);
 
   return (
-    <div
+    <motion.section
+      initial={{y: -100, opacity: 0}}
+      animate={{y: 0, opacity: 1}}
+      transition={{duration: 0.5}}
       className="w-full rounded-lg overflow-hidden bg-[var(--light-brown)]/50 h-full flex justify-center"
       onClick={() => isOpen && setIsOpen(false)}
     >
@@ -48,7 +57,11 @@ export default function SimpleSlider() {
               {!isLoading &&
                 !error &&
                 filteredPets?.map((item: any, index: number) => (
-                  <div
+                  <motion.div
+                    initial={{y: 50, opacity: 0}}
+                    animate={{y: 0, opacity: 1}}
+                    exit={{opacity: 0, y: 20}}
+                    transition={{delay: index * 0.05}}
                     key={index}
                     className="bg-[var(--light-yellow)] h-[330px] w-[200px] flex flex-col justify-center items-center shadow rounded overflow-hidden"
                   >
@@ -73,12 +86,12 @@ export default function SimpleSlider() {
                         </Button>
                       </Link>
                     </div>
-                  </div>
+                  </motion.div>
                 ))}
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </motion.section>
   );
 }

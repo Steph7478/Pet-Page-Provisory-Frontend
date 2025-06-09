@@ -1,0 +1,396 @@
+"use client";
+
+import React, {useState, useEffect, useMemo, useCallback} from "react";
+import {motion, AnimatePresence} from "framer-motion";
+import {FaHeart, FaMapMarkerAlt, FaCalendarAlt} from "react-icons/fa";
+import {toast} from "@/ui/CustomToaster";
+import {PetInfos} from "@/types/pet";
+import Button from "@/ui/button";
+import {
+  useAllowAdoption,
+  useDenyAdoption,
+  usePetsByAdvertiser,
+} from "@/hooks/api/useAnunciante";
+import {usePetsByClient} from "@/hooks/api/useAdotante";
+import ProtectedRoute from "@/common/routes/ProtectedRoute";
+
+interface AdoptionPanelProps {
+  type: "adopter" | "advertiser";
+  userId: string;
+}
+
+const STATUS_ORDER = {
+  pending: 0,
+  adopted: 1,
+  available: 2,
+};
+
+const AdoptionPanel: React.FC<AdoptionPanelProps> = ({type, userId}) => {
+  const {data: dataDogs} = usePetsByAdvertiser(userId);
+  const {data: formulario} = usePetsByClient(userId);
+  const [dogs, setDogs] = useState(dataDogs);
+  const [selectedDog, setSelectedDog] = useState<PetInfos | null>(null);
+  const {mutate: allowAdoption, isPending: approving} = useAllowAdoption();
+  const {mutate: denyAdoption, isPending: denying} = useDenyAdoption();
+
+  const sorteddataDogs = useMemo(() => {
+    const sortedDogs = [...(dataDogs ?? [])].sort(
+      (a, b) =>
+        STATUS_ORDER[a.status as keyof typeof STATUS_ORDER] -
+        STATUS_ORDER[b.status as keyof typeof STATUS_ORDER]
+    );
+
+    if (type === "adopter") {
+      const form = formulario ?? [];
+      const petIdsDoUsuario = form
+        .filter((f) => f.clientId === userId)
+        .map((f) => f.petId);
+
+      const resultado = sortedDogs.filter((dog) =>
+        petIdsDoUsuario.includes(dog.petId)
+      );
+
+      return resultado;
+    }
+
+    if (type === "advertiser") {
+      return sortedDogs.filter((dog) => dog.ownerId === userId);
+    }
+
+    return sortedDogs;
+  }, [dataDogs, formulario, type, userId]);
+
+  const formularioSelecionado = useMemo(() => {
+    if (type !== "advertiser" || !selectedDog) return null;
+    return formulario?.find((f) => f.petId === selectedDog.petId) || null;
+  }, [formulario, selectedDog, type]);
+
+  useEffect(() => {
+    if (sorteddataDogs.length === 0) {
+      setSelectedDog(null);
+      return;
+    }
+    setSelectedDog((prev) => {
+      if (prev && sorteddataDogs.find((d) => d.petId === prev.petId)) {
+        return prev;
+      }
+      return sorteddataDogs[0];
+    });
+  }, [sorteddataDogs]);
+
+  const getDogNameById = useCallback(
+    (id: string) =>
+      dogs.find((dog: any) => dog.petId === id)?.nome || "cachorro",
+    [dogs]
+  );
+
+  const updateDogStatus = useCallback(
+    (dogId: string, status: PetInfos["status"], adoptionDate = "") => {
+      setDogs((prev: any) =>
+        prev.map((dog: any) =>
+          dog.petId === dogId ? {...dog, status, adoptionDate} : dog
+        )
+      );
+    },
+    []
+  );
+
+  const handleCancelAdoption = useCallback(
+    (dogId: string) => {
+      denyAdoption(dogId, {
+        onSuccess: () => {
+          if (selectedDog?.petId === dogId) setSelectedDog(null);
+          toast.error(`Adoção de ${getDogNameById(dogId)} foi cancelada!`);
+        },
+        onError: () => {
+          toast.error("Falha ao cancelar a adoção");
+        },
+      });
+    },
+    [getDogNameById, selectedDog, updateDogStatus]
+  );
+
+  const handleApproveAdoption = useCallback(
+    (dogId: string, clientId: string) => {
+      allowAdoption(
+        {petId: dogId, clientId},
+        {
+          onSuccess: () => {
+            toast.success(`Adoção de ${getDogNameById(dogId)} foi aprovada!`);
+          },
+          onError: () => {
+            toast.error("Falha ao aprovar a adoção.");
+          },
+        }
+      );
+    },
+    [dogs, getDogNameById, allowAdoption]
+  );
+
+  const handleRejectAdoption = useCallback(
+    (dogId: string) => {
+      denyAdoption(dogId, {
+        onSuccess: () => {
+          if (selectedDog?.petId === dogId) setSelectedDog(null);
+          toast.error(
+            `Solicitação de adoção de ${getDogNameById(dogId)} foi rejeitada.`
+          );
+        },
+        onError: () => {
+          toast.error("Falha ao rejeitar a adoção.");
+        },
+      });
+    },
+    [getDogNameById, selectedDog, updateDogStatus]
+  );
+
+  const getTitle = useMemo(() => {
+    if (type === "adopter") {
+      return `Meus Animais Adotados (${sorteddataDogs.length})`;
+    }
+    return `Solicitações de Adoção (${
+      sorteddataDogs.filter((dog) => dog.status === "pending").length
+    })`;
+  }, [type, sorteddataDogs]);
+
+  const getStatusBadge = useCallback((dog: PetInfos) => {
+    const baseClass = "px-2 py-1 rounded-md text-xs font-medium";
+    switch (dog.status) {
+      case "adopted":
+        return (
+          <span className={`${baseClass} bg-green-100 text-green-800`}>
+            Adotado
+          </span>
+        );
+      case "pending":
+        return (
+          <span className={`${baseClass} bg-yellow-100 text-yellow-800`}>
+            Pendente
+          </span>
+        );
+      default:
+        return (
+          <span className={`${baseClass} bg-gray-100 text-gray-800`}>
+            Disponível
+          </span>
+        );
+    }
+  }, []);
+
+  return (
+    <ProtectedRoute>
+      <div className="min-h-screen w-full bg-[var(--light-yellow)] px-6 py-20 flex flex-col">
+        <div className="max-w-[1000px] w-full mx-auto">
+          <header className="text-center mb-8 flex-shrink-0">
+            <h1 className="text-4xl font-bold text-[var(--brown)] mb-2">
+              {type === "adopter"
+                ? "Painel do Adotante"
+                : "Painel do Anunciante"}
+            </h1>
+            <p className="text-[var(--gray)] text-lg">
+              {type === "adopter"
+                ? "Gerencie seus cachorros adotados"
+                : "Gerencie as solicitações de adoção"}
+            </p>
+          </header>
+
+          <div className="flex max-[735px]:flex-col gap-6 overflow-hidden justify-center max-[735px]:items-center">
+            <motion.section
+              className="w-full lg:w-5/12 flex flex-col bg-white rounded-lg shadow-lg overflow-hidden max-w-[500px]"
+              initial={{x: -100, opacity: 0}}
+              animate={{x: 0, opacity: 1}}
+              transition={{duration: 0.5}}
+            >
+              <div className="p-6 border-b flex-shrink-0">
+                <h2 className="flex items-center gap-2 text-xl font-semibold text-gray-800">
+                  <FaHeart className="text-red-500" />
+                  {getTitle}
+                </h2>
+              </div>
+
+              <div className="flex-1 overflow-y-auto min-[735px]:max-h-[510px] min-[735px]:min-h-[410px] max-h-[35vh] p-4">
+                <div className="space-y-3">
+                  <AnimatePresence>
+                    {sorteddataDogs.map((dog, index) => (
+                      <motion.div
+                        key={index}
+                        initial={{y: 50, opacity: 0}}
+                        animate={{y: 0, opacity: 1}}
+                        exit={{opacity: 0, y: 20}}
+                        transition={{delay: index * 0.05}}
+                        className={`p-4 rounded-lg border cursor-pointer transition-all hover:shadow-md ${
+                          selectedDog?.petId === dog.petId
+                            ? "border-indigo-500 bg-indigo-50 shadow-sm"
+                            : "border-gray-200 hover:border-indigo-300"
+                        }`}
+                        onClick={() => setSelectedDog(dog)}
+                      >
+                        <div className="flex items-center gap-3">
+                          <img
+                            src={dog.fotoUrl}
+                            alt={dog.nome}
+                            className="w-12 h-12 rounded-full object-cover flex-shrink-0"
+                            loading="lazy"
+                          />
+                          <div className="flex-1 min-w-0">
+                            <h3 className="font-semibold text-gray-800 truncate">
+                              {dog.nome}
+                            </h3>
+                            <p className="text-sm text-gray-500 truncate">
+                              {dog.raca} • {dog.idade} anos
+                            </p>
+                          </div>
+                          <div className="flex-shrink-0">
+                            {getStatusBadge(dog)}
+                          </div>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </AnimatePresence>
+                  {sorteddataDogs.length === 0 && (
+                    <div className="text-center py-8 text-gray-500">
+                      <p>
+                        {type === "adopter"
+                          ? "Você ainda não adotou nenhum cachorro."
+                          : "Nenhuma solicitação pendente."}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </motion.section>
+
+            <motion.section
+              className="w-full max-w-[500px] flex flex-col bg-white rounded-lg shadow-lg overflow-y-auto"
+              initial={{x: 100, opacity: 0}}
+              animate={{x: 0, opacity: 1}}
+              transition={{duration: 0.5}}
+            >
+              {selectedDog ? (
+                <div className="p-8 flex flex-col h-full">
+                  <div className="flex gap-8 flex-wrap max-[900px]:flex-col items-center mb-4">
+                    <img
+                      src={selectedDog.fotoUrl}
+                      alt={selectedDog.nome}
+                      className="w-48 h-48 rounded-lg object-cover flex-shrink-0 shadow-md"
+                      loading="lazy"
+                    />
+                    <div className="flex flex-col gap-2 flex-1 w-full">
+                      <h2 className="text-3xl font-bold text-[var(--brown)] mb-2">
+                        {selectedDog.nome}
+                      </h2>
+                      <div className="flex flex-col gap-4 text-gray-600 text-sm flex-wrap">
+                        <div className="flex items-center gap-2">
+                          <FaCalendarAlt />
+                          <span>{selectedDog.idade} anos</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <FaMapMarkerAlt />
+                          <span>{selectedDog.localizacao}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex-1 overflow-y-auto">
+                    <h3 className="text-xl font-semibold text-gray-700 mb-3">
+                      {type === "adopter"
+                        ? "Sobre o cachorro"
+                        : "Informações do formulário"}
+                    </h3>
+                    {type === "adopter" ? (
+                      <p className="text-gray-700">{selectedDog.descricao}</p>
+                    ) : formularioSelecionado ? (
+                      <div className="flex flex-col gap-2 text-gray-700 text-sm">
+                        <div>
+                          <strong>Email:</strong>{" "}
+                          {formularioSelecionado.email ?? "N/A"}
+                        </div>
+                        <div>
+                          <strong>Telefone:</strong>{" "}
+                          {formularioSelecionado.telefone ?? "N/A"}
+                        </div>
+                        <div>
+                          <strong>Motivo:</strong>{" "}
+                          {formularioSelecionado.motivo}
+                        </div>
+                        <div>
+                          <strong>Ambiente:</strong>{" "}
+                          {formularioSelecionado.ambiente}
+                        </div>
+                        <div>
+                          <strong>Espaço externo:</strong>{" "}
+                          {formularioSelecionado.espacoExterno ? "Sim" : "Não"}
+                        </div>
+                        <div>
+                          <strong>Teve animais antes:</strong>{" "}
+                          {formularioSelecionado.teveAnimaisAntes
+                            ? "Sim"
+                            : "Não"}
+                        </div>
+                        <div>
+                          <strong>Ambiente seguro:</strong>{" "}
+                          {formularioSelecionado.ambienteSeguro ? "Sim" : "Não"}
+                        </div>
+                      </div>
+                    ) : (
+                      <p className="text-gray-700">
+                        Nenhuma informação adicional disponível.
+                      </p>
+                    )}
+                  </div>
+                  <div className="mt-4 flex gap-4 self-center justify-self-center">
+                    {type === "adopter" && selectedDog.status === "pending" && (
+                      <Button
+                        onClick={() => handleCancelAdoption(selectedDog.petId)}
+                        intent={"deny"}
+                      >
+                        {denying ? "Cancelando" : "Cancelar Adoção"}
+                      </Button>
+                    )}
+
+                    {type === "advertiser" &&
+                      selectedDog.status === "pending" && (
+                        <>
+                          <Button
+                            intent={"accept"}
+                            disabled={approving || denying}
+                            onClick={() =>
+                              handleApproveAdoption(
+                                selectedDog.petId,
+                                formularioSelecionado!.clientId
+                              )
+                            }
+                          >
+                            {approving ? "Aprovando" : "Aprovar"}
+                          </Button>
+                          <Button
+                            disabled={approving || denying}
+                            intent={"deny"}
+                            onClick={() =>
+                              handleRejectAdoption(selectedDog.petId)
+                            }
+                          >
+                            {denying ? "Rejeitando" : "Rejeitar"}
+                          </Button>
+                        </>
+                      )}
+                  </div>
+                </div>
+              ) : (
+                <div className="flex flex-col justify-center items-center h-full text-gray-400 p-8">
+                  <p>
+                    {type === "adopter"
+                      ? "Selecione um cachorro para ver detalhes"
+                      : "Selecione uma solicitação para ver detalhes"}
+                  </p>
+                </div>
+              )}
+            </motion.section>
+          </div>
+        </div>
+      </div>
+    </ProtectedRoute>
+  );
+};
+
+export default AdoptionPanel;
