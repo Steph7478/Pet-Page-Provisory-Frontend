@@ -2,6 +2,9 @@ package com.patamansa.backend.model;
 
 import jakarta.persistence.Entity;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -14,8 +17,8 @@ public class Adocao {
     @ManyToOne
     private User cliente;
 
-    @OneToOne
-    private Pet pet;
+    @ManyToMany
+    private List<Pet> pets = new ArrayList<>();
 
     private LocalDate dataAdocao = LocalDate.now();
 

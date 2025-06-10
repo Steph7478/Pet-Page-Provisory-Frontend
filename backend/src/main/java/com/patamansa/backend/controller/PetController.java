@@ -1,5 +1,6 @@
 package com.patamansa.backend.controller;
 
+import com.patamansa.backend.dto.PetDTO;
 import com.patamansa.backend.model.Pet;
 import com.patamansa.backend.repository.PetRepository;
 import com.patamansa.backend.service.PetService;
@@ -24,8 +25,9 @@ public class PetController {
     private PetRepository petRepository;
 
     @PostMapping
-    public Pet criarPet(@RequestBody Pet pet) {
-        return petService.save(pet);
+    public ResponseEntity<Pet> criarPet(@RequestBody PetDTO dto) {
+        Pet novoPet = petService.save(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(novoPet);
     }
 
     @GetMapping

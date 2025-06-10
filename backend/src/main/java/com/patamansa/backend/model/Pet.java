@@ -22,6 +22,10 @@ public class Pet {
     @Enumerated(EnumType.STRING)
     private StatusPet status;
 
+    @ManyToOne
+    @JoinColumn(name = "owner_id")
+    private User owner;
+
     public Pet() {
         this.status = StatusPet.Disponivel;
     }
@@ -96,5 +100,13 @@ public class Pet {
 
     public String getFotoUrl() {
         return fotoUrl;
+    }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
     }
 }

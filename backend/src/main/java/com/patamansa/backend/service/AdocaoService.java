@@ -27,18 +27,17 @@ public class AdocaoService {
         User cliente = userRepository.findById(dto.getIdCliente())
                 .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
 
-        Pet pet = petRepository.findById(dto.getIdPet())
-                .orElseThrow(() -> new RuntimeException("Pet não encontrado"));
+        for (Long petId : dto.getIdsPets()) {
+            Pet pet = petRepository.findById(petId)
+                    .orElseThrow(() -> new RuntimeException("Pet não encontrado com id: " + petId));
 
-        Adocao adocao = new Adocao();
-        adocao.setCliente(cliente);
-        adocao.setPet(pet);
+            Adocao adocao = new Adocao();
+            adocao.setCliente(cliente);
+            adocao.setPet(pet);
 
-        pet.setStatus(StatusPet.Disponivel);
-        pet.setStatus(StatusPet.Pendente);
-        petRepository.save(pet);
-
-        adocaoRepository.save(adocao);
-        petRepository.save(pet);
+            pet.setStatus(StatusPet.Pendente); // ou o status que quiser
+            petRepository.save(pet);
+            adocaoRepository.save(adocao);
+        }
     }
 }

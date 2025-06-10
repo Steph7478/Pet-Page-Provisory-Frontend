@@ -1,8 +1,10 @@
 package com.patamansa.backend.dto;
+import java.util.List;
+
 
 public class AdocaoDTO {
     private Long idCliente;
-    private Long idPet;
+    private List<Long> idsPets;
 
     public Long getIdCliente() {
         return idCliente;
@@ -12,11 +14,11 @@ public class AdocaoDTO {
         this.idCliente = idCliente;
     }
 
-    public Long getIdPet() {
-        return idPet;
+    public List<Long> getIdsPets() {
+        return idsPets;
     }
 
-    public void setIdPet(Long idPet) {
-        this.idPet = idPet;
+    public void setIdsPets(List<Long> idsPets) {
+        this.idsPets = idsPets;
     }
 }
