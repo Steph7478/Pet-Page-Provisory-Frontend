@@ -38,6 +38,7 @@ public class AuthController {
         return ResponseEntity.ok("Login realizado com sucesso");
     }
 
+
     @GetMapping("/logout")
     public ResponseEntity<Void> logout(HttpServletResponse response) {
         response.setHeader("Set-Cookie",
