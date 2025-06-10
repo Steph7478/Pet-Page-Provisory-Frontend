@@ -42,3 +42,4 @@ Thumbs.db
 
 # Evitar arquivos locais sensíveis
 src/main/resources/application-local.yml
+
