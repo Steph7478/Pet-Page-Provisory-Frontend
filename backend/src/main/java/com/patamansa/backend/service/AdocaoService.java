@@ -35,6 +35,8 @@ public class AdocaoService {
         adocao.setPet(pet);
 
         pet.setStatus(StatusPet.Disponivel);
+        pet.setStatus(StatusPet.Pendente);
+        petRepository.save(pet);
 
         adocaoRepository.save(adocao);
         petRepository.save(pet);

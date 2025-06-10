@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/pets")
@@ -39,14 +40,18 @@ public class PetController {
         return ResponseEntity.ok(pet);
     }
 
-    @PutMapping("/{id}/status")
-    public ResponseEntity<Pet> atualizarStatus(@PathVariable Long id, @RequestParam StatusPet status) {
-        Pet pet = petRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Pet não encontrado"));
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<String> atualizarStatus(@PathVariable Long id, @RequestBody Map<String, String> body) {
+        String status = body.get("status");
 
-        pet.setStatus(status);
+        Pet pet = petRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Pet não encontrado"));
+
+        StatusPet novoStatus = StatusPet.fromString(status);
+        pet.setStatus(novoStatus);
         petRepository.save(pet);
-        return ResponseEntity.ok(pet);
+
+        return ResponseEntity.ok("Status atualizado para " + novoStatus);
     }
 
     @DeleteMapping("/{id}")
@@ -56,6 +61,6 @@ public class PetController {
         }
 
         petRepository.deleteById(id);
-        return ResponseEntity.noContent().build(); // 204 - No Content
+        return ResponseEntity.noContent().build(); // 204
     }
 }

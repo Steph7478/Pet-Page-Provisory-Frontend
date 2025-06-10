@@ -18,4 +18,5 @@ public class AdocaoController {
         adocaoService.registrarAdocao(dto);
         return ResponseEntity.ok("Adoção registrada com sucesso!");
     }
+
 }
