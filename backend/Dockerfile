@@ -22,6 +22,9 @@ RUN ls -la target
 
 EXPOSE 8080
 
-CMD ["java", "-Dspring.profiles.active=railway", "-jar", "target/app.jar"]
+COPY target/patamansa-0.0.1-SNAPSHOT.jar app.jar
+
+CMD ["java", "-Dspring.profiles.active=railway", "-jar", "app.jar"]
+
 
 
