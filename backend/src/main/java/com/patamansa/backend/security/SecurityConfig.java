@@ -27,16 +27,16 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**", "/oauth2/**").permitAll() // permite login por email/senha ou Google
-                        .requestMatchers("/api/pets/**").hasAnyRole("Anunciante")
-                        .anyRequest().authenticated()
-                )
-                .oauth2Login(withDefaults()) // login com Google
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+            .csrf().disable()
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and()
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/auth/**", "/oauth2/**").permitAll() // permite login por email/senha ou Google
+                .requestMatchers("/api/pets/**").hasAnyRole("Anunciante")
+                .anyRequest().authenticated()
+            )
+            .oauth2Login(withDefaults()) // login com Google
+            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
