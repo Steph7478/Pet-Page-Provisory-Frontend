@@ -21,5 +21,4 @@ public class FormularioAdocaoController {
         service.processarFormulario(dto);
         return ResponseEntity.ok().build();
     }
-
 }

@@ -33,9 +33,9 @@ public class AdocaoService {
 
             Adocao adocao = new Adocao();
             adocao.setCliente(cliente);
-            adocao.setPet(pet);
+            adocao.getPets().add(pet);
 
-            pet.setStatus(StatusPet.Pendente); // ou o status que quiser
+            pet.setStatus(StatusPet.Pendente);
             petRepository.save(pet);
             adocaoRepository.save(adocao);
         }

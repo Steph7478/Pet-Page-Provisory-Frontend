@@ -38,12 +38,12 @@ public class Adocao {
         this.cliente = cliente;
     }
 
-    public Pet getPet () {
-        return pet;
+    public List<Pet> getPets() {
+        return pets;
     }
 
-    public void setPet (Pet pet) {
-        this.pet =  pet;
+    public void setPets(List<Pet> pets) {
+        this.pets = pets;
     }
 
     public LocalDate getDataAdocao() {

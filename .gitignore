@@ -10,8 +10,11 @@
 !.yarn/releases
 !.yarn/versions
 
-src/main/resources/application-local.yml
+# Ignorar configs locais e dados sensíveis
+backend/src/main/resources/application-local.yml
 
+# Ignorar frontend por enquanto
+frontend/
 
 # testing
 /coverage

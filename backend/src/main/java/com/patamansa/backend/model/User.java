@@ -1,8 +1,5 @@
 package com.patamansa.backend.model;
 
-// Criar a entidade User que vai representar quem usa o sistema (admin ou adotante)
-// e vai servir pro login e autorização com Spring Security.
-
 import jakarta.persistence.*;
 import lombok.*;
 
