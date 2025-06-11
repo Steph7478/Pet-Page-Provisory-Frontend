@@ -1,4 +1,5 @@
 FROM eclipse-temurin:17-jdk-alpine
+# Forçando rebuild
 
 # Diretório da aplicação
 WORKDIR /app
@@ -25,6 +26,4 @@ EXPOSE 8080
 COPY target/app.jar app.jar
 
 CMD ["java", "-Dspring.profiles.active=railway", "-jar", "app.jar"]
-
-
 
