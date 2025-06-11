@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: ${APP_PROFILE:local}
+    active: ${APP_PROFILE:raiwail}
 
 google:
   client-id: ${GOOGLE_CLIENT_ID}
