@@ -15,15 +15,12 @@ RUN ./mvnw dependency:go-offline
 # Copiar o restante da aplicação
 COPY src ./src
 
-# Gerar o .jar sem rodar os testes
-RUN ./mvnw clean package -DskipTests
+# Gerar o .jar sem rodar os testes e listar arquivos para debug
+RUN ./mvnw clean package -DskipTests && ls -la target
 
-# debug
-RUN ls -la target
+# Copia o jar de dentro do próprio container (evita erro de cache externo)
+RUN cp target/app.jar app.jar
 
 EXPOSE 8080
 
-COPY target/app.jar app.jar
-
 CMD ["java", "-Dspring.profiles.active=railway", "-jar", "app.jar"]
-
