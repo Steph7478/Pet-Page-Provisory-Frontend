@@ -7,10 +7,11 @@ import {useCallback, useMemo, useState} from "react";
 import Sidebar from "./Sidebar";
 import {motion} from "framer-motion";
 import {PetInfos} from "@/types/pet";
+import {Filters} from "@/types/slides";
 
 export default function SimpleSlider() {
   const {data: pets, isLoading, error} = usePetInfo();
-  const [filters, setFilters] = useState<{[key: string]: string[]}>({});
+  const [filters, setFilters] = useState<Filters>({});
   const [isOpen, setIsOpen] = useState(false);
 
   const applyFilters = useCallback(
