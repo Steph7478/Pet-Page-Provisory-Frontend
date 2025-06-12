@@ -13,6 +13,7 @@ import {
 } from "@/hooks/api/useAnunciante";
 import {usePetsByClient} from "@/hooks/api/useAdotante";
 import ProtectedRoute from "@/common/routes/ProtectedRoute";
+import Image from "next/image";
 
 interface AdoptionPanelProps {
   type: "adopter" | "advertiser";
@@ -80,14 +81,14 @@ const AdoptionPanel: React.FC<AdoptionPanelProps> = ({type, userId}) => {
 
   const getDogNameById = useCallback(
     (id: string) =>
-      dogs.find((dog: any) => dog.petId === id)?.nome || "cachorro",
+      dogs.find((dog: PetInfos) => dog.petId === id)?.nome || "cachorro",
     [dogs]
   );
 
   const updateDogStatus = useCallback(
     (dogId: string, status: PetInfos["status"], adoptionDate = "") => {
-      setDogs((prev: any) =>
-        prev.map((dog: any) =>
+      setDogs((prev: PetInfos[]) =>
+        prev.map((dog: PetInfos) =>
           dog.petId === dogId ? {...dog, status, adoptionDate} : dog
         )
       );
@@ -107,7 +108,7 @@ const AdoptionPanel: React.FC<AdoptionPanelProps> = ({type, userId}) => {
         },
       });
     },
-    [getDogNameById, selectedDog, updateDogStatus]
+    [denyAdoption, selectedDog, getDogNameById]
   );
 
   const handleApproveAdoption = useCallback(
@@ -116,6 +117,7 @@ const AdoptionPanel: React.FC<AdoptionPanelProps> = ({type, userId}) => {
         {petId: dogId, clientId},
         {
           onSuccess: () => {
+            updateDogStatus(dogId, "adopted", new Date().toISOString());
             toast.success(`Adoção de ${getDogNameById(dogId)} foi aprovada!`);
           },
           onError: () => {
@@ -124,13 +126,14 @@ const AdoptionPanel: React.FC<AdoptionPanelProps> = ({type, userId}) => {
         }
       );
     },
-    [dogs, getDogNameById, allowAdoption]
+    [getDogNameById, allowAdoption, updateDogStatus]
   );
 
   const handleRejectAdoption = useCallback(
     (dogId: string) => {
       denyAdoption(dogId, {
         onSuccess: () => {
+          updateDogStatus(dogId, "available");
           if (selectedDog?.petId === dogId) setSelectedDog(null);
           toast.error(
             `Solicitação de adoção de ${getDogNameById(dogId)} foi rejeitada.`
@@ -141,7 +144,7 @@ const AdoptionPanel: React.FC<AdoptionPanelProps> = ({type, userId}) => {
         },
       });
     },
-    [getDogNameById, selectedDog, updateDogStatus]
+    [getDogNameById, selectedDog, updateDogStatus, denyAdoption]
   );
 
   const getTitle = useMemo(() => {
@@ -226,11 +229,12 @@ const AdoptionPanel: React.FC<AdoptionPanelProps> = ({type, userId}) => {
                         onClick={() => setSelectedDog(dog)}
                       >
                         <div className="flex items-center gap-3">
-                          <img
+                          <Image
                             src={dog.fotoUrl}
                             alt={dog.nome}
-                            className="w-12 h-12 rounded-full object-cover flex-shrink-0"
-                            loading="lazy"
+                            width={48}
+                            height={48}
+                            className="rounded-full object-cover flex-shrink-0"
                           />
                           <div className="flex-1 min-w-0">
                             <h3 className="font-semibold text-gray-800 truncate">
@@ -269,7 +273,7 @@ const AdoptionPanel: React.FC<AdoptionPanelProps> = ({type, userId}) => {
               {selectedDog ? (
                 <div className="p-8 flex flex-col h-full">
                   <div className="flex gap-8 flex-wrap max-[900px]:flex-col items-center mb-4">
-                    <img
+                    <Image
                       src={selectedDog.fotoUrl}
                       alt={selectedDog.nome}
                       className="w-48 h-48 rounded-lg object-cover flex-shrink-0 shadow-md"

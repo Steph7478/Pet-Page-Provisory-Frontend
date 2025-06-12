@@ -4,7 +4,7 @@ export type PetInfos = {
   nome: string;
   raca: string;
   porte: string;
-  idade: number;
+  idade: string;
   descricao: string;
   localizacao: string;
   fotoUrl: string;

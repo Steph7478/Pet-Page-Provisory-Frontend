@@ -16,7 +16,7 @@ const Modal = ({
 }) => {
   const {mutate, isPending, isSuccess, isError} = useFormulario();
 
-  const [form, useForm] = useState<Formulário>({
+  const [form, useForm] = useState<Partial<Formulário>>({
     email: "",
     telefone: null,
     motivo: "",
@@ -25,8 +25,6 @@ const Modal = ({
     teveAnimaisAntes: undefined,
     ambienteSeguro: undefined,
   });
-
-  console.log(form);
 
   useEffect(() => {
     if (isSuccess) {
@@ -40,7 +38,9 @@ const Modal = ({
 
   const handleChange = createHandleChange(useForm);
 
-  const handleSubmit = createHandleSubmit(form, mutate);
+  const handleSubmit = createHandleSubmit(form, (data) =>
+    mutate(data as Formulário)
+  );
 
   const label = (
     text: string,

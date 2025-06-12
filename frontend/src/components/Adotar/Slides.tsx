@@ -3,29 +3,33 @@ import {usePetInfo} from "@/hooks/api/usePetInfo";
 import Button from "@/ui/button";
 import Image from "next/image";
 import Link from "next/link";
-import {useMemo, useState} from "react";
+import {useCallback, useMemo, useState} from "react";
 import Sidebar from "./Sidebar";
 import {motion} from "framer-motion";
+import {PetInfos} from "@/types/pet";
 
 export default function SimpleSlider() {
   const {data: pets, isLoading, error} = usePetInfo();
   const [filters, setFilters] = useState<{[key: string]: string[]}>({});
   const [isOpen, setIsOpen] = useState(false);
 
-  const applyFilters = (pet: any) => {
-    const sizeMatch =
-      filters.size?.length === 0 || filters.size?.includes(pet.porte);
-    const ageMatch =
-      filters.age?.length === 0 || filters.age?.includes(pet.idade);
+  const applyFilters = useCallback(
+    (pet: PetInfos) => {
+      const sizeMatch =
+        filters.size?.length === 0 || filters.size?.includes(pet.porte);
+      const ageMatch =
+        filters.age?.length === 0 || filters.age?.includes(pet.idade);
 
-    return sizeMatch && ageMatch;
-  };
+      return sizeMatch && ageMatch;
+    },
+    [filters]
+  );
 
   const filteredPets = useMemo(() => {
     return pets
-      ?.filter((pet: any) => pet.status?.toLowerCase() === "disponivel")
+      ?.filter((pet: PetInfos) => pet.status?.toLowerCase() === "disponivel")
       ?.filter(applyFilters);
-  }, [pets, filters]);
+  }, [pets, applyFilters]);
 
   return (
     <motion.section
@@ -56,7 +60,7 @@ export default function SimpleSlider() {
 
               {!isLoading &&
                 !error &&
-                filteredPets?.map((item: any, index: number) => (
+                filteredPets?.map((item: PetInfos, index: number) => (
                   <motion.div
                     initial={{y: 50, opacity: 0}}
                     animate={{y: 0, opacity: 1}}
@@ -67,7 +71,7 @@ export default function SimpleSlider() {
                   >
                     <div className="relative h-[65%] w-full">
                       <Image
-                        src={item.img ?? "/defaultdog.png"}
+                        src={item.fotoUrl ?? "/defaultdog.png"}
                         alt={`Foto do ${item.nome}`}
                         fill
                         className="object-cover"
@@ -80,7 +84,7 @@ export default function SimpleSlider() {
                       </h3>
                       <p>Raça: {item.descricao}</p>
                       <p>Idade: {item.idade}</p>
-                      <Link href={`/adotar/detalhes/${item.id}`}>
+                      <Link href={`/adotar/detalhes/${item.petId}`}>
                         <Button intent="fourth" className="text-sm font-bold">
                           Ver detalhes
                         </Button>

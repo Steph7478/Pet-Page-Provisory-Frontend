@@ -51,7 +51,7 @@ const Navbar = () => {
 
           <AuthSwitch
             fallback={authLinks.map((link) => (
-              <div className="flex gap-5">
+              <div className="flex gap-5" key={link.name}>
                 <li className="hover:brightness-150 h-full flex justify-center items-center">
                   <Link className="h-full py-4" href={link.href}>
                     {link.name}
