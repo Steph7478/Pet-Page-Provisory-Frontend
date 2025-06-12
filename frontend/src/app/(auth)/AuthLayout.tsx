@@ -1,4 +1,5 @@
 "use client";
+import {useOAuth} from "@/hooks/api/useOAuth";
 import {useScaleIn} from "@/hooks/ui/useScaleIn";
 import Button from "@/ui/button";
 import {toast} from "@/ui/CustomToaster";
@@ -22,12 +23,23 @@ export default function AuthLayout({
   isError?: Error | null;
 }) {
   const scaleIn = useScaleIn();
+  const {
+    mutate: google,
+    isPending: loadingGoogle,
+    error: errorGoogle,
+  } = useOAuth();
 
   useEffect(() => {
     if (isError) {
       toast.error("Credenciais inválidas");
     }
   }, [isError]);
+
+  useEffect(() => {
+    if (errorGoogle) {
+      toast.error("Falha ao integrar com Google");
+    }
+  }, [errorGoogle]);
 
   return (
     <div className="w-full min-h-screen bg-[var(--brown-fosco)] h-full flex overflow-x-hidden justify-center items-center">
@@ -86,10 +98,16 @@ export default function AuthLayout({
 
             <Button
               intent={"secondVar"}
+              onClick={() => google()}
+              disabled={loadingGoogle}
               className="flex gap-3 justify-center items-center"
             >
               <FcGoogle className="w-6 h-6" />
-              {type === "login"
+              {loadingGoogle
+                ? type === "login"
+                  ? "Entrando..."
+                  : "Cadastrando..."
+                : type === "login"
                 ? "Entrar com Google"
                 : "Cadastre-se com Google"}
             </Button>
