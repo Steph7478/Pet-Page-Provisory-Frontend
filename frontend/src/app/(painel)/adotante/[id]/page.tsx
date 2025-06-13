@@ -6,6 +6,7 @@ import {useRouteParam} from "@/hooks/routes/useRouteParams";
 
 const Adotante = () => {
   const userId = useRouteParam("id");
+
   return <AdoptionPanel type="adopter" userId={userId} />;
 };
 

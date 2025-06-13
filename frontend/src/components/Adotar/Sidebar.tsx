@@ -11,8 +11,8 @@ const Sidebar = ({
 }: {
   isOpen: boolean;
   setIsOpen: (value: boolean) => void;
-  filters: Record<string, string[]>;
-  setFilters: React.Dispatch<React.SetStateAction<Record<string, string[]>>>;
+  filters: Record<string, unknown[]>;
+  setFilters: React.Dispatch<React.SetStateAction<Record<string, unknown[]>>>;
 }) => {
   const toggleFilter = (category: string, value: string) => {
     setFilters((prev) => {
