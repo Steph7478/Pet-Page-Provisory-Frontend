@@ -204,7 +204,7 @@ const AdoptionPanel: React.FC<AdoptionPanelProps> = ({type, userId}) => {
                     <>
                       <Button
                         intent={"plus"}
-                        // onClick={() => setIsOpen(true)}
+                        onClick={() => setIsOpen(true)}
                         className="ml-auto"
                       >
                         <FaPlus color="white" size={20} />

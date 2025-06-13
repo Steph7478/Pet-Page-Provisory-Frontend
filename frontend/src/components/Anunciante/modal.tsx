@@ -1,22 +1,20 @@
-import {useFormulario} from "@/hooks/api/useFormulario";
-import {createHandleChange} from "@/hooks/forms/handleChange";
-import {createHandleSubmit} from "@/hooks/forms/handleSubmit";
-import Button from "@/ui/button";
-import {toast} from "@/ui/CustomToaster";
-import Input from "@/ui/input";
-import React, {useEffect, useState} from "react";
-import {IoClose} from "react-icons/io5";
-import {Formulário} from "@/types/formulario";
+import {useRegisterPet} from "@/hooks/api/useRegisterPet";
+import {FormularioWrapper} from "@/hooks/ui/useModal";
 import {PetInfos} from "@/types/pet";
+import {toast} from "@/ui/CustomToaster";
+import {IoClose} from "react-icons/io5";
+import {PorteField} from "./PorteField";
+import {FormFields} from "./FormField";
+import {FieldConfigRegister} from "@/types/fields";
 
 const Modal = ({
   setIsOpen,
 }: {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-  const {mutate, isPending, isSuccess, isError} = useFormulario();
+  const {mutate, isPending, isSuccess, isError} = useRegisterPet();
 
-  const [form, useForm] = useState<Partial<PetInfos>>({
+  const initialValues: Partial<PetInfos> = {
     nome: "",
     raca: "",
     porte: "",
@@ -24,106 +22,88 @@ const Modal = ({
     descricao: "",
     localizacao: "",
     fotoUrl: "",
-  });
+  };
 
-  useEffect(() => {
-    if (isSuccess) {
-      toast.success("Formulário enviado");
-      setIsOpen(false);
-    }
-    if (isError) {
-      toast.error("Falha ao enviar formulário");
-    }
-  }, [isSuccess, isError, setIsOpen]);
-
-  const handleChange = createHandleChange(useForm);
-
-  const handleSubmit = createHandleSubmit(form, (data) =>
-    mutate(data as Formulário)
-  );
-
-  const label = (
-    text: string,
-    type: string,
-    placeholder: string,
-    field: keyof typeof form
-  ) => (
-    <label className="flex flex-col">
-      <span className="mb-1">{text}</span>
-      {type === "email" || type === "tel" || type === "text" ? (
-        <Input
-          intent="formulario"
-          placeholder={placeholder}
-          type={type}
-          required
-          value={typeof form[field] === "string" ? form[field] : ""}
-          onChange={handleChange(field)}
-        />
-      ) : (
-        <textarea
-          placeholder={placeholder}
-          required
-          className="border border-[var(--brown)] rounded p-2 resize-none hover:brightness-125 focus:outline-none"
-          rows={4}
-          value={typeof form[field] === "string" ? form[field] : ""}
-          onChange={handleChange(field)}
-        />
-      )}
-    </label>
-  );
+  const fields: FieldConfigRegister<Partial<PetInfos>>[] = [
+    {label: "Nome", field: "nome", type: "text", placeholder: "Nome do pet"},
+    {label: "Raça", field: "raca", type: "text", placeholder: "Raça do pet"},
+    {
+      label: "Idade",
+      field: "idade",
+      type: "number",
+      placeholder: "Idade do pet",
+    },
+    {
+      label: "Descrição",
+      field: "descricao",
+      type: "textarea",
+      placeholder: "Descrição",
+    },
+    {
+      label: "Localização",
+      field: "localizacao",
+      type: "text",
+      placeholder: "Localização",
+    },
+    {
+      label: "Foto (URL)",
+      field: "fotoUrl",
+      type: "text",
+      placeholder: "URL da foto",
+    },
+  ];
 
   return (
     <>
-      <div className="fixed inset-0  bg-black/75 flex justify-center z-50 items-center"></div>
-      <div
-        onClick={() => setIsOpen(false)}
-        className="fixed inset-0 flex items-center z-50 justify-center"
-        role="dialog"
-        aria-modal="true"
-      >
+      <div className="fixed inset-0 bg-black/75 z-50 flex justify-center items-center">
+        <div
+          className="fixed inset-0"
+          onClick={() => setIsOpen(false)}
+          aria-hidden="true"
+        />
+
         <div
           onClick={(e) => e.stopPropagation()}
-          className="flex justify-center items-center max-[550px]:h-full"
+          className="relative bg-[var(--light-yellow)] border-[16px] border-[var(--brown)] rounded-lg p-6 scroll-formulario max-w-lg w-full max-h-[90vh] overflow-y-auto flex flex-col gap-4 z-50"
+          role="dialog"
+          aria-modal="true"
         >
-          <div className="overflow-y-auto scroll-formulario bg-[var(--light-yellow)] border-[16px] border-[var(--brown)] text-[var(--brown)] rounded-lg p-6 flex flex-col gap-4 w-full max-w-[600px] h-full relative">
-            <IoClose
-              onClick={() => setIsOpen(false)}
-              className="absolute cursor-pointer right-0 text-[var(--brown)] hover:brightness-125 m-2 top-0"
-              size={28}
-            />
-            <div className="flex justify-between items-center mb-2">
-              <h2 className="text-xl font-semibold">Formulário</h2>
-            </div>
+          <IoClose
+            onClick={() => setIsOpen(false)}
+            className="absolute top-2 right-2 cursor-pointer text-[var(--brown)] hover:brightness-125"
+            size={28}
+          />
+          <h2 className="text-xl text-[var(--brown)] font-semibold mb-2">
+            Cadastrar Pet
+          </h2>
 
-            <form
-              onSubmit={handleSubmit}
-              className="flex flex-col max-[550px]:text-center"
-            >
-              <div className="flex justify-between max-[550px]:flex-col max-[550px]:items-center items-start max-[550px]:mb-10 mb-4 gap-10 min-[550px]:max-w-[95%]">
-                <div className="gap-3 flex flex-wrap">
-                  {label("Nome", "text", "Nome do animal", "nome")}
-                  {label("Raca", "text", "Raca do animal", "raca")}
-                  {label("Idade", "text", "Idade do animal", "idade")}
-                  {label(
-                    "Localizacao",
-                    "text",
-                    "Localizacao do animal",
-                    "localizacao"
-                  )}
-                  {label("Url da foto", "text", "Foto do animal", "fotoUrl")}
-                  {label(
-                    "Descricao",
-                    "textarea",
-                    "Descricao do animal",
-                    "descricao"
-                  )}
-                </div>
+          <FormularioWrapper
+            initialValues={initialValues}
+            onSubmit={(data) => mutate(data as PetInfos)}
+            isPending={isPending}
+            isSuccess={isSuccess}
+            isError={isError}
+            onSuccess={() => {
+              toast.success("Pet cadastrado com sucesso!");
+              setIsOpen(false);
+            }}
+            onError={() => toast.error("Falha ao cadastrar pet")}
+          >
+            {(form, {handleChange, setFieldValue}) => (
+              <div className="flex flex-col gap-4">
+                <FormFields
+                  form={form}
+                  handleChange={handleChange}
+                  fields={fields}
+                />
+                <PorteField
+                  form={form}
+                  setFieldValue={setFieldValue}
+                  field="porte"
+                />
               </div>
-              <Button intent="formulario" type="submit" disabled={isPending}>
-                {isPending ? "Registrando..." : "Registrar"}
-              </Button>
-            </form>
-          </div>
+            )}
+          </FormularioWrapper>
         </div>
       </div>
     </>
