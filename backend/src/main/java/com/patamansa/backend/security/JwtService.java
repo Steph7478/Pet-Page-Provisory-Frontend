@@ -2,6 +2,7 @@ package com.patamansa.backend.security;
 
 import java.nio.charset.StandardCharsets;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -14,7 +15,8 @@ import java.util.function.Function;
 @Service
 public class JwtService {
 
-    private static final String SECRET_KEY = "a9Fz1XqP7LdM2vE8RbWuK3NcHtYgJ6Qo";
+    @Value("${application.security.jwt.secret-key}")
+    private String secretKey;
 
     public String gerarToken(String username) {
         return Jwts.builder()
@@ -43,7 +45,7 @@ public class JwtService {
     }
 
     private Key getKey() {
-        byte[] keyBytes = SECRET_KEY.getBytes(StandardCharsets.UTF_8);
+        byte[] keyBytes = secretKey.getBytes(StandardCharsets.UTF_8);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
