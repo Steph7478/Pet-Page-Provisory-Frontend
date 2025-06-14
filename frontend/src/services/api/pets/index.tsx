@@ -11,9 +11,9 @@ export const getPetById = async (id: string) => {
   return res.data;
 };
 
-export const getPetsByAdvertiserId = async (ownerId: string) => {
+export const getPetsByAdvertiserId = async (owner: string) => {
   const res = await api.get("/api/pets", {
-    params: {ownerId},
+    params: {owner},
   });
   return res.data;
 };

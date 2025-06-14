@@ -1,6 +1,6 @@
 export type PetInfos = {
-  petId: string;
-  ownerId: string;
+  id: string;
+  owner: string;
   nome: string;
   raca: string;
   porte: string;

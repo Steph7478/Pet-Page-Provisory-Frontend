@@ -4,28 +4,28 @@ import {getPetsByAdvertiserId, updatePet} from "@/services/api/pets";
 import {ApproveAdoptionPayload} from "@/types/adopton";
 import {useMutation, useQuery} from "@tanstack/react-query";
 
-export const usePetsByAdvertiser = (ownerId: string) => {
+export const usePetsByAdvertiser = (owner: string) => {
   return useQuery({
-    queryKey: ["pets-by-advertiser", ownerId],
-    queryFn: () => getPetsByAdvertiserId(ownerId),
-    enabled: !!ownerId,
+    queryKey: ["pets-by-advertiser", owner],
+    queryFn: () => getPetsByAdvertiserId(owner),
+    enabled: !!owner,
   });
 };
 
 export const useAllowAdoption = () => {
   return useMutation({
-    mutationFn: async ({petId, clientId}: ApproveAdoptionPayload) => {
-      await updatePet(petId, {status: "indisponivel"});
-      await updateAdoption(clientId, {petId: [petId]});
+    mutationFn: async ({id, clientId}: ApproveAdoptionPayload) => {
+      await updatePet(id, {status: "indisponivel"});
+      await updateAdoption(clientId, {id: [id]});
     },
   });
 };
 
 export const useDenyAdoption = () => {
   return useMutation({
-    mutationFn: async (petId: string) => {
-      await updatePet(petId, {status: "disponivel"});
-      await deleteFormulario(petId);
+    mutationFn: async (id: string) => {
+      await updatePet(id, {status: "disponivel"});
+      await deleteFormulario(id);
     },
   });
 };

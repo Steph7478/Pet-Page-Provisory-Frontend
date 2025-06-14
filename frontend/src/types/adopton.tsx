@@ -1,4 +1,5 @@
 export type ApproveAdoptionPayload = {
-  petId: string;
+  id: string;
   clientId: string;
+  dataAdocao: string;
 };
