@@ -20,7 +20,7 @@ public class CorsConfig {
                                 "https://pata-mansa-site-de-adocao.vercel.app"
                         )
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                        .allowedHeaders("Authorization", "Content-Type", "*")
+                        .allowedHeaders("*")
                         .allowCredentials(true);
             }
         };
