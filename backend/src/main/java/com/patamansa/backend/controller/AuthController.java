@@ -37,8 +37,8 @@ public class AuthController {
 
     @GetMapping("/logout")
     public ResponseEntity<Void> logout(HttpServletResponse response) {
-        response.setHeader("Set-Cookie",
-                "jwt=; Path=/; Max-Age=0; HttpOnly; Secure; SameSite=None");
+
+        response.setHeader("Set-Cookie", "token=; Path=/; Max-Age=0; HttpOnly; Secure; SameSite=None");
 
         return ResponseEntity.noContent().build();
     }
