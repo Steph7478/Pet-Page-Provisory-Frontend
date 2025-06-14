@@ -50,8 +50,8 @@ const AdoptionPanel: React.FC<AdoptionPanelProps> = ({type, userId}) => {
     if (type === "adopter") {
       const userPetsIds = (formulario ?? [])
         .filter((f) => f.clientId === userId)
-        .map((f) => f.petId);
-      return sorted.filter((dog) => userPetsIds.includes(dog.petId));
+        .map((f) => f.id);
+      return sorted.filter((dog) => userPetsIds.includes(dog.id));
     }
 
     if (type === "advertiser") {
@@ -62,7 +62,7 @@ const AdoptionPanel: React.FC<AdoptionPanelProps> = ({type, userId}) => {
 
   const formularioSelecionado = useMemo(() => {
     if (type !== "advertiser" || !selectedDog) return null;
-    return formulario?.find((f) => f.petId === selectedDog.petId) || null;
+    return formulario?.find((f) => f.id === selectedDog.id) || null;
   }, [formulario, selectedDog, type]);
 
   useEffect(() => {
@@ -70,7 +70,7 @@ const AdoptionPanel: React.FC<AdoptionPanelProps> = ({type, userId}) => {
       setSelectedDog(null);
     } else {
       setSelectedDog((prev) =>
-        prev && sortedDataDogs.some((d) => d.petId === prev.petId)
+        prev && sortedDataDogs.some((d) => d.id === prev.id)
           ? prev
           : sortedDataDogs[0]
       );
@@ -78,7 +78,7 @@ const AdoptionPanel: React.FC<AdoptionPanelProps> = ({type, userId}) => {
   }, [sortedDataDogs]);
 
   const getDogNameById = useCallback(
-    (id: string) => dogs.find((dog) => dog.petId === id)?.nome || "cachorro",
+    (id: string) => dogs.find((dog) => dog.id === id)?.nome || "cachorro",
     [dogs]
   );
 
@@ -86,7 +86,7 @@ const AdoptionPanel: React.FC<AdoptionPanelProps> = ({type, userId}) => {
     (dogId: string, status: PetInfos["status"], adoptionDate = "") => {
       setDogs((prev) =>
         prev.map((dog) =>
-          dog.petId === dogId ? {...dog, status, adoptionDate} : dog
+          dog.id === dogId ? {...dog, status, adoptionDate} : dog
         )
       );
     },
@@ -97,7 +97,7 @@ const AdoptionPanel: React.FC<AdoptionPanelProps> = ({type, userId}) => {
     (dogId: string) => {
       denyAdoption(dogId, {
         onSuccess: () => {
-          if (selectedDog?.petId === dogId) setSelectedDog(null);
+          if (selectedDog?.id === dogId) setSelectedDog(null);
           toast.error(`Adoção de ${getDogNameById(dogId)} foi cancelada!`);
         },
         onError: () => toast.error("Falha ao cancelar a adoção"),
@@ -108,8 +108,9 @@ const AdoptionPanel: React.FC<AdoptionPanelProps> = ({type, userId}) => {
 
   const handleApproveAdoption = useCallback(
     (dogId: string, clientId: string) => {
+      const approvedAt = new Date().toISOString();
       allowAdoption(
-        {petId: dogId, clientId},
+        {id: dogId, clientId, dataAdocao: approvedAt},
         {
           onSuccess: () => {
             updateDogStatus(dogId, "adopted", new Date().toISOString());
@@ -127,7 +128,7 @@ const AdoptionPanel: React.FC<AdoptionPanelProps> = ({type, userId}) => {
       denyAdoption(dogId, {
         onSuccess: () => {
           updateDogStatus(dogId, "available");
-          if (selectedDog?.petId === dogId) setSelectedDog(null);
+          if (selectedDog?.id === dogId) setSelectedDog(null);
           toast.error(
             `Solicitação de adoção de ${getDogNameById(dogId)} foi rejeitada.`
           );
@@ -218,13 +219,13 @@ const AdoptionPanel: React.FC<AdoptionPanelProps> = ({type, userId}) => {
                   <AnimatePresence>
                     {sortedDataDogs.map((dog, index) => (
                       <motion.div
-                        key={dog.petId}
+                        key={dog.id}
                         initial={{y: 50, opacity: 0}}
                         animate={{y: 0, opacity: 1}}
                         exit={{opacity: 0, y: 20}}
                         transition={{delay: index * 0.05}}
                         className={`p-4 rounded-lg border cursor-pointer transition-all hover:shadow-md ${
-                          selectedDog?.petId === dog.petId
+                          selectedDog?.id === dog.id
                             ? "border-indigo-500 bg-indigo-50 shadow-sm"
                             : "border-gray-200 hover:border-indigo-300"
                         }`}
@@ -369,7 +370,7 @@ const AdoptionPanel: React.FC<AdoptionPanelProps> = ({type, userId}) => {
                   <div className="py-4 flex gap-4 justify-center">
                     {type === "adopter" && selectedDog.status === "pending" && (
                       <Button
-                        onClick={() => handleCancelAdoption(selectedDog.petId)}
+                        onClick={() => handleCancelAdoption(selectedDog.id)}
                         intent="deny"
                       >
                         {denying ? "Cancelando" : "Cancelar Adoção"}
@@ -384,7 +385,7 @@ const AdoptionPanel: React.FC<AdoptionPanelProps> = ({type, userId}) => {
                             disabled={approving || denying}
                             onClick={() =>
                               handleApproveAdoption(
-                                selectedDog.petId,
+                                selectedDog.id,
                                 formularioSelecionado!.clientId
                               )
                             }
@@ -394,9 +395,7 @@ const AdoptionPanel: React.FC<AdoptionPanelProps> = ({type, userId}) => {
                           <Button
                             intent="deny"
                             disabled={approving || denying}
-                            onClick={() =>
-                              handleRejectAdoption(selectedDog.petId)
-                            }
+                            onClick={() => handleRejectAdoption(selectedDog.id)}
                           >
                             {denying ? "Rejeitando" : "Rejeitar"}
                           </Button>

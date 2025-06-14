@@ -13,6 +13,6 @@ export const useUserById = (id: string) => {
     queryKey: ["user", id],
     queryFn: () => getPetById(id),
     enabled: !!id,
-    staleTime: Infinity,
+    staleTime: 5 * 60 * 1000,
   });
 };

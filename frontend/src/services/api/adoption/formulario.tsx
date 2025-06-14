@@ -1,8 +1,8 @@
 import {Formulário} from "@/types/formulario";
 import {api} from "../client/axios";
 
-export const getFormulario = async (petId: string) => {
-  const res = await api.get(`/formulario/${petId}`);
+export const getFormulario = async (id: string) => {
+  const res = await api.get(`/formulario/${id}`);
   return res.data;
 };
 
@@ -15,9 +15,9 @@ export const createFormulario = async (data: Formulário) => {
   }
 };
 
-export const deleteFormulario = async (petId: string) => {
+export const deleteFormulario = async (id: string) => {
   try {
-    const res = await api.delete(`/formulario/${petId}`);
+    const res = await api.delete(`/formulario/${id}`);
     return res.data;
   } catch {
     return null;

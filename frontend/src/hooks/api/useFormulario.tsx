@@ -6,11 +6,11 @@ import {updatePet} from "@/services/api/pets";
 import {useMutation, useQuery} from "@tanstack/react-query";
 import type {Formulário} from "@/types/formulario";
 
-export const useFormularioByPetId = (petId: string) => {
+export const useFormularioByPetId = (id: string) => {
   return useQuery<Formulário>({
-    queryKey: ["formulario", petId],
-    queryFn: () => getFormulario(petId),
-    enabled: !!petId,
+    queryKey: ["formulario", id],
+    queryFn: () => getFormulario(id),
+    enabled: !!id,
   });
 };
 
@@ -19,8 +19,8 @@ export const useFormulario = () => {
     mutationFn: async (formData: Formulário) => {
       const formularioCriado = await createFormulario(formData);
 
-      if (formularioCriado && formData.petId) {
-        await updatePet(formData.petId, {status: "pendente"});
+      if (formularioCriado && formData.id) {
+        await updatePet(formData.id, {status: "pendente"});
       }
 
       return formularioCriado;

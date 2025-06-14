@@ -7,7 +7,7 @@ export const getAdoptionByClientId = async (clientId: string) => {
 
 export const updateAdoption = async (
   clientId: string,
-  data: {petId: string[]}
+  data: {id: string[]}
 ) => {
   const res = await api.patch(`/api/adocoes/${clientId}`, data);
   return res.data;
