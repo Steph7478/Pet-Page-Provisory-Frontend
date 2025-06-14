@@ -17,7 +17,8 @@ public class CorsConfig {
                         .allowedOrigins(
                                 "http://localhost:3000",
                                 "https://patamansasitedeadocao-production.up.railway.app",
-                                "https://pata-mansa-site-de-adocao.vercel.app"
+                                "https://pata-mansa-site-de-adocao.vercel.app",
+                                "https://https://pata-mansa-site-de-adocao-hwk4sz8so-maelipalharinis-projects.vercel.app\n"
                         )
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
