@@ -11,24 +11,17 @@ spring:
     enabled: true
     baselineOnMigrate: true
 
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
+            scope:
+              - email
+              - profile
 server:
   error:
     include-message: always
     include-binding-errors: always
-
-agenda:
-  api:
-    security:
-      token:
-        secret: chave_secreta_api_patamansa
-
-security:
-  oauth2:
-    client:
-      registration:
-        google:
-          client-id: ${GOOGLE_CLIENT_ID}
-          client-secret: ${GOOGLE_CLIENT_SECRET}
-          scope:
-            - email
-            - profile
