@@ -6,7 +6,6 @@ import {toast} from "@/ui/CustomToaster";
 import {motion} from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import {useRouter} from "next/router";
 import {useEffect} from "react";
 import {FcGoogle} from "react-icons/fc";
 
