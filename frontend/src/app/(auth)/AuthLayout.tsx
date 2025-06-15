@@ -23,23 +23,13 @@ export default function AuthLayout({
   isError?: boolean | null;
 }) {
   const scaleIn = useScaleIn();
-  const {
-    mutate: google,
-    isPending: loadingGoogle,
-    error: errorGoogle,
-  } = useOAuth();
+  const {handleOAuth, isLoading: loadingGoogle} = useOAuth();
 
   useEffect(() => {
     if (isError) {
       toast.error("Credenciais inválidas");
     }
   }, [isError]);
-
-  useEffect(() => {
-    if (errorGoogle) {
-      toast.error("Falha ao integrar com Google");
-    }
-  }, [errorGoogle]);
 
   return (
     <div className="w-full min-h-screen bg-[var(--brown-fosco)] h-full flex overflow-x-hidden justify-center items-center">
@@ -98,7 +88,7 @@ export default function AuthLayout({
 
             <Button
               intent={"secondVar"}
-              onClick={() => google()}
+              onClick={() => handleOAuth()}
               disabled={loadingGoogle}
               className="flex gap-3 justify-center items-center"
             >

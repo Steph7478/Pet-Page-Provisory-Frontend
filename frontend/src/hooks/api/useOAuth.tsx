@@ -1,5 +1,11 @@
+import {useState} from "react";
+
 export const useOAuth = () => {
-  return () => {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleOAuth = () => {
+    setIsLoading(true);
+
     const width = 600;
     const height = 600;
     const left = window.screen.width / 2 - width / 2;
@@ -11,4 +17,6 @@ export const useOAuth = () => {
       `width=${width},height=${height},top=${top},left=${left}`
     );
   };
+
+  return {handleOAuth, isLoading};
 };
