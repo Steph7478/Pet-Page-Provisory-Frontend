@@ -9,7 +9,7 @@ import {createHandleChange} from "@/hooks/forms/handleChange";
 import {createHandleSubmit} from "@/hooks/forms/handleSubmit";
 
 const SignUp = () => {
-  const {mutate, isPending, error} = useSignup();
+  const {mutate, isPending, isError} = useSignup();
 
   const [signUp, setSignUp] = useState({
     name: "",
@@ -46,7 +46,7 @@ const SignUp = () => {
       type="signup"
       onSubmit={handleSubmit}
       isLoading={isPending}
-      isError={error}
+      isError={isError}
     >
       <div className="flex gap-5 justify-center items-center">
         <Button
