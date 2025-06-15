@@ -14,14 +14,7 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins(
-                                "http://localhost:3000",
-                                "https://patamansasitedeadocao-production.up.railway.app",
-                                "http://patamansasitedeadocao-production.up.railway.app",
-                                "https://pata-mansa-site-de-adocao.vercel.app",
-                                "https://pata-mansa-site-de-adocao-hw4k4zs8so-maelipalharinis-projects.vercel.app"
-                        )
-
+                        .allowedOrigins("*")
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
                         .allowCredentials(true);
