@@ -7,7 +7,7 @@ import {createHandleSubmit} from "@/hooks/forms/handleSubmit";
 import {createHandleChange} from "@/hooks/forms/handleChange";
 
 const Login = () => {
-  const {mutate, isPending, error} = useLogin();
+  const {mutate, isPending, isError} = useLogin();
 
   const [login, setLogin] = useState({
     userEmail: "",
@@ -23,7 +23,7 @@ const Login = () => {
       type="login"
       onSubmit={handleSubmit}
       isLoading={isPending}
-      isError={error}
+      isError={isError}
     >
       <Input
         intent={"auth"}

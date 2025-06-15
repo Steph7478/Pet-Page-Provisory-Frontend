@@ -20,7 +20,7 @@ export default function AuthLayout({
   type: "login" | "signup";
   onSubmit?: (e: React.FormEvent<HTMLFormElement>) => void;
   isLoading?: boolean;
-  isError?: Error | null;
+  isError?: boolean | null;
 }) {
   const scaleIn = useScaleIn();
   const {
