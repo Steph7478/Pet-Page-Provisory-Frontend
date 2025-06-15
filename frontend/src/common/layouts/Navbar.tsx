@@ -7,21 +7,33 @@ import {MdLogout} from "react-icons/md";
 import {HiMenuAlt3} from "react-icons/hi";
 import {IoCloseSharp} from "react-icons/io5";
 import {useLogout} from "@/hooks/api/useLogout";
+import {useAuth} from "@/hooks/api/useIsAuth";
 
 const Navbar = () => {
+  const {data: user} = useAuth();
   const {mutate: logout} = useLogout();
+  const [isOpen, setIsOpen] = useState(false);
 
   const links = [
     {name: "Home", href: "/"},
     {name: "Sobre nós", href: "/sobre"},
   ];
 
-  const authLinks = [
+  const isLogout = [
     {name: "Cadastre-se", href: "/signup"},
     {name: "Entrar", href: "/login"},
   ];
 
-  const [isOpen, setIsOpen] = useState(false);
+  const isLogged = [
+    {
+      name: "Painel",
+      href:
+        user?.role === "adotante"
+          ? `/adotante/${user?.id}`
+          : `/anunciante/${user?.id}`,
+    },
+    {name: "Adotar", href: "/adotar"},
+  ];
 
   useEffect(() => {
     document.body.classList.toggle("body-no-scroll", isOpen);
@@ -50,9 +62,9 @@ const Navbar = () => {
           </div>
 
           <AuthSwitch
-            fallback={authLinks.map((link) => (
+            fallback={isLogout.map((link) => (
               <div className="flex gap-5" key={link.name}>
-                <li className="hover:brightness-150 h-full flex justify-center items-center">
+                <li className="hover:brightness-150 h-full flex justify-center items-center max-[600px]:hidden">
                   <Link className="h-full py-4" href={link.href}>
                     {link.name}
                   </Link>
@@ -61,15 +73,22 @@ const Navbar = () => {
             ))}
           >
             <div className="flex gap-5">
+              {isLogged.map((link) => (
+                <li
+                  key={link.name}
+                  className="hover:brightness-150 h-full flex justify-center items-center max-[600px]:hidden"
+                >
+                  <Link className="h-full py-4" href={link.href}>
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
               <li
-                className="flex text-[var(--yellow)] justify-center items-center gap-1 py-4"
+                className="flex text-[var(--yellow)] justify-center items-center gap-1 py-4 cursor-pointer max-[600px]:hidden"
                 onClick={() => logout()}
               >
                 <span>Sair</span>
-                <MdLogout
-                  className="cursor-pointer hover:brightness-150"
-                  size={20}
-                />
+                <MdLogout className="hover:brightness-150" size={20} />
               </li>
             </div>
           </AuthSwitch>
@@ -116,6 +135,43 @@ const Navbar = () => {
               {link.name}
             </Link>
           ))}
+
+          <AuthSwitch
+            fallback={isLogout.map((link) => (
+              <Link
+                key={link.name}
+                href={link.href}
+                onClick={() => setIsOpen(false)}
+                className="py-3 border-b border-[var(--gray)]/30 hover:text-white transition-colors"
+              >
+                {link.name}
+              </Link>
+            ))}
+          >
+            <>
+              {isLogged.map((link) => (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  onClick={() => setIsOpen(false)}
+                  className="py-3 border-b border-[var(--gray)]/30 hover:text-white transition-colors"
+                >
+                  {link.name}
+                </Link>
+              ))}
+
+              <div
+                className="flex items-center justify-between py-3 border-b border-[var(--gray)]/30 text-[var(--yellow)] cursor-pointer hover:text-white transition-colors"
+                onClick={() => {
+                  logout();
+                  setIsOpen(false);
+                }}
+              >
+                <span>Sair</span>
+                <MdLogout size={20} />
+              </div>
+            </>
+          </AuthSwitch>
         </div>
       </div>
     </nav>
