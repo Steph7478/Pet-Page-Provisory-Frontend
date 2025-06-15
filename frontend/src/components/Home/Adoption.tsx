@@ -41,7 +41,7 @@ const Adoption = () => {
           />
         </motion.div>
         <div className="flex flex-col max-w-[800px] w-full h-full max-[820px]:-translate-y-1/6 items-center">
-          <div className="flex flex-col justify-center gap-y-20 h-full w-full">
+          <div className="flex flex-col justify-center gap-y-10 h-full w-full">
             <motion.h2
               ref={fadeIn[0].ref}
               {...fadeIn[0].animationProps}
