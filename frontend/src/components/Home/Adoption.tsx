@@ -6,10 +6,12 @@ import {motion} from "framer-motion";
 import {useFadeIn} from "@/hooks/ui/useFadeIn";
 import Link from "next/link";
 import {useScaleIn} from "@/hooks/ui/useScaleIn";
+import {useAuth} from "@/hooks/api/useIsAuth";
 
 const Adoption = () => {
   const fadeIn = [useFadeIn(), useFadeIn(), useFadeIn()];
   const scaleIn = [useScaleIn(), useScaleIn()];
+  const {data: user} = useAuth();
 
   return (
     <section className="items-center flex relative justify-center min-h-screen w-full bg-[var(--dark-yellow)] px-4">
@@ -69,7 +71,13 @@ const Adoption = () => {
                   Adote
                 </Button>
               </Link>
-              <Link href="/painel">
+              <Link
+                href={
+                  user?.role === "adotante"
+                    ? `/adotante/${user?.id}`
+                    : `/anunciante/${user?.id}`
+                }
+              >
                 <Button
                   intent={"second"}
                   className="w-[150px] px-2 max-[440px]:ml-auto"
