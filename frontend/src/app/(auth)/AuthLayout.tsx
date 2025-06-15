@@ -6,6 +6,7 @@ import {toast} from "@/ui/CustomToaster";
 import {motion} from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import {useRouter} from "next/router";
 import {useEffect} from "react";
 import {FcGoogle} from "react-icons/fc";
 
@@ -23,7 +24,11 @@ export default function AuthLayout({
   isError?: boolean | null;
 }) {
   const scaleIn = useScaleIn();
-  const {handleOAuth, isLoading: loadingGoogle} = useOAuth();
+  const router = useRouter();
+
+  const {handleOAuth, isLoading: loadingGoogle} = useOAuth(() => {
+    router.push("/adotar");
+  });
 
   useEffect(() => {
     if (isError) {
@@ -88,7 +93,7 @@ export default function AuthLayout({
 
             <Button
               intent={"secondVar"}
-              onClick={() => handleOAuth()}
+              onClick={handleOAuth}
               disabled={loadingGoogle}
               className="flex gap-3 justify-center items-center"
             >

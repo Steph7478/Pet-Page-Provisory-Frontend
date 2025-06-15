@@ -1,7 +1,20 @@
-import {useState} from "react";
+import {useState, useEffect} from "react";
 
-export const useOAuth = () => {
+export const useOAuth = (onSuccess?: () => void) => {
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    function handleMessage(event: MessageEvent) {
+      if (event.origin !== window.location.origin) return;
+      if (event.data === "oauth-success") {
+        setIsLoading(false);
+        if (onSuccess) onSuccess();
+      }
+    }
+
+    window.addEventListener("message", handleMessage);
+    return () => window.removeEventListener("message", handleMessage);
+  }, [onSuccess]);
 
   const handleOAuth = () => {
     setIsLoading(true);
