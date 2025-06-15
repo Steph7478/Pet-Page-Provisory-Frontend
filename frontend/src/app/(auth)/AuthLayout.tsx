@@ -24,11 +24,8 @@ export default function AuthLayout({
   isError?: boolean | null;
 }) {
   const scaleIn = useScaleIn();
-  const router = useRouter();
 
-  const {handleOAuth, isLoading: loadingGoogle} = useOAuth(() => {
-    router.push("/adotar");
-  });
+  const {handleOAuth, isLoading: loadingGoogle} = useOAuth();
 
   useEffect(() => {
     if (isError) {
