@@ -8,10 +8,11 @@ const inputVariants = cva(
   {
     variants: {
       intent: {
-        first: "focus:bg-[var(--brown)]/75 bg-[var(--brown)]/60 ",
-        second: "focus:bg-[var(--light-yellow)]/75 bg-[var(--light-yellow)]/50",
-        formulario: "border rounded px-3 py-2",
-        auth: " focus:bg-[var(--light-yellow)]/75 bg-[var(--light-yellow)]/50 rounded px-3 py-2",
+        first: "text-black focus:bg-[var(--brown)]/75 bg-[var(--brown)]/60 ",
+        second:
+          "text-black focus:bg-[var(--light-yellow)]/75 bg-[var(--light-yellow)]/50",
+        formulario: "text-black border rounded px-3 py-2",
+        auth: "text-black focus:bg-[var(--light-yellow)]/75 bg-[var(--light-yellow)]/50 rounded px-3 py-2",
       },
     },
   }
