@@ -17,6 +17,14 @@ public class FormularioAdocao {
     private boolean teveAnimaisAntes;
     private boolean ambienteSeguro;
 
+    @ManyToOne
+    @JoinColumn(name = "client_Id")
+    private User client;
+
+    @ManyToOne
+    @JoinColumn(name = "pet_Id")
+    private Pet pet;
+
     public Long getId() {
         return id;
     }
@@ -79,5 +87,21 @@ public class FormularioAdocao {
 
     public void setAmbienteSeguro(boolean ambienteSeguro) {
         this.ambienteSeguro = ambienteSeguro;
+    }
+
+    public User getClient() {
+        return client;
+    }
+
+    public void setClient(User client) {
+        this.client = client;
+    }
+
+    public Pet getPet() {
+        return pet;
+    }
+
+    public void setPet(Pet pet) {
+        this.pet = pet;
     }
 }
