@@ -8,8 +8,8 @@ import Image from "next/image";
 import React from "react";
 
 const OurPets = () => {
-  const fadeIn = [useFadeIn(), useFadeIn(), useFadeIn(), useFadeIn()];
   const {data: pets, isLoading, isError} = usePetInfo();
+  const fadeIn = [useFadeIn(), useFadeIn(), useFadeIn(), useFadeIn()];
 
   const petIntents: ("fourth" | "secondVar" | "third")[] = [
     "fourth",
@@ -23,9 +23,11 @@ const OurPets = () => {
     "bg-[var(--dark-yellow)]",
   ];
 
+  const limitedPets = pets?.slice(0, 3) ?? [];
+
   const renderPet = (index: number) => {
     const fade = fadeIn[index + 1];
-    const pet = pets?.[index];
+    const pet = limitedPets[index];
     const hasError = !pet && isError;
 
     const name = isLoading
@@ -81,7 +83,7 @@ const OurPets = () => {
         </motion.h2>
 
         <div className="flex gap-6 flex-wrap justify-center items-center">
-          {[0, 1, 2].map((i) => renderPet(i))}
+          {limitedPets.map((_: unknown, i: number) => renderPet(i))}
         </div>
       </div>
     </section>
