@@ -7,7 +7,7 @@ export const useRegisterPet = () => {
     mutationFn: async (data: PetInfos) => {
       const dataWithStatus = {
         ...data,
-        status: "disponivel",
+        status: "Disponivel",
       };
 
       const registeredPet = await registerPet(dataWithStatus);

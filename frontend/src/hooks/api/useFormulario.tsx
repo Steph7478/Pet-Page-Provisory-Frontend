@@ -20,7 +20,7 @@ export const useFormulario = () => {
       const formularioCriado = await createFormulario(formData);
 
       if (formularioCriado && formData.id) {
-        await updatePet(formData.id, {status: "pendente"});
+        await updatePet(formData.id, {status: "Pendente"});
       }
 
       return formularioCriado;

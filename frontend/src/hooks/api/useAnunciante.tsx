@@ -15,7 +15,7 @@ export const usePetsByAdvertiser = (owner: string) => {
 export const useAllowAdoption = () => {
   return useMutation({
     mutationFn: async ({id, clientId}: ApproveAdoptionPayload) => {
-      await updatePet(id, {status: "indisponivel"});
+      await updatePet(id, {status: "Indisponivel"});
       await updateAdoption(clientId, {id: [id]});
     },
   });
@@ -24,7 +24,7 @@ export const useAllowAdoption = () => {
 export const useDenyAdoption = () => {
   return useMutation({
     mutationFn: async (id: string) => {
-      await updatePet(id, {status: "disponivel"});
+      await updatePet(id, {status: "Disponivel"});
       await deleteFormulario(id);
     },
   });
