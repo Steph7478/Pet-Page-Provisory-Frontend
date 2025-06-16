@@ -1,5 +1,5 @@
 "use client";
-import React, {useEffect, useMemo} from "react";
+import React, {useMemo} from "react";
 import Button from "@/ui/button";
 import Image from "next/image";
 import {motion} from "framer-motion";
