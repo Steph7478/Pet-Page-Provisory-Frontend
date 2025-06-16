@@ -34,8 +34,6 @@ public class PetService {
         pet.setFotoUrl(dto.getFotoUrl());
         pet.setStatus(StatusPet.valueOf(dto.getStatus()));
 
-
-        // Busca o owner (usuário) pelo ID vindo do DTO
         User owner = userRepository.findById(dto.getOwnerId())
                 .orElseThrow(() -> new RuntimeException("Usuário (owner) não encontrado com ID: " + dto.getOwnerId()));
 
