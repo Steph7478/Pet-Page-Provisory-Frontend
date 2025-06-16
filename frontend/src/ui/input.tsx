@@ -4,15 +4,14 @@ import {motion} from "framer-motion";
 import React from "react";
 
 const inputVariants = cva(
-  "rounded-full hover:brightness-125 focus:outline-none transition-colors duration-150 ease-in-out min-w-[150px] px-8 py-4",
+  "placeholder-[var(--brown)] rounded-full hover:brightness-125 focus:outline-none transition-colors duration-150 ease-in-out min-w-[150px] px-8 py-4",
   {
     variants: {
       intent: {
-        first: "focus:bg-[var(--brown)]/75 bg-[var(--brown)]/60",
-        second:
-          "text-black focus:bg-[var(--light-yellow)]/75 bg-[var(--light-yellow)]/50",
+        first: "focus:bg-[var(--brown)]/75 bg-[var(--brown)]/60 ",
+        second: "focus:bg-[var(--light-yellow)]/75 bg-[var(--light-yellow)]/50",
         formulario: "border rounded px-3 py-2",
-        auth: " text-black focus:bg-[var(--light-yellow)]/75 bg-[var(--light-yellow)]/50 rounded px-3 py-2",
+        auth: " focus:bg-[var(--light-yellow)]/75 bg-[var(--light-yellow)]/50 rounded px-3 py-2",
       },
     },
   }
