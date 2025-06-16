@@ -8,8 +8,8 @@ export const useLogin = () => {
 
   return useMutation({
     mutationFn: loginUser,
-    onSuccess: () => {
-      queryClient.invalidateQueries({queryKey: ["auth"]});
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({queryKey: ["auth"]});
 
       router.push("/adotar");
     },
