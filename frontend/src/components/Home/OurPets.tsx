@@ -2,6 +2,7 @@
 import {usePetInfo} from "@/hooks/api/usePetInfo";
 import {useFadeIn} from "@/hooks/ui/useFadeIn";
 import Button from "@/ui/button";
+import {isValidUrl} from "@/utils/isValidUrl";
 import {motion} from "framer-motion";
 import Image from "next/image";
 import React from "react";
@@ -33,9 +34,6 @@ const OurPets = () => {
       ? "Sem resultados"
       : pet?.nome ?? "Sem nome";
 
-    const picture =
-      isLoading || hasError ? null : pet?.fotoUrl ?? "/defaultdog.png";
-
     return (
       <motion.div
         key={pet?.id ?? index}
@@ -56,7 +54,9 @@ const OurPets = () => {
             </div>
           ) : (
             <Image
-              src={picture}
+              src={
+                pet && isValidUrl(pet.fotoUrl) ? pet.fotoUrl : "/defaultdog.png"
+              }
               width={800}
               height={800}
               className="w-full h-full object-cover rounded-full"
