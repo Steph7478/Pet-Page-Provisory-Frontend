@@ -72,11 +72,7 @@ const Adoption = () => {
                 </Button>
               </Link>
               <Link
-                href={
-                  user?.role === "adotante"
-                    ? `/adotante/${user?.id}`
-                    : `/anunciante/${user?.id}`
-                }
+                href={user?.role === "adotante" ? `/adotante` : `/anunciante`}
               >
                 <Button
                   intent={"second"}

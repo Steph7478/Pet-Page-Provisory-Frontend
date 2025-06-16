@@ -7,13 +7,12 @@ import LoadingSpinner from "@/common/layouts/Loading";
 
 const Adotante = () => {
   const {data: user} = useAuth();
-  const type = user.role === "adotante" ? "adopter" : "advertiser";
 
   if (!user) {
     return <LoadingSpinner />;
   }
 
-  return <AdoptionPanel type={type} userId={user.id} />;
+  return <AdoptionPanel type="adopter" userId={user.id} />;
 };
 
 export default Adotante;

@@ -27,10 +27,7 @@ const Navbar = () => {
   const isLogged = [
     {
       name: "Painel",
-      href:
-        user?.role === "adotante"
-          ? `/adotante/${user?.id}`
-          : `/anunciante/${user?.id}`,
+      href: user?.role === "adotante" ? `/adotante` : `/anunciante`,
     },
     {name: "Adotar", href: "/adotar"},
   ];
