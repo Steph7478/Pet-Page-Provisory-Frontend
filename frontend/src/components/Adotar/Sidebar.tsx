@@ -1,20 +1,26 @@
+// Sidebar.tsx
+"use client";
+
 import Checkbox from "@/ui/checkbox";
 import React from "react";
 import {BsFillFilterCircleFill} from "react-icons/bs";
 import {IoIosCloseCircleOutline} from "react-icons/io";
+import {Filters} from "@/types/slides";
 
-const Sidebar = ({
+export interface SidebarProps {
+  isOpen: boolean;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  filters: Filters;
+  setFilters: React.Dispatch<React.SetStateAction<Filters>>;
+}
+
+const Sidebar: React.FC<SidebarProps> = ({
   isOpen,
   setIsOpen,
   filters,
   setFilters,
-}: {
-  isOpen: boolean;
-  setIsOpen: (value: boolean) => void;
-  filters: Record<string, unknown[]>;
-  setFilters: React.Dispatch<React.SetStateAction<Record<string, unknown[]>>>;
 }) => {
-  const toggleFilter = (category: string, value: string) => {
+  const toggleFilter = (category: keyof Filters, value: string) => {
     setFilters((prev) => {
       const categoryValues = prev[category] ?? [];
       const alreadySelected = categoryValues.includes(value);
@@ -27,7 +33,7 @@ const Sidebar = ({
     });
   };
 
-  const filter = (category: string, value: string, name: string) => {
+  const filter = (category: keyof Filters, value: string, name: string) => {
     const isChecked = filters[category]?.includes(value) ?? false;
 
     return (
@@ -49,18 +55,18 @@ const Sidebar = ({
       <div className="flex flex-col gap-2 w-full">
         <p className="font-semibold text-left">Tamanho</p>
         <div className="flex flex-col gap-1 items-start">
-          {filter("size", "small", "pequeno")}
-          {filter("size", "medium", "médio")}
-          {filter("size", "large", "grande")}
+          {filter("size", "pequeno", "pequeno")}
+          {filter("size", "médio", "médio")}
+          {filter("size", "grande", "grande")}
         </div>
       </div>
 
       <div className="flex flex-col gap-2 w-full">
         <p className="font-semibold text-left">Idade</p>
         <div className="flex flex-col gap-1 items-start">
-          {filter("age", "under1", "menos de 1 ano")}
-          {filter("age", "1to5", "entre 1 a 5 anos")}
-          {filter("age", "over5", "mais de 5 anos")}
+          {filter("age", "menos1", "menos de 1 ano")}
+          {filter("age", "1a5", "entre 1 a 5 anos")}
+          {filter("age", "mais5", "mais de 5 anos")}
         </div>
       </div>
     </>
@@ -68,7 +74,7 @@ const Sidebar = ({
 
   return (
     <>
-      <div className="hidden md:flex bg-[var(--brown)] min-w-[200px] flex-col p-4 gap-6 justify-start ">
+      <div className="hidden md:flex bg-[var(--brown)] min-w-[200px] flex-col p-4 gap-6 justify-start">
         {filterBar}
       </div>
 

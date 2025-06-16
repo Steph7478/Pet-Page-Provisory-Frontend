@@ -8,6 +8,7 @@ import Sidebar from "./Sidebar";
 import {motion} from "framer-motion";
 import {PetInfos} from "@/types/pet";
 import {Filters} from "@/types/slides";
+import {isValidUrl} from "@/utils/isValidUrl";
 
 export default function SimpleSlider() {
   const {data: pets, isLoading, error} = usePetInfo();
@@ -16,10 +17,24 @@ export default function SimpleSlider() {
 
   const applyFilters = useCallback(
     (pet: PetInfos) => {
-      const sizeMatch =
-        filters.size?.length === 0 || filters.size?.includes(pet.porte);
-      const ageMatch =
-        filters.age?.length === 0 || filters.age?.includes(pet.idade);
+      const hasSizeFilter =
+        filters.size !== undefined && filters.size.length > 0;
+      const hasAgeFilter = filters.age !== undefined && filters.age.length > 0;
+
+      if (!hasSizeFilter && !hasAgeFilter) return true;
+
+      const sizeMatch = !hasSizeFilter || filters.size?.includes(pet.porte);
+
+      let ageMatch = true;
+      if (hasAgeFilter && filters.age) {
+        ageMatch = filters.age.some((ageFilter) => {
+          const idade = pet.idade;
+          if (ageFilter === "menos1") return idade < 1;
+          if (ageFilter === "1a5") return idade >= 1 && idade <= 5;
+          if (ageFilter === "mais5") return idade > 5;
+          return false;
+        });
+      }
 
       return sizeMatch && ageMatch;
     },
@@ -68,11 +83,15 @@ export default function SimpleSlider() {
                     exit={{opacity: 0, y: 20}}
                     transition={{delay: index * 0.05}}
                     key={index}
-                    className="bg-[var(--light-yellow)] h-[330px] w-[200px] flex flex-col justify-center items-center shadow rounded overflow-hidden"
+                    className="bg-[var(--light-yellow)] h-[340px] w-[200px] flex flex-col justify-center items-center shadow rounded overflow-hidden"
                   >
                     <div className="relative h-[65%] w-full">
                       <Image
-                        src={item.fotoUrl ?? "/defaultdog.png"}
+                        src={
+                          isValidUrl(item.fotoUrl)
+                            ? item.fotoUrl!
+                            : "/defaultdog.png"
+                        }
                         alt={`Foto do ${item.nome}`}
                         fill
                         className="object-cover"
@@ -83,8 +102,9 @@ export default function SimpleSlider() {
                       <h3 className="text-xl text-[var(--dark-yellow)] font-semibold">
                         {item.nome}
                       </h3>
-                      <p>Raça: {item.descricao}</p>
+                      <p>Raça: {item.raca}</p>
                       <p>Idade: {item.idade}</p>
+                      <p>Porte: {item.porte}</p>
                       <Link href={`/adotar/detalhes/${item.id}`}>
                         <Button intent="fourth" className="text-sm font-bold">
                           Ver detalhes

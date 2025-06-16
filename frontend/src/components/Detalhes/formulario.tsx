@@ -48,7 +48,7 @@ const Modal = ({
           onClick={(e) => e.stopPropagation()}
           role="dialog"
           aria-modal="true"
-          className="relative bg-[var(--light-yellow)] border-[16px] border-[var(--brown)] rounded-lg p-6 scroll-formulario max-w-lg w-full max-h-[90vh] overflow-y-auto flex flex-col gap-4 z-50"
+          className="relative bg-[var(--light-yellow)] border-[16px] border-[var(--brown)] rounded-lg p-6 scroll-formulario max-w-[650px] w-full max-h-[90vh] overflow-y-auto flex flex-col gap-4 z-50"
         >
           <IoClose
             onClick={() => setIsOpen(false)}

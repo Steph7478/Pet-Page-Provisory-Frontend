@@ -4,7 +4,7 @@ import {BooleanFieldProps} from "@/types/fields";
 
 const BooleanField = ({label, value, onChange}: BooleanFieldProps) => {
   return (
-    <div className="flex flex-col justify-center items-center mb-6">
+    <div className="flex flex-col justify-center items-center ">
       <h3 className="mb-1">{label}</h3>
       <div className="flex gap-3">
         <Checkbox

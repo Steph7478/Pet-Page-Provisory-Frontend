@@ -12,7 +12,7 @@ const FormField = ({
   placeholder,
 }: FormFieldPropsAdopt) => {
   return (
-    <label className="flex flex-col mb-4">
+    <label className="flex flex-col">
       <span className="mb-1">{label}</span>
       {type === "textarea" ? (
         <textarea
