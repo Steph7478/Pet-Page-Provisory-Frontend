@@ -97,7 +97,6 @@ export default function Typewriter({
       className={className}
       style={{
         whiteSpace: "normal",
-        display: "inline",
       }}
     >
       <span>{parse(partialHTML)}</span>

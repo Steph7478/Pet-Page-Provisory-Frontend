@@ -2,6 +2,8 @@
 import {useFadeIn} from "@/hooks/ui/useFadeIn";
 import Typewriter from "@/hooks/ui/useTyping";
 import {motion} from "framer-motion";
+import {StaticImport} from "next/dist/shared/lib/get-img-props";
+import Image from "next/image";
 import React, {ReactNode} from "react";
 
 const SobreNos = () => {
@@ -17,7 +19,7 @@ const SobreNos = () => {
   const sobre = (
     name: string[],
     title: string,
-    image: ReactNode,
+    image: string | StaticImport,
     text: string,
     f: number,
     s: number,
@@ -34,11 +36,17 @@ const SobreNos = () => {
             {title}
           </motion.h2>
           <motion.div
-            className="border-2 shrink-0 border-[var(--brown)] w-[250px] h-[250px] rounded-full flex justify-center items-center"
+            className="border-2 shrink-0 border-[var(--brown)] w-[250px] h-[250px] rounded-full overflow-hidden flex justify-center items-center"
             ref={fadeIn[s].ref}
             {...fadeIn[s].animationProps}
           >
-            {image}
+            <Image
+              src={image}
+              alt={title}
+              width={250}
+              height={250}
+              layout="responsive"
+            />
           </motion.div>
         </div>
         <motion.div
@@ -47,7 +55,7 @@ const SobreNos = () => {
           {...fadeIn[t].animationProps}
         >
           <Typewriter
-            className="text-[var(--brown)] text-2xl font-bold"
+            className="max-[750px]:min-h-18 text-[var(--brown)] text-2xl font-bold flex max-[750px]:justify-center items-center"
             tag="h3"
             phrases={name}
           />
@@ -69,7 +77,7 @@ const SobreNos = () => {
             `Sou desenvolvedora <span class="text-red-500">Backend.</span>`,
           ],
           "Back-end",
-          "",
+          "/Maeli.jpg",
           "Engenheira e mestra de formação e apaixonada por tecnologia desde criança.  Depois de anos atuando em outra área, decidi seguir meu coração e mergulhar de vez no universo da programação. <br> Trabalho com linguagens como Java, Python e JavaScript e também estou me desenvolvendo com ferramentas como AWS. Estou sempre em busca de aprender mais e criar soluções práticas e inteligentes com código.",
           0,
           1,
@@ -82,8 +90,8 @@ const SobreNos = () => {
             `Sou desenvolvedora <span class="text-red-500">Frontend.</span>`,
           ],
           "Front-end",
-          "",
-          "Lorem ipsum dolor sit amet, consectetur adipisicing elit Voluptatem aliquid atque ex culpa quod inventore accusantium error reprehenderit nisi quo tempore laboriosam consectetur distinctio hic fugiat, at fuga accusamus eveniet.",
+          "/Steph.png",
+          "Desenvolvedora frontend com foco em performance, acessibilidade e escalabilidade. Utilizo React, Next.js, Tailwind CSS e TypeScript como stack principal. Tenho experiência sólida no consumo de APIs REST, gerenciamento de estado e cache com React Query, e construção de componentes reutilizáveis com atenção a boas práticas de UI/UX. Priorizo código limpo, modular e de fácil manutenção, com atenção especial à estrutura, responsividade e experiência do usuário.",
           3,
           4,
           5
