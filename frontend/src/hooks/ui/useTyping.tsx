@@ -99,16 +99,17 @@ export default function Typewriter({
         whiteSpace: "normal",
       }}
     >
-      <span>{parse(partialHTML)}</span>
-
-      <motion.span
-        style={{marginLeft: 2}}
-        animate={{opacity: [1, 0, 1]}}
-        transition={{duration: 1, repeat: Infinity, ease: "easeInOut"}}
-        aria-hidden="true"
-      >
-        |
-      </motion.span>
+      <span>
+        {parse(partialHTML)}{" "}
+        <motion.span
+          style={{marginLeft: 2}}
+          animate={{opacity: [1, 0, 1]}}
+          transition={{duration: 1, repeat: Infinity, ease: "easeInOut"}}
+          aria-hidden="true"
+        >
+          |
+        </motion.span>
+      </span>
     </Tag>
   );
 }
