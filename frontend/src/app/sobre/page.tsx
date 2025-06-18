@@ -4,7 +4,7 @@ import Typewriter from "@/hooks/ui/useTyping";
 import {motion} from "framer-motion";
 import {StaticImport} from "next/dist/shared/lib/get-img-props";
 import Image from "next/image";
-import React, {ReactNode} from "react";
+import React from "react";
 
 const SobreNos = () => {
   const fadeIn = [
