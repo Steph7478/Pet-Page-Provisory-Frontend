@@ -19,4 +19,9 @@ public class AdocaoController {
         return ResponseEntity.ok("Adoção registrada com sucesso!");
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<AdocaoDTO> buscarAdocaoPorId(@PathVariable Long id) {
+        AdocaoDTO dto = adocaoService.buscarPorId(id);
+        return ResponseEntity.ok(dto);
+    }
 }

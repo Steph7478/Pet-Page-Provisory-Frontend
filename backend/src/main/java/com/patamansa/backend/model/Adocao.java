@@ -14,6 +14,7 @@ public class Adocao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JoinColumn(name = "cliente_id")
     @ManyToOne
     private User cliente;
 
