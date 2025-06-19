@@ -83,7 +83,7 @@ const OurPets = () => {
         </motion.h2>
 
         <div className="flex gap-6 flex-wrap justify-center items-center">
-          {limitedPets.map((_: unknown, i: number) => renderPet(i))}
+          {[0, 1, 2].map((i) => renderPet(i))}
         </div>
       </div>
     </section>
