@@ -1,5 +1,5 @@
 "use client";
-import {usePetInfo} from "@/hooks/api/usePetInfo";
+import {usePetInfo} from "@/hooks/api/pet/usePetInfo";
 import Button from "@/ui/button";
 import Image from "next/image";
 import Link from "next/link";

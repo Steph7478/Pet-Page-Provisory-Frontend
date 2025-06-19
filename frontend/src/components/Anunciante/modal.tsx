@@ -1,4 +1,4 @@
-import {useRegisterPet} from "@/hooks/api/useRegisterPet";
+import {useRegisterPet} from "@/hooks/api/pet/useRegisterPet";
 import {FormularioWrapper} from "@/hooks/ui/useModal";
 import {PetInfos} from "@/types/pet";
 import {toast} from "@/ui/CustomToaster";

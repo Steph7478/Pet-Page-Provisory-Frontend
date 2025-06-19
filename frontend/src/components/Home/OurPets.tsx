@@ -1,5 +1,5 @@
 "use client";
-import {usePetInfo} from "@/hooks/api/usePetInfo";
+import {usePetInfo} from "@/hooks/api/pet/usePetInfo";
 import {useFadeIn} from "@/hooks/ui/useFadeIn";
 import Button from "@/ui/button";
 import {isValidUrl} from "@/utils/isValidUrl";

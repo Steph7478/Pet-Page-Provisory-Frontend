@@ -1,5 +1,5 @@
 import React from "react";
-import {useFormulario} from "@/hooks/api/useFormulario";
+import {useFormulario} from "@/hooks/api/formulario/useFormulario";
 import {Formulário} from "@/types/formulario";
 import {toast} from "@/ui/CustomToaster";
 import {IoClose} from "react-icons/io5";

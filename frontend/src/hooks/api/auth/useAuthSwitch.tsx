@@ -1,6 +1,6 @@
 "use client";
 
-import {useAuth} from "@/hooks/api/useIsAuth";
+import {useAuth} from "@/hooks/api/auth/useIsAuth";
 
 export default function AuthSwitch({
   children,

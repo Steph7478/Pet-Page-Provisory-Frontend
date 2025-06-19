@@ -1,56 +1,52 @@
 "use client";
-import React, {useState} from "react";
+import React, {useEffect} from "react";
 import AuthLayout from "../AuthLayout";
 import Input from "@/ui/input";
-import {useSignup} from "@/hooks/api/useRegister";
+import {useSignup} from "@/hooks/api/auth/useRegister";
 import Button from "@/ui/button";
 import {toast} from "@/ui/CustomToaster";
-import {createHandleChange} from "@/hooks/forms/handleChange";
-import {createHandleSubmit} from "@/hooks/forms/handleSubmit";
+import {useForm} from "react-hook-form";
+
+import {zodResolver} from "@hookform/resolvers/zod";
+import {registerSchema, RegisterSchema} from "@/schemas/auth";
+import {createHandleSubmit} from "@/hooks/forms/handleUseFormSubmit";
 
 const SignUp = () => {
   const {mutate, isPending, isError} = useSignup();
 
-  const [signUp, setSignUp] = useState({
-    name: "",
-    userEmail: "",
-    password: "",
-    role: "",
+  const {register, handleSubmit, setValue, watch} = useForm<RegisterSchema>({
+    resolver: zodResolver(registerSchema),
+    defaultValues: {
+      role: "adotante",
+    },
   });
 
-  const handleSubmit = createHandleSubmit(signUp, mutate, (signUp) => {
-    if (
-      !signUp.name.trim() ||
-      !signUp.userEmail.trim() ||
-      !signUp.password.trim() ||
-      !signUp.role
-    ) {
+  const role = watch("role");
+
+  const submit = createHandleSubmit<RegisterSchema>((data) => {
+    mutate(data);
+  });
+
+  useEffect(() => {
+    if (isError) {
       toast.error("Credenciais inválidas");
-      return false;
     }
-
-    return true;
-  });
-
-  const handleChange = createHandleChange(setSignUp);
+  }, [isError]);
 
   const handleSelectRole = (role: "adotante" | "anunciante") => {
-    setSignUp((prev) => ({
-      ...prev,
-      role,
-    }));
+    setValue("role", role, {shouldValidate: true});
   };
 
   return (
     <AuthLayout
       type="signup"
-      onSubmit={handleSubmit}
+      onSubmit={handleSubmit(submit)}
       isLoading={isPending}
       isError={isError}
     >
       <div className="flex gap-5 justify-center items-center">
         <Button
-          intent={signUp.role === "adotante" ? "first" : "second"}
+          intent={role === "adotante" ? "first" : "second"}
           type="button"
           onClick={() => handleSelectRole("adotante")}
           className="text-sm font-bold"
@@ -58,7 +54,7 @@ const SignUp = () => {
           Adotar um pet
         </Button>
         <Button
-          intent={signUp.role === "anunciante" ? "first" : "second"}
+          intent={role === "anunciante" ? "first" : "second"}
           type="button"
           onClick={() => handleSelectRole("anunciante")}
           className="text-sm font-bold"
@@ -66,27 +62,25 @@ const SignUp = () => {
           Doar um pet
         </Button>
       </div>
+
       <Input
         intent={"auth"}
         className="py-3"
-        value={signUp.name}
-        onChange={handleChange("name")}
+        {...register("name")}
         type="text"
         placeholder="Nome"
       />
       <Input
         intent={"auth"}
         className="py-3"
-        value={signUp.userEmail}
-        onChange={handleChange("userEmail")}
+        {...register("userEmail")}
         type="email"
         placeholder="Email"
       />
       <Input
         intent={"auth"}
         className="py-3"
-        value={signUp.password}
-        onChange={handleChange("password")}
+        {...register("password")}
         type="password"
         placeholder="Senha"
       />

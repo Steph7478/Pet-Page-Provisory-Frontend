@@ -6,6 +6,9 @@ import {CustomToaster} from "@/ui/CustomToaster";
 
 export const metadata = {
   title: "PataMansa",
+  icons: {
+    icon: "/favicon.png",
+  },
 };
 
 const RootLayout = ({children}: {children: React.ReactNode}) => {

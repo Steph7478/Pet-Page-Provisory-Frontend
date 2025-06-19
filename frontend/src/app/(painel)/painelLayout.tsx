@@ -10,8 +10,8 @@ import {
   useAllowAdoption,
   useDenyAdoption,
   usePetsByAdvertiser,
-} from "@/hooks/api/useAnunciante";
-import {usePetsByClient} from "@/hooks/api/useAdotante";
+} from "@/hooks/api/user/useAnunciante";
+import {usePetsByClient} from "@/hooks/api/user/useAdotante";
 import ProtectedRoute from "@/common/routes/ProtectedRoute";
 import Image from "next/image";
 import Modal from "@/components/Anunciante/modal";

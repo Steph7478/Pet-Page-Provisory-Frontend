@@ -1,5 +1,5 @@
 "use client";
-import {useOAuth} from "@/hooks/api/useOAuth";
+import {useOAuth} from "@/hooks/api/auth/useOAuth";
 import {useScaleIn} from "@/hooks/ui/useScaleIn";
 import Button from "@/ui/button";
 import {toast} from "@/ui/CustomToaster";

@@ -1,13 +1,14 @@
 "use client";
 
-import AuthSwitch from "@/hooks/api/useAuthSwitch";
+import AuthSwitch from "@/hooks/api/auth/useAuthSwitch";
 import Link from "next/link";
 import React, {useEffect, useMemo, useState} from "react";
 import {MdLogout} from "react-icons/md";
 import {HiMenuAlt3} from "react-icons/hi";
 import {IoCloseSharp} from "react-icons/io5";
-import {useLogout} from "@/hooks/api/useLogout";
-import {useAuth} from "@/hooks/api/useIsAuth";
+import {useLogout} from "@/hooks/api/auth/useLogout";
+import {useAuth} from "@/hooks/api/auth/useIsAuth";
+import Image from "next/image";
 
 const Navbar = () => {
   const {data: user} = useAuth();
@@ -43,8 +44,17 @@ const Navbar = () => {
   return (
     <nav className="w-full absolute top-0 z-50 bg-[var(--brown)] h-[50px] flex justify-center">
       <ul className="flex w-full max-w-[90%] justify-center h-full items-center">
-        <Link className="mr-auto text-white font-bold tracking-wide" href="/">
-          Logo
+        <Link
+          className="mr-auto text-white font-bold tracking-wide max-w-10 max-h-10"
+          href="/"
+        >
+          <Image
+            width={30}
+            height={30}
+            layout="responsive"
+            src="/favicon.png"
+            alt="logo"
+          />
         </Link>
 
         <div className="text-[var(--gray)] h-full uppercase font-semibold text-sm flex gap-5 items-center">

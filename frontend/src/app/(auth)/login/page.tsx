@@ -1,45 +1,51 @@
 "use client";
 import Input from "@/ui/input";
-import React, {useState} from "react";
+import React, {useEffect} from "react";
 import AuthLayout from "../AuthLayout";
-import {useLogin} from "@/hooks/api/useLogin";
-import {createHandleSubmit} from "@/hooks/forms/handleSubmit";
-import {createHandleChange} from "@/hooks/forms/handleChange";
+import {useLogin} from "@/hooks/api/auth/useLogin";
+import {useForm} from "react-hook-form";
+import {zodResolver} from "@hookform/resolvers/zod";
+import {toast} from "@/ui/CustomToaster";
+import {LoginSchema, loginSchema} from "@/schemas/auth";
+import {createHandleSubmit} from "@/hooks/forms/handleUseFormSubmit";
 
 const Login = () => {
   const {mutate, isPending, isError} = useLogin();
 
-  const [login, setLogin] = useState({
-    userEmail: "",
-    password: "",
+  const {register, handleSubmit} = useForm<LoginSchema>({
+    resolver: zodResolver(loginSchema),
   });
 
-  const handleSubmit = createHandleSubmit(login, mutate);
+  const submit = createHandleSubmit<LoginSchema>((data) => {
+    mutate(data);
+  });
 
-  const handleChange = createHandleChange(setLogin);
+  useEffect(() => {
+    if (isError) {
+      toast.error("Credenciais inválidas");
+    }
+  }, [isError]);
 
   return (
     <AuthLayout
       type="login"
-      onSubmit={handleSubmit}
+      onSubmit={handleSubmit(submit)}
       isLoading={isPending}
       isError={isError}
     >
       <Input
-        intent={"auth"}
-        value={login.userEmail}
-        className="py-3 "
-        onChange={handleChange("userEmail")}
+        intent="auth"
+        className="py-3"
         type="email"
         placeholder="Email"
+        {...register("userEmail")}
       />
       <Input
-        intent={"auth"}
-        value={login.password}
-        className="py-3 "
-        onChange={handleChange("password")}
+        intent="auth"
+        className="py-3"
         type="password"
         placeholder="Senha"
+        {...register("password")}
       />
     </AuthLayout>
   );
