@@ -8,6 +8,8 @@ import {FormularioWrapper} from "@/hooks/ui/useModal";
 import FormField from "./FormField";
 import BooleanField from "./BooleanField";
 import Checkbox from "@/ui/checkbox";
+import {useParams} from "next/navigation";
+import {useAuth} from "@/hooks/api/auth/useIsAuth";
 
 const Modal = ({
   setIsOpen,
@@ -15,6 +17,10 @@ const Modal = ({
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const {mutate, isPending, isSuccess, isError} = useFormulario();
+
+  const {id} = useParams();
+  const {data: authData} = useAuth();
+  const clientId = authData?.id;
 
   const initialValues: Partial<Formulário> = {
     email: "",
@@ -24,6 +30,8 @@ const Modal = ({
     espacoExterno: undefined,
     teveAnimaisAntes: undefined,
     ambienteSeguro: undefined,
+    id: "",
+    clientId: "",
   };
 
   const booleanFields: {field: keyof Formulário; title: string}[] = [
@@ -60,7 +68,13 @@ const Modal = ({
 
           <FormularioWrapper
             initialValues={initialValues}
-            onSubmit={(data) => mutate(data as Formulário)}
+            onSubmit={(data) =>
+              mutate({
+                ...data,
+                petId: id,
+                clientId: clientId,
+              } as Formulário)
+            }
             isPending={isPending}
             isSuccess={isSuccess}
             isError={isError}
