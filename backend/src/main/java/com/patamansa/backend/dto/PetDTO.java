@@ -20,10 +20,9 @@ public class PetDTO {
     private String idade;
     private String descricao;
     private String fotoUrl;
+    private String status;
 
     @JsonProperty("ownerId")
     private Long ownerId;
-
-    private String status;
 }
 

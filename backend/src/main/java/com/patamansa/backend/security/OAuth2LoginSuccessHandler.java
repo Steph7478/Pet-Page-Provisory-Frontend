@@ -31,7 +31,9 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
         cookie.setHttpOnly(true);
         cookie.setMaxAge(24 * 60 * 60); // Expira em 24 horas
 
-        response.addCookie(cookie);
+        response.setHeader("Set-Cookie",
+                String.format("token=%s; Path=/; HttpOnly; Secure; SameSite=None; Max-Age=%d",
+                        jwtToken, 24 * 60 * 60));
 
         String frontendUrl = "https://pata-mansa-site-de-adocao.vercel.app/adotar";
         response.sendRedirect(frontendUrl);
