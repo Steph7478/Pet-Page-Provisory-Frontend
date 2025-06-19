@@ -1,7 +1,5 @@
 package com.patamansa.backend.security;
 
-import com.patamansa.backend.security.JwtService;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -26,14 +24,12 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
         String userEmail = oauth2User.getAttribute("email");
         String jwtToken = jwtService.gerarToken(userEmail);
 
-        Cookie cookie = new Cookie("token", jwtToken);
-        cookie.setPath("/");
-        cookie.setHttpOnly(true);
-        cookie.setMaxAge(24 * 60 * 60); // Expira em 24 horas
-
         response.setHeader("Set-Cookie",
-                String.format("token=%s; Path=/; HttpOnly; Secure; SameSite=None; Max-Age=%d",
-                        jwtToken, 24 * 60 * 60));
+                String.format(
+                        "token=%s; Path=/; Domain=.vercel.app; HttpOnly; Secure; SameSite=None; Max-Age=%d",
+                        jwtToken, 24 * 60 * 60
+                )
+        );
 
         String frontendUrl = "https://pata-mansa-site-de-adocao.vercel.app/adotar";
         response.sendRedirect(frontendUrl);
