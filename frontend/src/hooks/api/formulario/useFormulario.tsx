@@ -19,8 +19,8 @@ export const useFormulario = () => {
     mutationFn: async (formData: Formulário) => {
       const formularioCriado = await createFormulario(formData);
 
-      if (formularioCriado && formData.id) {
-        await updatePet(formData.id, {status: "Pendente"});
+      if (formularioCriado && formData.petId) {
+        await updatePet(formData.petId, {status: "Pendente"});
       }
 
       return formularioCriado;
