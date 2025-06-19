@@ -1,5 +1,5 @@
 export type Formulário = {
-  id: string;
+  petId: string;
   clientId: string;
   email: string;
   telefone: string | null;

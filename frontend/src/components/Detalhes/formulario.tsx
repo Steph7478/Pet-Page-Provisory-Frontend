@@ -18,7 +18,7 @@ const Modal = ({
 }) => {
   const {mutate, isPending, isSuccess, isError} = useFormulario();
 
-  const {id} = useParams();
+  const {id: petId} = useParams();
   const {data: authData} = useAuth();
   const clientId = authData?.id;
 
@@ -30,7 +30,7 @@ const Modal = ({
     espacoExterno: undefined,
     teveAnimaisAntes: undefined,
     ambienteSeguro: undefined,
-    id: "",
+    petId: "",
     clientId: "",
   };
 
@@ -71,7 +71,7 @@ const Modal = ({
             onSubmit={(data) =>
               mutate({
                 ...data,
-                petId: id,
+                petId: petId,
                 clientId: clientId,
               } as Formulário)
             }
