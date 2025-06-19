@@ -21,6 +21,7 @@ public class PetDTO {
     private String descricao;
     private String fotoUrl;
     private String status;
+    private String localizacao;
 
     @JsonProperty("ownerId")
     private Long ownerId;

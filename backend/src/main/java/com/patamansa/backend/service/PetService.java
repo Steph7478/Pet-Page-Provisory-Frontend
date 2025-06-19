@@ -33,6 +33,8 @@ public class PetService {
         pet.setDescricao(dto.getDescricao());
         pet.setFotoUrl(dto.getFotoUrl());
         pet.setStatus(StatusPet.valueOf(dto.getStatus()));
+        pet.setLocalizacao(dto.getLocalizacao());
+
 
         User owner = userRepository.findById(dto.getOwnerId())
                 .orElseThrow(() -> new RuntimeException("Usuário (owner) não encontrado com ID: " + dto.getOwnerId()));

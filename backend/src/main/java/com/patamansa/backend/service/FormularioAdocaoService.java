@@ -40,6 +40,8 @@ public class FormularioAdocaoService {
         entidade.setEspacoExterno(dto.isEspacoExterno());
         entidade.setTeveAnimaisAntes(dto.isAnimaisAntes());
         entidade.setAmbienteSeguro(dto.isAmbienteSeguro());
+        entidade.setClient(client);
+        entidade.setPet(pet);
 
         repository.save(entidade);
     }

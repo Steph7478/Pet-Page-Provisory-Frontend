@@ -10,16 +10,11 @@ public class FormularioAdocaoDTO {
     private boolean espacoExterno;
     private boolean animaisAntes;
     private boolean ambienteSeguro;
-    private String localizacao;
 
     private Long petId;
 
     @JsonProperty("clientId")
     private Long clientId;
-
-    public FormularioAdocaoDTO(String localizacao) {
-        this.localizacao = localizacao;
-    }
 
     public String getEmail() {
         return email;
@@ -91,14 +86,6 @@ public class FormularioAdocaoDTO {
 
     public void setClientId(Long clientId) {
         this.clientId = clientId;
-    }
-
-    public String getLocalizacao() {
-        return localizacao;
-    }
-
-    public void setLocalizacao(String localizacao) {
-        this.localizacao = localizacao;
     }
 
 }
