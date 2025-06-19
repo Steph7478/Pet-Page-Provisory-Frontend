@@ -20,9 +20,11 @@ import static org.springframework.security.config.Customizer.withDefaults;
 public class AppSecurityConfig {
 
     private final JwtFilter jwtFilter;
+    private final OAuth2LoginSuccessHandler successHandler;
 
-    public AppSecurityConfig(JwtFilter jwtFilter) {
+    public AppSecurityConfig(JwtFilter jwtFilter, OAuth2LoginSuccessHandler successHandler) {
         this.jwtFilter = jwtFilter;
+        this.successHandler = successHandler;
     }
 
     @Bean
@@ -39,7 +41,9 @@ public class AppSecurityConfig {
                         .anyRequest().authenticated()
                 )
 
-                .oauth2Login(withDefaults())
+                .oauth2Login(oauth -> oauth
+                        .successHandler(successHandler)
+                )
 
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 

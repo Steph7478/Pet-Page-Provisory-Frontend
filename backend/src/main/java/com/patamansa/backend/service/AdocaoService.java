@@ -11,6 +11,8 @@ import com.patamansa.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AdocaoService {
 
@@ -39,5 +41,19 @@ public class AdocaoService {
             petRepository.save(pet);
             adocaoRepository.save(adocao);
         }
+    }
+    public AdocaoDTO buscarPorId(Long id) {
+        Adocao adocao = adocaoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Adoção não encontrada com ID: " + id));
+
+        AdocaoDTO dto = new AdocaoDTO();
+        dto.setIdCliente(adocao.getCliente().getId());
+
+        List<Long> ids = adocao.getPets().stream()
+                .map(Pet::getId)
+                .toList();
+        dto.setIdsPets(ids);
+
+        return dto;
     }
 }

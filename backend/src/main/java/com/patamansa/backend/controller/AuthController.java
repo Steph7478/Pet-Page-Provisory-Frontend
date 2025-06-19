@@ -9,6 +9,8 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -42,5 +44,14 @@ public class AuthController {
         response.setHeader("Set-Cookie", "token=; Path=/; Max-Age=0; HttpOnly; Secure; SameSite=None");
 
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<?> me(@AuthenticationPrincipal UserDetails userDetails) {
+        if (userDetails == null) {
+            return ResponseEntity.status(401).body("Usuário não autenticado");
+        }
+
+        return ResponseEntity.ok().body("Usuário logado: " + userDetails.getUsername());
     }
 }

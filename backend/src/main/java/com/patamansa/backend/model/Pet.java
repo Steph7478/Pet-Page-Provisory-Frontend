@@ -1,11 +1,9 @@
 package com.patamansa.backend.model;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.EnumType;
 
 import jakarta.persistence.*;
 
-@Table(name = "pets")
 @Entity
+@Table(name = "pets")
 public class Pet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,6 +16,7 @@ public class Pet {
     private String idade;
     private String descricao;
     private String fotoUrl;
+    private String localizacao;
 
     @Enumerated(EnumType.STRING)
     private StatusPet status;
@@ -46,7 +45,7 @@ public class Pet {
         this.nome = nome;
     }
 
-    public String getTipo () {
+    public String getTipo() {
         return tipo;
     }
 
@@ -86,20 +85,28 @@ public class Pet {
         this.descricao = descricao;
     }
 
-    public StatusPet getStatus() {
-        return status;
-    }
-
-    public void setStatus(StatusPet status) {
-        this.status = status;
+    public String getFotoUrl() {
+        return fotoUrl;
     }
 
     public void setFotoUrl(String fotoUrl) {
         this.fotoUrl = fotoUrl;
     }
 
-    public String getFotoUrl() {
-        return fotoUrl;
+    public String getLocalizacao() {
+        return localizacao;
+    }
+
+    public void setLocalizacao(String localizacao) {
+        this.localizacao = localizacao;
+    }
+
+    public StatusPet getStatus() {
+        return status;
+    }
+
+    public void setStatus(StatusPet status) {
+        this.status = status;
     }
 
     public User getOwner() {
