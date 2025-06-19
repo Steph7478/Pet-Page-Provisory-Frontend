@@ -28,7 +28,7 @@ const Login = () => {
       <Input
         intent={"auth"}
         value={login.userEmail}
-        className="py-3"
+        className="py-3 "
         onChange={handleChange("userEmail")}
         type="email"
         placeholder="Email"
@@ -36,7 +36,7 @@ const Login = () => {
       <Input
         intent={"auth"}
         value={login.password}
-        className="py-3"
+        className="py-3 "
         onChange={handleChange("password")}
         type="password"
         placeholder="Senha"

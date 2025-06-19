@@ -2,7 +2,7 @@
 
 import AuthSwitch from "@/hooks/api/useAuthSwitch";
 import Link from "next/link";
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import {MdLogout} from "react-icons/md";
 import {HiMenuAlt3} from "react-icons/hi";
 import {IoCloseSharp} from "react-icons/io5";
@@ -24,16 +24,16 @@ const Navbar = () => {
     {name: "Entrar", href: "/login"},
   ];
 
-  const isLogged = [
-    {
-      name: "Painel",
-      href:
-        user?.role === "adotante"
-          ? `/adotante/${user?.id}`
-          : `/anunciante/${user?.id}`,
-    },
-    {name: "Adotar", href: "/adotar"},
-  ];
+  const isLogged = useMemo(() => {
+    if (!user) return [];
+    return [
+      {
+        name: "Painel",
+        href: user.role === "adotante" ? `/adotante` : `/anunciante`,
+      },
+      {name: "Adotar", href: "/adotar"},
+    ];
+  }, [user]);
 
   useEffect(() => {
     document.body.classList.toggle("body-no-scroll", isOpen);
