@@ -17,6 +17,9 @@ public class FormularioAdocao {
     private boolean teveAnimaisAntes;
     private boolean ambienteSeguro;
 
+    @Column(nullable = false)
+    private String localizacao;
+
     @ManyToOne
     @JoinColumn(name = "client_Id")
     private User client;
@@ -24,6 +27,9 @@ public class FormularioAdocao {
     @ManyToOne
     @JoinColumn(name = "pet_Id")
     private Pet pet;
+
+    public FormularioAdocao() {
+    }
 
     public Long getId() {
         return id;
@@ -103,5 +109,13 @@ public class FormularioAdocao {
 
     public void setPet(Pet pet) {
         this.pet = pet;
+    }
+
+    public String getLocalizacao() {
+        return localizacao;
+    }
+
+    public void setLocalizacao(String localizacao) {
+        this.localizacao = localizacao;
     }
 }
