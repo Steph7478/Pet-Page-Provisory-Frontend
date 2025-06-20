@@ -1,11 +1,15 @@
+import React from "react";
 import {useRegisterPet} from "@/hooks/api/pet/useRegisterPet";
 import {FormularioWrapper} from "@/hooks/ui/useModal";
-import {PetInfos} from "@/types/pet";
 import {toast} from "@/ui/CustomToaster";
 import {IoClose} from "react-icons/io5";
 import {PorteField} from "./PorteField";
-import {FormFields} from "./FormField";
+import {useForm} from "react-hook-form";
+import {zodResolver} from "@hookform/resolvers/zod";
+import {PetFormSchema, petSchema} from "@/schemas/pet";
+import FormField from "@/common/components/FormField";
 import {FieldConfigRegister} from "@/types/fields";
+import {useAuth} from "@/hooks/api/auth/useIsAuth";
 
 const Modal = ({
   setIsOpen,
@@ -13,18 +17,30 @@ const Modal = ({
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const {mutate, isPending, isSuccess, isError} = useRegisterPet();
+  const {data: authData} = useAuth();
+  const clientId = authData?.id;
 
-  const initialValues: Partial<PetInfos> = {
-    nome: "",
-    raca: "",
-    porte: "",
-    idade: 0,
-    descricao: "",
-    localizacao: "",
-    fotoUrl: "",
-  };
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    formState: {errors},
+  } = useForm<PetFormSchema>({
+    resolver: zodResolver(petSchema),
+    defaultValues: {
+      owner: clientId,
+      nome: "",
+      raca: "",
+      porte: undefined,
+      idade: 0,
+      descricao: "",
+      localizacao: "",
+      fotoUrl: "",
+    },
+  });
 
-  const fields: FieldConfigRegister<Partial<PetInfos>>[] = [
+  const fields: FieldConfigRegister<PetFormSchema>[] = [
     {label: "Nome", field: "nome", type: "text", placeholder: "Nome do pet"},
     {label: "Raça", field: "raca", type: "text", placeholder: "Raça do pet"},
     {
@@ -53,6 +69,10 @@ const Modal = ({
     },
   ];
 
+  const submit = (data: PetFormSchema) => {
+    mutate(data);
+  };
+
   return (
     <>
       <div className="fixed inset-0 bg-black/75 z-50 flex justify-center items-center">
@@ -78,8 +98,7 @@ const Modal = ({
           </h2>
 
           <FormularioWrapper
-            initialValues={initialValues}
-            onSubmit={(data) => mutate(data as PetInfos)}
+            onSubmit={handleSubmit(submit)}
             isPending={isPending}
             isSuccess={isSuccess}
             isError={isError}
@@ -89,20 +108,29 @@ const Modal = ({
             }}
             onError={() => toast.error("Falha ao cadastrar pet")}
           >
-            {(form, {handleChange, setFieldValue}) => (
-              <div className="flex flex-col gap-4">
-                <FormFields
-                  form={form}
-                  handleChange={handleChange}
-                  fields={fields}
+            <div className="flex flex-col gap-4">
+              {fields.map(({label, field, type, placeholder}) => (
+                <FormField
+                  key={String(field)}
+                  label={label}
+                  type={type}
+                  placeholder={placeholder}
+                  required
+                  {...register(
+                    field,
+                    field === "idade" ? {valueAsNumber: true} : {}
+                  )}
+                  error={errors[field]?.message}
                 />
-                <PorteField
-                  form={form}
-                  setFieldValue={setFieldValue}
-                  field="porte"
-                />
-              </div>
-            )}
+              ))}
+
+              <PorteField<PetFormSchema, "porte">
+                value={watch("porte")}
+                onChange={(val) =>
+                  setValue("porte", val, {shouldValidate: true})
+                }
+              />
+            </div>
           </FormularioWrapper>
         </div>
       </div>

@@ -1,63 +1,30 @@
-export type Handlers<T> = {
-  handleChange: (
-    field: keyof T
-  ) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
-  setFieldValue: <K extends keyof T>(field: K, value: T[K]) => void;
-};
-
-export type FormularioWrapperProps<T> = {
-  initialValues: T;
-  onSubmit: (data: T) => void;
-  isPending?: boolean;
-  isSuccess?: boolean;
-  isError?: boolean;
-  onSuccess?: () => void;
-  onError?: () => void;
-  children: (form: T, handlers: Handlers<T>) => React.ReactNode;
-};
-
-export type PorteFieldProps<T, K extends keyof T> = {
-  form: T;
-  setFieldValue: (field: K, value: T[K]) => void;
-  field: K;
-};
-
-export type FieldConfig<T> = {
-  label: string;
-  field: keyof T;
-  type: "text" | "email" | "number" | "textarea";
-  placeholder: string;
-};
-
-export type FormFieldsProps<T> = {
-  form: T;
-  handleChange: (
-    field: keyof T
-  ) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
-  fields: FieldConfig<T>[];
-};
-
-export type FieldConfigRegister<T> = {
-  label: string;
-  field: keyof T;
-  type: "text" | "number" | "textarea";
-  placeholder: string;
-};
+export interface PorteFieldProps<T, K extends keyof T> {
+  label?: string;
+  value: T[K];
+  onChange: (value: T[K]) => void;
+  options?: readonly T[K][];
+}
 
 export type BooleanFieldProps = {
   label: string;
-  value?: string | boolean | null | undefined;
+  value?: boolean | undefined;
   onChange: (val: boolean) => void;
 };
 
-export type FormFieldPropsAdopt = {
+export interface FormFieldPropsAdopt {
   label: string;
-  value: string | number | null | undefined;
-  onChange: (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => void;
-  type?: "text" | "email" | "tel" | "textarea";
+  type?: string;
   required?: boolean;
   rows?: number;
   placeholder?: string;
-};
+  error?: string;
+}
+
+export type InputType = "text" | "number" | "email" | "tel" | "textarea";
+
+export interface FieldConfigRegister<T> {
+  label: string;
+  field: keyof T;
+  type: InputType;
+  placeholder?: string;
+}

@@ -2,9 +2,13 @@ import React from "react";
 import Checkbox from "@/ui/checkbox";
 import {BooleanFieldProps} from "@/types/fields";
 
-const BooleanField = ({label, value, onChange}: BooleanFieldProps) => {
+const BooleanField: React.FC<BooleanFieldProps> = ({
+  label,
+  value,
+  onChange,
+}) => {
   return (
-    <div className="flex flex-col justify-center items-center ">
+    <div className="flex flex-col justify-center items-center">
       <h3 className="mb-1">{label}</h3>
       <div className="flex gap-3">
         <Checkbox
@@ -25,5 +29,4 @@ const BooleanField = ({label, value, onChange}: BooleanFieldProps) => {
     </div>
   );
 };
-
 export default BooleanField;
