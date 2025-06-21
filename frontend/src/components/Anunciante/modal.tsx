@@ -1,6 +1,6 @@
 import React from "react";
 import {useRegisterPet} from "@/hooks/api/pet/useRegisterPet";
-import {FormularioWrapper} from "@/hooks/ui/useModal";
+import {FormularioWrapper} from "@/hooks/components/useModal";
 import {toast} from "@/ui/CustomToaster";
 import {IoClose} from "react-icons/io5";
 import {PorteField} from "./PorteField";
