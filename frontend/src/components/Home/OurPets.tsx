@@ -28,13 +28,12 @@ const OurPets = () => {
   const renderPet = (index: number) => {
     const fade = fadeIn[index + 1];
     const pet = limitedPets[index];
-    const hasError = !pet && isError;
 
-    const name = isLoading
-      ? "Carregando..."
-      : hasError
-      ? "Sem resultados"
-      : pet?.nome ?? "Sem nome";
+    const name =
+      pet?.nome ??
+      (isLoading ? "Carregando..." : isError ? "Erro ao carregar" : "Sem nome");
+
+    const imageUrl = pet && isValidUrl(pet.fotoUrl) && pet.fotoUrl;
 
     return (
       <motion.div
@@ -47,23 +46,19 @@ const OurPets = () => {
           className={`${bgColors[index]} rounded-full items-center justify-center flex flex-col gap-y-5 w-[250px] h-[250px] overflow-hidden`}
         >
           {isLoading ? (
-            <div className="w-full h-full flex items-center justify-center text-white text-2xl font-bold">
-              ...
-            </div>
-          ) : hasError ? (
-            <div className="w-full h-full flex items-center justify-center text-white text-center px-4 font-semibold">
-              Não encontrado
-            </div>
+            <p>Carregando...</p>
+          ) : !imageUrl ? (
+            <p>Erro ao carregar a foto</p>
           ) : (
-            <Image
-              src={
-                pet && isValidUrl(pet.fotoUrl) ? pet.fotoUrl : "/defaultdog.png"
-              }
-              width={800}
-              height={800}
-              className="w-full h-full object-cover rounded-full"
-              alt={name}
-            />
+            <>
+              <Image
+                src={imageUrl}
+                width={800}
+                height={800}
+                className="w-full h-full object-cover rounded-full"
+                alt={name}
+              />
+            </>
           )}
         </div>
         <Button intent={petIntents[index]}>{name}</Button>
@@ -77,7 +72,7 @@ const OurPets = () => {
         <motion.h2
           ref={fadeIn[0].ref}
           {...fadeIn[0].animationProps}
-          className=" max-[400px]:text-wrap text-center max-[500px]:text-5xl max-[600px]:text-6xl min-[600px]:text-7xl font-extrabold text-nowrap tracking-wide text-[var(--brown)]"
+          className="max-[400px]:text-wrap text-center max-[500px]:text-5xl max-[600px]:text-6xl min-[600px]:text-7xl font-extrabold text-nowrap tracking-wide text-[var(--brown)]"
         >
           Nossos Pets
         </motion.h2>
