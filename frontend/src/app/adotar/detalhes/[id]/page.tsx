@@ -24,7 +24,7 @@ const Detalhes = () => {
 
   return (
     <ProtectedRoute>
-      <div className="bg-[var(--light-brown)] flex justify-center items-center min-h-screen px-2 py-20">
+      <div className="bg-[var(--light-brown)] flex justify-center items-center min-h-screen px-2 pb-10 pt-24">
         <div className="max-w-[800px] w-full h-full flex justify-center items-center">
           <div className="w-full bg-[var(--light-yellow)] max-[800px]:max-w-[400px] max-[800px]:flex-col flex rounded-lg overflow-x-hidden">
             <div className="w-full min-[800px]:w-[40%] max-[800px]:h-[400px]  md:h-auto relative">

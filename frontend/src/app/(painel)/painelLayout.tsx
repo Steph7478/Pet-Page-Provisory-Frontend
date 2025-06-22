@@ -180,7 +180,7 @@ const AdoptionPanel: React.FC<AdoptionPanelProps> = ({type, userId}) => {
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen w-full bg-[var(--light-yellow)] px-6 py-20 flex flex-col">
+      <div className="min-h-screen w-full bg-[var(--light-yellow)] px-6 pt-20 pb-10 flex flex-col">
         {isOpen && <Modal setIsOpen={setIsOpen} />}
         <div className="max-w-[1000px] w-full mx-auto">
           <header className="text-center mb-8 flex-shrink-0">
