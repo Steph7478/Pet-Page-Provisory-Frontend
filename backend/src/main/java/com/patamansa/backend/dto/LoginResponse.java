@@ -1,13 +1,5 @@
 package com.patamansa.backend.dto;
 
-import lombok.Getter;
+public record LoginResponse(String token) {}
 
-@Getter
-public class LoginResponse {
-    private String token;
-
-    public LoginResponse(String token) {
-        this.token = token;
-    }
-}
 

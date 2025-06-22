@@ -36,7 +36,8 @@ public class JwtFilter extends OncePerRequestFilter {
         if (path.startsWith("/auth/login") ||
                 path.startsWith("/auth/register") ||
                 path.startsWith("/oauth2/") ||
-                path.startsWith("/login/oauth2/")) {
+                path.startsWith("/auth/refresh") ||
+        path.startsWith("/login/oauth2/")) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -77,7 +78,6 @@ public class JwtFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         }
-
 
         filterChain.doFilter(request, response);
     }

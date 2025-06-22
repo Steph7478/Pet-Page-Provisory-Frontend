@@ -31,7 +31,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
                 )
         );
 
-        String frontendUrl = "https://pata-mansa-site-de-adocao.vercel.app/adotar";
+        String frontendUrl = "https://pata-mansa-site-de-adocao.vercel.app";
         response.sendRedirect(frontendUrl);
     }
 }

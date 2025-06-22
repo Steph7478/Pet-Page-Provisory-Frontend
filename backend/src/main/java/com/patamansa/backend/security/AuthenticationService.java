@@ -1,11 +1,14 @@
 package com.patamansa.backend.security;
 
+import com.nimbusds.oauth2.sdk.http.HTTPResponse;
+import com.patamansa.backend.model.RefreshToken;
 import com.patamansa.backend.model.User;
 import com.patamansa.backend.model.Role;
 import com.patamansa.backend.repository.UserRepository;
 import com.patamansa.backend.dto.LoginRequest;
 import com.patamansa.backend.dto.LoginResponse;
 import com.patamansa.backend.dto.RegisterRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -27,6 +30,12 @@ public class AuthenticationService {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @Autowired
+    private RefreshTokenService refreshTokenService;
+
+    @Autowired
+    private CookieUtil cookieUtil;
+
     public LoginResponse register(RegisterRequest request) {
 
         if (userRepository.findByEmail(request.getUserEmail()).isPresent()) {
@@ -45,15 +54,30 @@ public class AuthenticationService {
         return new LoginResponse(jwt);
     }
 
-    public LoginResponse login(LoginRequest request) {
-        var auth = new UsernamePasswordAuthenticationToken(
-                request.getUserEmail(),
-                request.getPassword()
-        );
-        authenticationManager.authenticate(auth);
+    public LoginResponse login(LoginRequest request,
+                               HttpServletResponse response) {
 
-        String jwt = jwtService.gerarToken(request.getUserEmail());
-        return new LoginResponse(jwt);
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        request.getUserEmail(),
+                        request.getPassword()
+                )
+        );
+
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        request.getUserEmail(), request.getPassword()));
+
+        User user = userRepository.findByEmail(request.getUserEmail())
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+        String access = jwtService.gerarToken(user.getEmail());
+        cookieUtil.addAuthCookie(response, access);
+
+        RefreshToken rt = refreshTokenService.create(user);
+        cookieUtil.addRefreshCookie(response, rt.getToken());
+
+        return new LoginResponse(access);
+
     }
 }
-
