@@ -31,7 +31,7 @@ export default function AuthLayout({
   }, [isError]);
 
   return (
-    <div className="w-full min-h-screen bg-[var(--brown-fosco)] h-full flex overflow-x-hidden justify-center items-center text-white">
+    <div className="w-full min-h-screen bg-[var(--brown-fosco)] h-full flex overflow-x-hidden justify-center items-center pt-12 text-white">
       <section className="relative flex items-center justify-center min-h-[630px] h-full max-w-[1150px] w-full">
         <div className="w-[400px] h-[400px] -translate-y-10 flex justify-center items-center absolute left-2">
           <Image
