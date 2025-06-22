@@ -33,3 +33,10 @@ application:
   security:
     jwt:
       secret-key: ${JWT_SECRET_KEY}
+
+app:
+  cookie:
+    domain: "patamansasitedeadocao-production.up.railway.app"
+    max-age: 900
+    secure: true
+
