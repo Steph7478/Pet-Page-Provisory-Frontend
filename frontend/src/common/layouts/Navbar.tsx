@@ -45,7 +45,7 @@ const Navbar = () => {
     <nav className="w-full absolute top-0 z-50 bg-[var(--brown)] h-[50px] flex justify-center">
       <ul className="flex w-full max-w-[90%] justify-center h-full items-center">
         <Link
-          className="mr-auto text-white font-bold tracking-wide max-w-10 max-h-10"
+          className="mr-auto text-white font-bold tracking-wide max-w-10 max-h-10 flex items-center gap-2"
           href="/"
         >
           <Image
@@ -55,6 +55,10 @@ const Navbar = () => {
             src="/favicon.png"
             alt="logo"
           />
+
+          <p className="font-semibold text-green-400 brightness-110">
+            PataMansa
+          </p>
         </Link>
 
         <div className="text-[var(--gray)] h-full uppercase font-semibold text-sm flex gap-5 items-center">

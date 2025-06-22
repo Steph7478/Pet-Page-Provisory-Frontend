@@ -64,10 +64,9 @@ const Adoption = () => {
               {...fadeIn[1].animationProps}
               className="min-[820px]:w-[75%] max-[820px]:w-full text-white/75"
             >
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-              Reprehenderit harum dolorum asperiores qui fugiat amet, soluta
-              odio neque quia eligendi aperiam dignissimos natus nihil, modi
-              doloremque deleniti? Blanditiis, temporibus ipsa?
+              Adotar é um gesto de amor que transforma vidas. Dê uma chance a um
+              pet que espera por carinho e um lar. Ele ganha uma família, e
+              você, um amigo fiel para todos os momentos.
             </motion.p>
 
             <motion.div

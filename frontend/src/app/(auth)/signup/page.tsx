@@ -14,7 +14,13 @@ import {createHandleSubmit} from "@/hooks/forms/handleUseFormSubmit";
 const SignUp = () => {
   const {mutate, isPending, isError} = useSignup();
 
-  const {register, handleSubmit, setValue, watch} = useForm<RegisterSchema>({
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    formState: {errors},
+  } = useForm<RegisterSchema>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
       role: "adotante",
@@ -32,6 +38,12 @@ const SignUp = () => {
       toast.error("Credenciais inválidas");
     }
   }, [isError]);
+
+  useEffect(() => {
+    if (errors.password?.message) {
+      toast.error(errors.password.message);
+    }
+  }, [errors.password]);
 
   const handleSelectRole = (role: "adotante" | "anunciante") => {
     setValue("role", role, {shouldValidate: true});
@@ -79,7 +91,7 @@ const SignUp = () => {
       />
       <Input
         intent={"auth"}
-        className="py-3"
+        className={`py-3 ${errors.password && "border-1 border-red-500"}`}
         {...register("password")}
         type="password"
         placeholder="Senha"

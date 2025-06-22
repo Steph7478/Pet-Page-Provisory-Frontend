@@ -64,8 +64,8 @@ export default function SimpleSlider() {
         />
 
         <div className="w-full max-w-[1000px] min-h-[520px] max-h-[520px] py-20 max-[800px]:px-2 flex justify-center items-center">
-          <div className="overflow-y-auto h-full flex justify-center scroll-container ">
-            <div className="flex flex-wrap items-center justify-center">
+          <div className="overflow-y-auto h-full flex scroll-container ">
+            <div className="flex flex-wrap max-[768px]:flex-nowrap items-center justify-center">
               <div className="text-[var(--brown)] text-2xl font-bold">
                 {isLoading && <span>Carregando pets...</span>}
                 {error && <span>Erro ao carregar pets.</span>}

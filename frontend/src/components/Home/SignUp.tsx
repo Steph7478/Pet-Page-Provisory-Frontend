@@ -41,10 +41,9 @@ const SignUp = () => {
               {...fadeIn[2].animationProps}
               className="max-w-[300px] w-full"
             >
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-              Accusamus, quasi autem? Eveniet delectus exercitationem vel
-              veritatis maiores a, qui architecto sequi perferendis quasi quam
-              ratione magni eum excepturi sit ullam.
+              Junte-se a essa rede de amor e transformação. Crie sua conta e
+              comece hoje mesmo a mudar o destino de um pet. Seja para adotar,
+              doar ou apoiar essa causa tão especial.
             </motion.p>
           </div>
         </div>
@@ -86,10 +85,10 @@ const SignUp = () => {
                 {...fadeIn[5].animationProps}
                 className="max-w-[300px] text-[var(--light-brown)] w-full"
               >
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                Accusamus, quasi autem? Eveniet delectus exercitationem vel
-                veritatis maiores a, qui architecto sequi perferendis quasi quam
-                ratione magni eum excepturi sit ullam.
+                Entre e conheça os pets que estão esperando por você! Acesse sua
+                conta e descubra companheiros incríveis à procura de um lar
+                cheio de amor. O próximo melhor amigo da sua vida pode estar a
+                um clique de distância.
               </motion.p>
             </div>
           </div>

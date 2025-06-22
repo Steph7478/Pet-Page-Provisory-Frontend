@@ -5,6 +5,7 @@ import Button from "@/ui/button";
 import {isValidUrl} from "@/utils/isValidUrl";
 import {motion} from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 const OurPets = () => {
@@ -61,7 +62,9 @@ const OurPets = () => {
             </>
           )}
         </div>
-        <Button intent={petIntents[index]}>{name}</Button>
+        <Link href={`/adotar/detalhes/${pet?.id}`}>
+          <Button intent={petIntents[index]}>{name}</Button>
+        </Link>
       </motion.div>
     );
   };

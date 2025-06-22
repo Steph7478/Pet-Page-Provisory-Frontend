@@ -40,10 +40,9 @@ const Header = () => {
               Dê um lar para seu pet.
             </h3>
             <p className="text-[var(--gray)]">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi
-              incidunt obcaecati assumenda nesciunt quis similique, facere,
-              nihil ratione, adipisci quasi ipsam dolorum dicta ab omnis porro
-              necessitatibus asperiores corporis numquam.
+              Ofereça amor, cuidado e um lar acolhedor para animais que esperam
+              por uma segunda chance. Ao adotar, você transforma vidas — a do
+              pet e a sua também.
             </p>
           </div>
         </motion.div>
