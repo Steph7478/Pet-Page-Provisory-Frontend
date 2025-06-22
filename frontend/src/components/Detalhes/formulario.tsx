@@ -74,7 +74,9 @@ const Modal = ({setIsOpen}: {setIsOpen: (open: boolean) => void}) => {
           size={28}
         />
 
-        <h2 className="text-xl font-semibold mb-2">Formulário</h2>
+        <h2 className="text-xl font-semibold mb-2 text-[var(--brown)]">
+          Formulário
+        </h2>
 
         <FormularioWrapper
           onSubmit={handleSubmit(submit)}

@@ -73,12 +73,11 @@ const Detalhes = () => {
               >
                 Iniciar adoção
               </Button>
-
-              {isOpen && <Modal setIsOpen={setIsOpen} />}
             </div>
           </motion.div>
         </div>
       </div>
+      {isOpen && <Modal setIsOpen={setIsOpen} />}
     </ProtectedRoute>
   );
 };
