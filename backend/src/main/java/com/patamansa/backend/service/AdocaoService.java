@@ -8,6 +8,7 @@ import com.patamansa.backend.model.User;
 import com.patamansa.backend.repository.AdocaoRepository;
 import com.patamansa.backend.repository.PetRepository;
 import com.patamansa.backend.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +26,7 @@ public class AdocaoService {
     @Autowired
     private UserRepository userRepository;
 
+    @Transactional
     public void registrarAdocao(AdocaoDTO dto) {
         User cliente = userRepository.findById(dto.getIdCliente())
                 .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));

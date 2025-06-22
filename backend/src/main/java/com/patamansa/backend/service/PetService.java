@@ -6,6 +6,9 @@ import com.patamansa.backend.model.StatusPet;
 import com.patamansa.backend.model.User;
 import com.patamansa.backend.repository.PetRepository;
 import com.patamansa.backend.repository.UserRepository;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,9 +38,18 @@ public class PetService {
         pet.setStatus(StatusPet.valueOf(dto.getStatus()));
         pet.setLocalizacao(dto.getLocalizacao());
 
+        User owner;
 
-        User owner = userRepository.findById(dto.getOwnerId())
-                .orElseThrow(() -> new RuntimeException("Usuário (owner) não encontrado com ID: " + dto.getOwnerId()));
+        if (dto.getOwnerId() != null) {
+            owner = userRepository.findById(dto.getOwnerId())
+                    .orElseThrow(() -> new RuntimeException("Usuário (owner) não encontrado com ID: " + dto.getOwnerId()));
+        } else {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String email = authentication.getName();
+
+            owner = userRepository.findByEmail(email)
+                    .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
+        }
 
         pet.setOwner(owner);
 

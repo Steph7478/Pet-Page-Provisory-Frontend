@@ -35,3 +35,4 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
         response.sendRedirect(frontendUrl);
     }
 }
+

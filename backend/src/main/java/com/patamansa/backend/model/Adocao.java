@@ -18,7 +18,7 @@ public class Adocao {
     @ManyToOne
     private User cliente;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.PERSIST)
     private List<Pet> pets = new ArrayList<>();
 
     private LocalDate dataAdocao = LocalDate.now();
