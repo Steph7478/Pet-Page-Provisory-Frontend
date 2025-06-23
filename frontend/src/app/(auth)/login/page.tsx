@@ -12,7 +12,11 @@ import {createHandleSubmit} from "@/hooks/forms/handleUseFormSubmit";
 const Login = () => {
   const {mutate, isPending, isError} = useLogin();
 
-  const {register, handleSubmit} = useForm<LoginSchema>({
+  const {
+    register,
+    handleSubmit,
+    formState: {errors},
+  } = useForm<LoginSchema>({
     resolver: zodResolver(loginSchema),
   });
 
@@ -21,10 +25,10 @@ const Login = () => {
   });
 
   useEffect(() => {
-    if (isError) {
-      toast.error("Credenciais inválidas");
+    if (errors.password?.message) {
+      toast.error(errors.password.message);
     }
-  }, [isError]);
+  }, [errors.password]);
 
   return (
     <AuthLayout

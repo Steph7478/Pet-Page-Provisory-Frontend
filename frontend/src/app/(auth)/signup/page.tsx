@@ -34,12 +34,6 @@ const SignUp = () => {
   });
 
   useEffect(() => {
-    if (isError) {
-      toast.error("Credenciais inválidas");
-    }
-  }, [isError]);
-
-  useEffect(() => {
     if (errors.password?.message) {
       toast.error(errors.password.message);
     }
