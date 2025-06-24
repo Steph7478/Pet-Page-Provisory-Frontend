@@ -39,7 +39,7 @@ const SignUp = () => {
             <motion.p
               ref={fadeIn[2].ref}
               {...fadeIn[2].animationProps}
-              className="max-w-[300px] w-full"
+              className="max-w-[300px] w-full text-white"
             >
               Junte-se a essa rede de amor e transformação. Crie sua conta e
               comece hoje mesmo a mudar o destino de um pet. Seja para adotar,
