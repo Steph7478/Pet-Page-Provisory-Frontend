@@ -1,7 +1,7 @@
 "use client";
 
 import Modal from "@/components/Detalhes/formulario";
-import {usePetById} from "@/hooks/api/pet/usePetInfo";
+import {usePetById} from "@/api/services/pet/usePetInfo";
 import Button from "@/ui/button";
 import Image from "next/image";
 import React, {useState} from "react";

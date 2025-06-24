@@ -2,7 +2,7 @@
 
 import {ReactNode, useEffect} from "react";
 import {useRouter} from "next/navigation";
-import {useAuth} from "@/hooks/api/auth/useIsAuth";
+import {useAuth} from "@/api/services/auth/useIsAuth";
 import LoadingSpinner from "../layouts/Loading";
 
 type ProtectedRouteProps = {

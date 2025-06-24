@@ -4,14 +4,9 @@ import React, {useState, useEffect, useMemo, useCallback} from "react";
 import {motion, AnimatePresence} from "framer-motion";
 import {FaHeart, FaMapMarkerAlt, FaCalendarAlt, FaPlus} from "react-icons/fa";
 import {toast} from "@/ui/CustomToaster";
-import {PetInfos} from "@/types/pet";
+import {PetInfos} from "@/api/dtos/pet.dto";
 import Button from "@/ui/button";
-import {
-  useAllowAdoption,
-  useDenyAdoption,
-  usePetsByAdvertiser,
-} from "@/hooks/api/user/useAnunciante";
-import {usePetsByClient} from "@/hooks/api/user/useAdotante";
+
 import ProtectedRoute from "@/common/routes/ProtectedRoute";
 import Image from "next/image";
 import Modal from "@/components/Anunciante/modal";
@@ -21,6 +16,13 @@ import {
   dogItemVariants,
   getDogItemTransition,
 } from "@/ui/motionVariants";
+import {usePetsByClient} from "@/api/services/user/useAdotante";
+import {
+  usePetsByAdvertiser,
+  useAllowAdoption,
+  useDenyAdoption,
+} from "@/api/services/user/useAnunciante";
+import {FormularioItem} from "@/types/formulario";
 
 interface AdoptionPanelProps {
   type: "adopter" | "advertiser";
@@ -55,8 +57,8 @@ const AdoptionPanel: React.FC<AdoptionPanelProps> = ({type, userId}) => {
 
     if (type === "adopter") {
       const userPetsIds = (formulario ?? [])
-        .filter((f) => f.clientId === userId)
-        .map((f) => f.id);
+        .filter((f: FormularioItem) => f.clientId === userId)
+        .map((f: FormularioItem) => f.id);
       return sorted.filter((dog) => userPetsIds.includes(dog.id));
     }
 
@@ -68,7 +70,9 @@ const AdoptionPanel: React.FC<AdoptionPanelProps> = ({type, userId}) => {
 
   const formularioSelecionado = useMemo(() => {
     if (type !== "advertiser" || !selectedDog) return null;
-    return formulario?.find((f) => f.id === selectedDog.id) || null;
+    return (
+      formulario?.find((f: FormularioItem) => f.id === selectedDog.id) || null
+    );
   }, [formulario, selectedDog, type]);
 
   useEffect(() => {

@@ -1,5 +1,5 @@
 import React from "react";
-import {useFormulario} from "@/hooks/api/formulario/useFormulario";
+import {useFormulario} from "@/api/services/formulario/useFormulario";
 import {FormSchema, formulario} from "@/schemas/formulario";
 import {toast} from "@/ui/CustomToaster";
 import {IoClose} from "react-icons/io5";
@@ -8,7 +8,7 @@ import FormField from "../../common/components/FormField";
 import BooleanField from "./BooleanField";
 import Checkbox from "@/ui/checkbox";
 import {useParams} from "next/navigation";
-import {useAuth} from "@/hooks/api/auth/useIsAuth";
+import {useAuth} from "@/api/services/auth/useIsAuth";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 

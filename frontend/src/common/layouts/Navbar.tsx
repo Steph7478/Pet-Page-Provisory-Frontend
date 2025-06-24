@@ -1,13 +1,13 @@
 "use client";
 
-import AuthSwitch from "@/hooks/api/auth/useAuthSwitch";
+import AuthSwitch from "@/api/services/auth/useAuthSwitch";
 import Link from "next/link";
 import React, {useEffect, useMemo, useState} from "react";
 import {MdLogout} from "react-icons/md";
 import {HiMenuAlt3} from "react-icons/hi";
 import {IoCloseSharp} from "react-icons/io5";
-import {useLogout} from "@/hooks/api/auth/useLogout";
-import {useAuth} from "@/hooks/api/auth/useIsAuth";
+import {useLogout} from "@/api/services/auth/useLogout";
+import {useAuth} from "@/api/services/auth/useIsAuth";
 import Image from "next/image";
 
 const Navbar = () => {

@@ -2,7 +2,7 @@
 import Input from "@/ui/input";
 import React, {useEffect} from "react";
 import AuthLayout from "../AuthLayout";
-import {useLogin} from "@/hooks/api/auth/useLogin";
+import {useLogin} from "@/api/services/auth/useLogin";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {toast} from "@/ui/CustomToaster";

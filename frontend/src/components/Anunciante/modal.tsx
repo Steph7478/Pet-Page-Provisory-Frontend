@@ -1,5 +1,5 @@
 import React from "react";
-import {useRegisterPet} from "@/hooks/api/pet/useRegisterPet";
+import {useRegisterPet} from "@/api/services/pet/useRegisterPet";
 import {FormularioWrapper} from "@/hooks/components/useModal";
 import {toast} from "@/ui/CustomToaster";
 import {IoClose} from "react-icons/io5";
@@ -9,7 +9,7 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import {PetFormSchema, petSchema} from "@/schemas/pet";
 import FormField from "@/common/components/FormField";
 import {FieldConfigRegister} from "@/types/fields";
-import {useAuth} from "@/hooks/api/auth/useIsAuth";
+import {useAuth} from "@/api/services/auth/useIsAuth";
 
 const Modal = ({
   setIsOpen,

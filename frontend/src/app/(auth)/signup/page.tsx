@@ -2,7 +2,7 @@
 import React, {useEffect} from "react";
 import AuthLayout from "../AuthLayout";
 import Input from "@/ui/input";
-import {useSignup} from "@/hooks/api/auth/useRegister";
+import {useSignup} from "@/api/services/auth/useRegister";
 import Button from "@/ui/button";
 import {toast} from "@/ui/CustomToaster";
 import {useForm} from "react-hook-form";

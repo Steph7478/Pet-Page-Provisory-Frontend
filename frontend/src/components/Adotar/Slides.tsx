@@ -1,12 +1,12 @@
 "use client";
-import {usePetInfo} from "@/hooks/api/pet/usePetInfo";
+import {usePetInfo} from "@/api/services/pet/usePetInfo";
 import Button from "@/ui/button";
 import Image from "next/image";
 import Link from "next/link";
 import {useCallback, useMemo, useState} from "react";
 import Sidebar from "./Sidebar";
 import {motion} from "framer-motion";
-import {PetInfos} from "@/types/pet";
+import {PetInfos} from "@/api/dtos/pet.dto";
 import {Filters} from "@/types/slides";
 import {isValidUrl} from "@/utils/isValidUrl";
 

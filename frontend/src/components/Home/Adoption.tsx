@@ -6,7 +6,7 @@ import {motion} from "framer-motion";
 import {useFadeIn} from "@/hooks/ui/useFadeIn";
 import Link from "next/link";
 import {useScaleIn} from "@/hooks/ui/useScaleIn";
-import {useAuth} from "@/hooks/api/auth/useIsAuth";
+import {useAuth} from "@/api/services/auth/useIsAuth";
 
 const Adoption = () => {
   const fadeIn = [useFadeIn(), useFadeIn(), useFadeIn()];
