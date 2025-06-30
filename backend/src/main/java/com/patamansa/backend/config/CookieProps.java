@@ -9,7 +9,6 @@ public class CookieProps {
     private long   maxAge;   // segundos
     private boolean secure;
 
-    /* getters & setters */
     public String  getDomain()        { return domain; }
     public long    getMaxAge()        { return maxAge; }
     public boolean isSecure()         { return secure; }

@@ -36,7 +36,7 @@ application:
 
 app:
   cookie:
-    domain: "patamansasitedeadocao-production.up.railway.app"
-    max-age: 900
-    secure: true
+    domain: ${APP_COOKIE_DOMAIN}
+    max-age: ${APP_COOKIE_MAX_AGE:604800}
+    secure: ${APP_COOKIE_SECURE:true}
 
