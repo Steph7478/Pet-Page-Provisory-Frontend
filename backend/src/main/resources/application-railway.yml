@@ -9,7 +9,8 @@ spring:
 
   flyway:
     enabled: true
-    baselineOnMigrate: true
+    baseline-on-migrate: true
+    baseline-version: 1
 
   security:
     oauth2:
