@@ -73,12 +73,12 @@ const SobreNos = () => {
       <div className="max-w-[800px] w-full flex justify-center items-center flex-col overflow-hidden py-[50px] gap-20 overflow-x-hidden">
         {sobre(
           [
-            `Olá, sou a <span class="text-green-500">Maeli Palharini</span>`,
-            `Sou desenvolvedora <span class="text-red-500">Backend.</span>`,
+            `Olá, sou o <span class="text-green-500">Oelinton</span>`,
+            `Sou desenvolvedor <span class="text-red-500">Frontend.</span>`,
           ],
-          "Back-end",
-          "/Maeli.jpg",
-          "Engenheira e mestra de formação e apaixonada por tecnologia desde criança.  Depois de anos atuando em outra área, decidi seguir meu coração e mergulhar de vez no universo da programação. <br> Trabalho com linguagens como Java, Python e JavaScript e também estou me desenvolvendo com ferramentas como AWS. Estou sempre em busca de aprender mais e criar soluções práticas e inteligentes com código.",
+          "",
+          "/",
+          "",
           0,
           1,
           2
@@ -87,11 +87,11 @@ const SobreNos = () => {
         {sobre(
           [
             `Ola! Eu sou a <span class="text-green-500">Stephanie Gurgel.</span>`,
-            `Sou desenvolvedora <span class="text-red-500">Frontend.</span>`,
+            `Sou desenvolvedora <span class="text-red-500">Fullstack.</span>`,
           ],
-          "Front-end",
+          "Fullstack",
           "/Steph.png",
-          "Desenvolvedora frontend com foco em performance, acessibilidade e escalabilidade. Utilizo React, Next.js, Tailwind CSS e TypeScript como stack principal. Tenho experiência sólida no consumo de APIs REST, gerenciamento de estado e cache com React Query, e construção de componentes reutilizáveis com atenção a boas práticas de UI/UX. Priorizo código limpo, modular e de fácil manutenção, com atenção especial à estrutura, responsividade e experiência do usuário.",
+          "Desenvolvedora Fullstack com foco em performance, acessibilidade e escalabilidade. Utilizo React, Next.js, Tailwind CSS e TypeScript como stack principal. Tenho experiência sólida no consumo de APIs REST, gerenciamento de estado e cache com React Query, e construção de componentes reutilizáveis com atenção a boas práticas de UI/UX. Priorizo código limpo, modular e de fácil manutenção, com atenção especial à estrutura, responsividade e experiência do usuário.",
           3,
           4,
           5
