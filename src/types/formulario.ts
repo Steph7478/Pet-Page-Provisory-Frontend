@@ -1,4 +1,4 @@
 export type FormularioItem = {
-    clientId: string;
-    id: string;
+  clientId: string;
+  petId: string;
   };

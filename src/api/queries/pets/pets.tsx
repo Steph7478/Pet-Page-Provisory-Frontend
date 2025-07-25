@@ -6,14 +6,14 @@ export const getPets = async () => {
   return res.data;
 };
 
-export const getPetById = async (id: string) => {
-  const res = await api.get(`${API_PATHS.pets}/${id}`);
+export const getPetById = async (petId: string) => {
+  const res = await api.get(`${API_PATHS.pets}/${petId}`);
   return res.data;
 };
 
-export const getPetsByAdvertiserId = async (owner: string) => {
+export const getPetsByAdvertiserId = async (ownerId: string) => {
   const res = await api.get(API_PATHS.pets, {
-    params: {owner},
+    params: {ownerId},
   });
   return res.data;
 };

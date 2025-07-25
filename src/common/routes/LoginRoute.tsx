@@ -15,7 +15,7 @@ export default function LoginRoute({children}: LoginRoute) {
 
   useEffect(() => {
     if (!isLoading && user) {
-      router.replace("/login");
+      router.replace("/adotar");
     }
   }, [isLoading, user, router]);
 

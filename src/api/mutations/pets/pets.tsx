@@ -1,4 +1,4 @@
-import {PetInfos} from "@/api/dtos/pet.dto";
+import {RegisterPet} from "@/api/dtos/pet.dto";
 import {api} from "../../client/axios";
 import {API_PATHS} from "@/constants/paths";
 
@@ -7,11 +7,7 @@ export const updatePet = async (id: string, data: {status: string}) => {
   return res.data;
 };
 
-export const registerPet = async (data: PetInfos) => {
-  try {
-    const res = await api.post(API_PATHS.pets, data);
-    return res.data;
-  } catch {
-    return null;
-  }
+export const registerPet = async (data: RegisterPet) => {
+  const res = await api.post(API_PATHS.pets, data);
+  return res.data;
 };

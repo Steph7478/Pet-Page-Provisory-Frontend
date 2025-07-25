@@ -8,11 +8,11 @@ export const usePetInfo = () => {
   });
 };
 
-export const usePetById = (id: string) => {
+export const usePetById = (petId: string) => {
   return useQuery({
-    queryKey: ["pet", id],
-    queryFn: () => getPetById(id),
-    enabled: !!id,
+    queryKey: ["pet", petId],
+    queryFn: () => getPetById(petId),
+    enabled: !!petId,
     staleTime: 5 * 60 * 1000,
   });
 };

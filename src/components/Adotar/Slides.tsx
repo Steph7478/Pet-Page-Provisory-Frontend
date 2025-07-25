@@ -105,7 +105,7 @@ export default function SimpleSlider() {
                       <p>Raça: {item.raca}</p>
                       <p>Idade: {item.idade}</p>
                       <p>Porte: {item.porte}</p>
-                      <Link href={`/adotar/detalhes/${item.id}`}>
+                      <Link href={`/adotar/detalhes/${item.petId}`}>
                         <Button intent="fourth" className="text-sm font-bold">
                           Ver detalhes
                         </Button>

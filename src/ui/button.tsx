@@ -30,10 +30,11 @@ type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> &
   VariantProps<typeof buttonVariants>;
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({className, intent, children, ...props}, ref) => {
+  ({className, intent, children, type = "button", ...props}, ref) => {
     return (
       <motion.button
         ref={ref}
+        type={type}
         className={cn(buttonVariants({intent}), className)}
         {...(props as React.ComponentProps<typeof motion.button>)}
       >

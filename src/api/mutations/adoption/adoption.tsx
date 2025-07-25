@@ -1,10 +1,16 @@
 import {API_PATHS} from "@/constants/paths";
 import {api} from "../../client/axios";
 
-export const updateAdoption = async (
-  clientId: string,
-  data: {id: string[]}
-) => {
-  const res = await api.patch(`${API_PATHS.adocoes}/${clientId}`, data);
+export const approveAdoption = async (data: {
+  id: string;
+  clientId: string;
+  dataAdocao: string;
+}) => {
+  const res = await api.post(`${API_PATHS.adocoes}/approve`, data);
+  return res.data;
+};
+
+export const rejectAdoption = async (data: {id: string; clientId?: string}) => {
+  const res = await api.post(`${API_PATHS.adocoes}/reject`, data);
   return res.data;
 };

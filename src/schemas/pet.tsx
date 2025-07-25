@@ -7,8 +7,8 @@ export const petSchema = z.object({
   idade: z.number().min(0, "Idade inválida"),
   descricao: z.string(),
   localizacao: z.string(),
-  fotoUrl: z.string().url("URL inválida"),
-  owner: z.string(),
+  fotoUrl: z.string().optional(),
+  ownerId: z.string(),
 });
 
 export type PetFormSchema = z.infer<typeof petSchema>;

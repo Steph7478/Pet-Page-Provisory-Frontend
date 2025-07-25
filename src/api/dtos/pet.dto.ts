@@ -1,12 +1,24 @@
 export type PetInfos = {
-  id: string;
-  owner: string;
+  petId?: string;
+  ownerId: string;
   nome: string;
   raca: string;
   porte: string;
   idade: number;
   descricao: string;
   localizacao: string;
-  fotoUrl: string;
-  status: string;
+  status?: string;
+  fotoUrl?: string;
 };
+
+export type RegisterPet = FormData | {
+  ownerId: string;
+  nome: string;
+  raca: string;
+  porte: string;
+  idade: number;
+  descricao: string;
+  localizacao: string;
+  fotoUrl?: string;
+};
+
