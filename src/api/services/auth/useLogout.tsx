@@ -1,4 +1,4 @@
-import {logout} from "@/api/queries/auth/logout";
+import {logout} from "@/api/mutations/auth/logout";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import router from "next/router";
 

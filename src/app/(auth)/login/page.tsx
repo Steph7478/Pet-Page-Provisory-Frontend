@@ -42,7 +42,7 @@ const Login = () => {
         className="py-3"
         type="email"
         placeholder="Email"
-        {...register("userEmail")}
+        {...register("email")}
       />
       <Input
         intent="auth"

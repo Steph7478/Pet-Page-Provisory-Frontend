@@ -72,14 +72,14 @@ const SignUp = () => {
       <Input
         intent={"auth"}
         className="py-3"
-        {...register("name")}
+        {...register("username")}
         type="text"
         placeholder="Nome"
       />
       <Input
         intent={"auth"}
         className="py-3"
-        {...register("userEmail")}
+        {...register("email")}
         type="email"
         placeholder="Email"
       />

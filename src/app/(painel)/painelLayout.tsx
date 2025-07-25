@@ -58,7 +58,7 @@ const AdoptionPanel: React.FC<AdoptionPanelProps> = ({type, userId}) => {
     if (type === "adopter") {
       const userPetsIds = (formulario ?? [])
         .filter((f: FormularioItem) => f.clientId === userId)
-        .map((f: FormularioItem) => f.id);
+        .map((f: FormularioItem) => f.petId);
       return sorted.filter((dog) => userPetsIds.includes(dog.id));
     }
 
@@ -71,7 +71,8 @@ const AdoptionPanel: React.FC<AdoptionPanelProps> = ({type, userId}) => {
   const formularioSelecionado = useMemo(() => {
     if (type !== "advertiser" || !selectedDog) return null;
     return (
-      formulario?.find((f: FormularioItem) => f.id === selectedDog.id) || null
+      formulario?.find((f: FormularioItem) => f.petId === selectedDog.id) ||
+      null
     );
   }, [formulario, selectedDog, type]);
 
@@ -80,7 +81,7 @@ const AdoptionPanel: React.FC<AdoptionPanelProps> = ({type, userId}) => {
       setSelectedDog(null);
     } else {
       setSelectedDog((prev) =>
-        prev && sortedDataDogs.some((d) => d.id === prev.id)
+        prev && sortedDataDogs.some((d) => d.petId === prev.petId)
           ? prev
           : sortedDataDogs[0]
       );
@@ -88,7 +89,7 @@ const AdoptionPanel: React.FC<AdoptionPanelProps> = ({type, userId}) => {
   }, [sortedDataDogs]);
 
   const getDogNameById = useCallback(
-    (id: string) => dogs.find((dog) => dog.id === id)?.nome || "cachorro",
+    (id: string) => dogs.find((dog) => dog.petId === petId)?.nome || "cachorro",
     [dogs]
   );
 
@@ -96,7 +97,7 @@ const AdoptionPanel: React.FC<AdoptionPanelProps> = ({type, userId}) => {
     (dogId: string, status: PetInfos["status"], adoptionDate = "") => {
       setDogs((prev) =>
         prev.map((dog) =>
-          dog.id === dogId ? {...dog, status, adoptionDate} : dog
+          dog.petId === dogId ? {...dog, status, adoptionDate} : dog
         )
       );
     },
@@ -138,7 +139,7 @@ const AdoptionPanel: React.FC<AdoptionPanelProps> = ({type, userId}) => {
       denyAdoption(dogId, {
         onSuccess: () => {
           updateDogStatus(dogId, "available");
-          if (selectedDog?.id === dogId) setSelectedDog(null);
+          if (selectedDog?.petId === dogId) setSelectedDog(null);
           toast.error(
             `Solicitação de adoção de ${getDogNameById(dogId)} foi rejeitada.`
           );

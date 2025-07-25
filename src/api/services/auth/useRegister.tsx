@@ -12,5 +12,8 @@ export const useSignup = () => {
       await queryClient.invalidateQueries({queryKey: ["auth"]});
       router.push("/adotar");
     },
+    onError: (err) => {
+      console.log(err);
+    },
   });
 };

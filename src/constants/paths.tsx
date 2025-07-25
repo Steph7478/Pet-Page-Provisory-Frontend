@@ -6,7 +6,7 @@ export const API_PATHS = {
     me: "/auth/me",
     refresh: "/auth/refresh",
   },
-  adocoes: "/api/adocoes",
+  adocoes: "/adoption",
   formulario: "/formulario",
-  pets: "/api/pets",
+  pets: "/pets",
 };
