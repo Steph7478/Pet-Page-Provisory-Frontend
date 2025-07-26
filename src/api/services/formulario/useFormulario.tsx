@@ -18,9 +18,10 @@ export const useFormularioByPetId = (petId: string) => {
 export const useFormulario = () => {
   return useMutation({
     mutationFn: async (formData: Formulário) => {
-      const formularioCriado = await createFormulario(formData);
+      return await createFormulario(formData);
+    },
+    onSuccess: () => {
       router.push("/adotar");
-      return formularioCriado;
     },
   });
 };

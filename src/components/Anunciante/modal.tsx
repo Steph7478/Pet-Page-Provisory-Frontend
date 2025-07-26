@@ -120,12 +120,6 @@ const Modal = ({
       type: "text",
       placeholder: "Localização",
     },
-    {
-      label: "Foto (URL)",
-      field: "fotoUrl",
-      type: "text",
-      placeholder: "URL da foto",
-    },
   ];
 
   return (
@@ -177,27 +171,24 @@ const Modal = ({
               />
             ))}
 
-            <PorteField<PetFormSchema, "porte">
-              value={watch("porte")}
-              onChange={(val) => setValue("porte", val, {shouldValidate: true})}
-            />
-
             <div className="flex flex-col gap-1">
-              <label className="font-semibold text-[var(--brown)] cursor-pointer">
-                Upload de foto (arquivo)
+              <label className="font-semibold text-[var(--brown)]">
+                Upload de foto ( pet )
               </label>
               <input
                 type="file"
                 accept="image/*"
                 onChange={onFileChange}
-                className="cursor-pointer"
+                className={`cursor-pointer ${
+                  fotoFile ? "text-gray-600" : "text-red-600"
+                }`}
               />
-              {fotoFile && (
-                <span className="text-sm text-gray-600">
-                  Arquivo selecionado: {fotoFile.name}
-                </span>
-              )}
             </div>
+
+            <PorteField<PetFormSchema, "porte">
+              value={watch("porte")}
+              onChange={(val) => setValue("porte", val, {shouldValidate: true})}
+            />
           </div>
         </FormularioWrapper>
       </div>
