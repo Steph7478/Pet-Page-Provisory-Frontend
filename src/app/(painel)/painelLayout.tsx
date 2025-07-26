@@ -25,6 +25,7 @@ import {
 } from "@/api/services/user/useAnunciante";
 import {FormularioItem} from "@/types/formulario";
 import {isValidUrl} from "@/utils/isValidUrl";
+import {useFormularioByPetId} from "@/api/services/formulario/useFormulario";
 
 interface AdoptionPanelProps {
   type: "adopter" | "advertiser";
@@ -44,6 +45,9 @@ const AdoptionPanel: React.FC<AdoptionPanelProps> = ({type, userId}) => {
   const {mutate: denyAdoption, isPending: denying} = useDenyAdoption();
   const {mutate: cancelAdoption, isPending: cancelling} = useCancelAdoption();
   const [isOpen, setIsOpen] = useState(false);
+  const {data: formularioSelecionado} = useFormularioByPetId(
+    selectedDog?.petId ?? ""
+  );
 
   useEffect(() => {
     if (dataDogs) setDogs(dataDogs);
@@ -71,14 +75,6 @@ const AdoptionPanel: React.FC<AdoptionPanelProps> = ({type, userId}) => {
     }
     return sorted;
   }, [dataDogs, formulario, type, userId]);
-
-  const formularioSelecionado = useMemo(() => {
-    if (type !== "advertiser" || !selectedDog) return null;
-    return (
-      formulario?.find((f: FormularioItem) => f.petId === selectedDog.petId) ||
-      null
-    );
-  }, [formulario, selectedDog, type]);
 
   useEffect(() => {
     if (sortedDataDogs.length === 0) {
@@ -306,7 +302,11 @@ const AdoptionPanel: React.FC<AdoptionPanelProps> = ({type, userId}) => {
                 <div className="p-8 flex flex-col h-full">
                   <div className="flex gap-8 flex-wrap max-[900px]:flex-col items-center mb-4">
                     <Image
-                      src={formularioSelecionado?.petImage ?? "/defaultdog.png"}
+                      src={
+                        isValidUrl(selectedDog.fotoUrl + "")
+                          ? selectedDog.fotoUrl + ""
+                          : "/defaultdog.png"
+                      }
                       alt={selectedDog.nome}
                       className="w-48 h-48 rounded-lg object-cover shadow-md"
                       loading="lazy"
