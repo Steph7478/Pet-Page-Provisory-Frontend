@@ -9,8 +9,8 @@ const Footer = () => {
       <div className="max-w-[1200px] px-2 w-full flex h-full items-center justify-between flex-wrap gap-y-5 py-4">
         <div className="flex justify-center items-center flex-wrap gap-x-10 gap-y-5 ">
           <div className="flex justify-center items-center gap-2">
-            <p className="text-green-400 font-semibold text-sm">
-              Stephanie Gurgel - Frontend
+            <p className="text-white font-semibold text-sm">
+              Stephanie Gurgel - Fullstack
             </p>
             <div className="flex gap-2">
               <Link
@@ -27,17 +27,14 @@ const Footer = () => {
                 rel="noopener noreferrer"
               >
                 {" "}
-                <FaLinkedin
-                  size={20}
-                  className="text-blue-500 cursor-pointer rounded-xs bg-white"
-                />
+                <FaLinkedin size={20} className="text-white cursor-pointer " />
               </Link>
             </div>
           </div>
         </div>
 
         <p className="text-xs text-gray-300 flex-wrap">
-          © 2025 Stephanie Gurgel. Design inspirado no trabalho de{" "}
+          © 2025 Stephanie Gurgel Estevam. Design inspirado no trabalho de{" "}
           <Link
             href="https://www.figma.com/@toskautd"
             target="_blank"
