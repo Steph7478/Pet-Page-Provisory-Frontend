@@ -1,6 +1,6 @@
 "use client";
-import {useAuth} from "@/api/services/auth/useIsAuth";
-import {useOAuth} from "@/api/services/auth/useOAuth";
+// import {useAuth} from "@/api/services/auth/useIsAuth";
+// import {useOAuth} from "@/api/services/auth/useOAuth";
 import LoginRoute from "@/common/routes/LoginRoute";
 import Button from "@/ui/button";
 import {toast} from "@/ui/CustomToaster";
@@ -9,7 +9,7 @@ import {motion} from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import {useEffect} from "react";
-import {FcGoogle} from "react-icons/fc";
+// import {FcGoogle} from "react-icons/fc";
 
 export default function AuthLayout({
   children,
@@ -24,7 +24,7 @@ export default function AuthLayout({
   isLoading?: boolean;
   isError?: boolean | null;
 }) {
-  const {handleOAuth, isLoading: loadingGoogle} = useOAuth();
+  // const {handleOAuth, isLoading: loadingGoogle} = useOAuth();
 
   useEffect(() => {
     if (isError) {
@@ -89,7 +89,7 @@ export default function AuthLayout({
                 </fieldset>
               </form>
 
-              <p className="font-semibold text-white">Ou</p>
+              {/* <p className="font-semibold text-white">Ou</p>
 
               <Button
                 intent={"secondVar"}
@@ -105,7 +105,7 @@ export default function AuthLayout({
                   : type === "login"
                   ? "Entrar com Google"
                   : "Cadastre-se com Google"}
-              </Button>
+              </Button> */}
 
               <p className="text-center text-sm ">
                 {type === "login"
