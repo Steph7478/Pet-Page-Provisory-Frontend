@@ -8,7 +8,6 @@ import {HiMenuAlt3} from "react-icons/hi";
 import {IoCloseSharp} from "react-icons/io5";
 import {useLogout} from "@/api/services/auth/useLogout";
 import {useAuth} from "@/api/services/auth/useIsAuth";
-import Image from "next/image";
 
 const Navbar = () => {
   const {data: user} = useAuth();
