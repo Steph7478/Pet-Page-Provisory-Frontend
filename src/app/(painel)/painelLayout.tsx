@@ -16,16 +16,16 @@ import {
   dogItemVariants,
   getDogItemTransition,
 } from "@/ui/motionVariants";
-import {usePetsByClient} from "@/api/services/user/useAdotante";
+import {usePetsByAdvertiser} from "@/api/services/user/useAnunciante";
+import {isValidUrl} from "@/utils/isValidUrl";
 import {
-  usePetsByAdvertiser,
   useAllowAdoption,
   useDenyAdoption,
   useCancelAdoption,
-} from "@/api/services/user/useAnunciante";
-import {FormularioItem} from "@/types/formulario";
-import {isValidUrl} from "@/utils/isValidUrl";
+} from "@/api/services/adoption/adoption";
 import {useFormularioByPetId} from "@/api/services/formulario/useFormulario";
+import {useFormularioByClientId} from "@/api/services/user/useAdotante";
+import {usePetsByIds} from "@/api/services/pet/usePetInfo";
 
 interface AdoptionPanelProps {
   type: "adopter" | "advertiser";
@@ -35,8 +35,8 @@ interface AdoptionPanelProps {
 const STATUS_ORDER = {pendente: 0, adotado: 1, disponivel: 2};
 
 const AdoptionPanel: React.FC<AdoptionPanelProps> = ({type, userId}) => {
-  const {data: dataDogs} = usePetsByAdvertiser(userId);
-  const {data: formulario} = usePetsByClient(userId);
+  const {data: form} = useFormularioByClientId(userId);
+  const {data: dog} = usePetsByAdvertiser(userId);
 
   const [dogs, setDogs] = useState<PetInfos[]>([]);
   const [selectedDog, setSelectedDog] = useState<PetInfos | null>(null);
@@ -45,48 +45,43 @@ const AdoptionPanel: React.FC<AdoptionPanelProps> = ({type, userId}) => {
   const {mutate: denyAdoption, isPending: denying} = useDenyAdoption();
   const {mutate: cancelAdoption, isPending: cancelling} = useCancelAdoption();
   const [isOpen, setIsOpen] = useState(false);
-  const {data: formularioSelecionado} = useFormularioByPetId(
-    selectedDog?.petId ?? ""
+  const {data: dogSelecionado} = useFormularioByPetId(selectedDog?.petId ?? "");
+
+  const filteredForms = useMemo(() => {
+    if (type === "adopter" && form) {
+      const formArray = Array.isArray(form) ? form : [form];
+      return formArray.filter((f) => String(f.clientId) === String(userId));
+    }
+    return [];
+  }, [form, type, userId]);
+
+  const petIds = useMemo(
+    () => filteredForms.map((form) => form.petId),
+    [filteredForms]
   );
 
-  useEffect(() => {
-    if (dataDogs) setDogs(dataDogs);
-  }, [dataDogs]);
+  const {data: pets = []} = usePetsByIds(petIds);
 
-  const sortedDataDogs = useMemo(() => {
-    if (!dataDogs) return [];
-
-    const sorted = [...dataDogs].sort(
-      (a, b) =>
-        STATUS_ORDER[a.status as keyof typeof STATUS_ORDER] -
-        STATUS_ORDER[b.status as keyof typeof STATUS_ORDER]
-    );
-
+  const sortedform = useMemo(() => {
     if (type === "adopter") {
-      const userPetsIds = (formulario ?? [])
-        .filter((f: FormularioItem) => f.clientId === userId)
-        .map((f: FormularioItem) => f.petId);
-
-      return sorted.filter((dog) => userPetsIds.includes(dog.petId));
-    }
-
-    if (type === "advertiser") {
-      return sorted.filter((dog) => dog.ownerId === userId);
-    }
-    return sorted;
-  }, [dataDogs, formulario, type, userId]);
-
-  useEffect(() => {
-    if (sortedDataDogs.length === 0) {
-      setSelectedDog(null);
-    } else {
-      setSelectedDog((prev) =>
-        prev && sortedDataDogs.some((d) => d.petId === prev.petId)
-          ? prev
-          : sortedDataDogs[0]
+      return [...pets].sort(
+        (a, b) =>
+          STATUS_ORDER[a.status as keyof typeof STATUS_ORDER] -
+          STATUS_ORDER[b.status as keyof typeof STATUS_ORDER]
       );
     }
-  }, [sortedDataDogs]);
+
+    if (type === "advertiser" && dog) {
+      const sorted = [...dog].sort(
+        (a, b) =>
+          STATUS_ORDER[a.status as keyof typeof STATUS_ORDER] -
+          STATUS_ORDER[b.status as keyof typeof STATUS_ORDER]
+      );
+      return sorted.filter((dog) => dog.ownerId === userId);
+    }
+
+    return [];
+  }, [pets, dog, type, userId]);
 
   const getDogNameByPetId = useCallback(
     (petId: string) =>
@@ -108,7 +103,7 @@ const AdoptionPanel: React.FC<AdoptionPanelProps> = ({type, userId}) => {
   const handleCancelAdoption = useCallback(
     (petId: string, clientId: string) => {
       cancelAdoption(
-        {id: petId, clientId},
+        {petId, clientId},
         {
           onSuccess: () => {
             updateDogStatus(petId, "disponivel");
@@ -124,9 +119,8 @@ const AdoptionPanel: React.FC<AdoptionPanelProps> = ({type, userId}) => {
 
   const handleApproveAdoption = useCallback(
     (petId: string, clientId: string) => {
-      const approvedAt = new Date().toISOString();
       allowAdoption(
-        {id: petId, clientId, dataAdocao: approvedAt},
+        {petId, clientId},
         {
           onSuccess: () => {
             updateDogStatus(petId, "adotado", new Date().toISOString());
@@ -144,7 +138,7 @@ const AdoptionPanel: React.FC<AdoptionPanelProps> = ({type, userId}) => {
   const handleRejectAdoption = useCallback(
     (petId: string, clientId: string) => {
       denyAdoption(
-        {id: petId, clientId},
+        {petId, clientId},
         {
           onSuccess: () => {
             updateDogStatus(petId, "disponivel");
@@ -163,13 +157,13 @@ const AdoptionPanel: React.FC<AdoptionPanelProps> = ({type, userId}) => {
   );
 
   const getTitle = useMemo(() => {
-    const pendenteCount = sortedDataDogs.filter(
+    const pendenteCount = sortedform.filter(
       (d) => d.status === "pendente"
     ).length;
     return type === "adopter"
-      ? `Meus Animais Adotados (${sortedDataDogs.length})`
+      ? `Meus Animais Adotados (${sortedform.length})`
       : `Solicitações de Adoção (${pendenteCount})`;
-  }, [type, sortedDataDogs]);
+  }, [type, sortedform]);
 
   const getStatusBadge = useCallback((dog: PetInfos) => {
     const baseClass = "px-2 py-1 rounded-md text-xs font-medium";
@@ -237,9 +231,9 @@ const AdoptionPanel: React.FC<AdoptionPanelProps> = ({type, userId}) => {
                 </h2>
               </div>
               <div className="flex-1 overflow-y-auto p-4">
-                {sortedDataDogs.length > 0 ? (
+                {sortedform.length > 0 ? (
                   <AnimatePresence>
-                    {sortedDataDogs.map((dog, index) => (
+                    {sortedform.map((dog, index) => (
                       <motion.div
                         key={dog.petId}
                         variants={dogItemVariants}
@@ -345,40 +339,40 @@ const AdoptionPanel: React.FC<AdoptionPanelProps> = ({type, userId}) => {
 
                     {type === "advertiser" && (
                       <>
-                        {formularioSelecionado ? (
+                        {dogSelecionado ? (
                           <div className="flex flex-col gap-2 text-gray-700 text-sm">
                             {[
                               {
                                 label: "Email",
-                                value: formularioSelecionado.email ?? "N/A",
+                                value: dogSelecionado.email ?? "N/A",
                               },
                               {
                                 label: "Telefone",
-                                value: formularioSelecionado.telefone ?? "N/A",
+                                value: dogSelecionado.telefone ?? "N/A",
                               },
                               {
                                 label: "Motivo",
-                                value: formularioSelecionado.motivo,
+                                value: dogSelecionado.motivo,
                               },
                               {
                                 label: "Ambiente",
-                                value: formularioSelecionado.ambiente,
+                                value: dogSelecionado.ambiente,
                               },
                               {
                                 label: "Espaço externo",
-                                value: formularioSelecionado.espacoExterno
+                                value: dogSelecionado.espacoExterno
                                   ? "Sim"
                                   : "Não",
                               },
                               {
                                 label: "Teve animais antes",
-                                value: formularioSelecionado.teveAnimaisAntes
+                                value: dogSelecionado.teveAnimaisAntes
                                   ? "Sim"
                                   : "Não",
                               },
                               {
                                 label: "Ambiente seguro",
-                                value: formularioSelecionado.ambienteSeguro
+                                value: dogSelecionado.ambienteSeguro
                                   ? "Sim"
                                   : "Não",
                               },
@@ -406,7 +400,7 @@ const AdoptionPanel: React.FC<AdoptionPanelProps> = ({type, userId}) => {
                           onClick={() =>
                             handleCancelAdoption(
                               selectedDog.petId ?? "",
-                              formularioSelecionado?.clientId ?? ""
+                              dogSelecionado?.clientId ?? ""
                             )
                           }
                           intent="deny"
@@ -424,7 +418,7 @@ const AdoptionPanel: React.FC<AdoptionPanelProps> = ({type, userId}) => {
                             onClick={() =>
                               handleApproveAdoption(
                                 selectedDog.petId ?? "",
-                                formularioSelecionado!.clientId
+                                dogSelecionado!.clientId
                               )
                             }
                           >
@@ -436,7 +430,7 @@ const AdoptionPanel: React.FC<AdoptionPanelProps> = ({type, userId}) => {
                             onClick={() =>
                               handleRejectAdoption(
                                 selectedDog.petId ?? "",
-                                formularioSelecionado!.clientId
+                                dogSelecionado!.clientId
                               )
                             }
                           >

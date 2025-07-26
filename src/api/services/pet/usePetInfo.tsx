@@ -8,11 +8,14 @@ export const usePetInfo = () => {
   });
 };
 
-export const usePetById = (petId: string) => {
+export const usePetsByIds = (petIds: string[]) => {
   return useQuery({
-    queryKey: ["pet", petId],
-    queryFn: () => getPetById(petId),
-    enabled: !!petId,
+    queryKey: ["pets", petIds],
+    queryFn: async () => {
+      const pets = await Promise.all(petIds.map((id) => getPetById(id)));
+      return pets;
+    },
+    enabled: petIds.length > 0,
     staleTime: 5 * 60 * 1000,
   });
 };

@@ -4,9 +4,12 @@ import type {Formulário} from "@/api/dtos/formulario.dto";
 import {getFormulario} from "@/api/queries/adoption/formulario";
 
 export const useFormularioByPetId = (petId: string) => {
-  return useQuery<Formulário>({
+  return useQuery<Formulário | undefined>({
     queryKey: ["formulario", petId],
-    queryFn: () => getFormulario(petId),
+    queryFn: async () => {
+      const res = await getFormulario(petId);
+      return Array.isArray(res) ? res[0] : res;
+    },
     enabled: !!petId,
   });
 };

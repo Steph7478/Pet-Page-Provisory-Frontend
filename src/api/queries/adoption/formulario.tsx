@@ -7,3 +7,10 @@ export const getFormulario = async (petId: string) => {
   });
   return res.data;
 };
+
+export const getFormularioByClient = async (clientId: string) => {
+  const res = await api.get(`${API_PATHS.formulario}`, {
+    params: {clientId},
+  });
+  return res.data;
+};
