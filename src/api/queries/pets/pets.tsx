@@ -6,11 +6,6 @@ export const getPets = async () => {
   return res.data;
 };
 
-export const getPetById = async (petId: string) => {
-  const res = await api.get(`${API_PATHS.pets}/${petId}`);
-  return res.data;
-};
-
 export const getPetsByAdvertiserId = async (ownerId: string) => {
   const res = await api.get(API_PATHS.pets, {
     params: {ownerId},

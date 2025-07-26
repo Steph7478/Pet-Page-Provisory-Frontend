@@ -1,5 +1,6 @@
 import { Mutation, Query, QueryKey } from "@tanstack/react-query";
 import { AxiosError } from "axios";
+import { refreshToken } from "./refreshToekn";
 
 let isRefreshing = false;
 
@@ -23,24 +24,26 @@ const processFailedQueue = () => {
 }
 
 const retry = async (
-    query?: Query<unknown, unknown, unknown, QueryKey>,
-    mutation?: Mutation<unknown, unknown, unknown, unknown>,
-    variables?: unknown
-
+  query?: Query<unknown, unknown, unknown, QueryKey>,
+  mutation?: Mutation<unknown, unknown, unknown, unknown>,
+  variables?: unknown
 ) => {
-    try {
-       if (!isRefreshing){
-            isRefreshing = true;
-            failedQueue.push({ query, mutation, variables })
-           processFailedQueue();
-        } else {
-             failedQueue.push({ query, mutation, variables })
+  try {
+    failedQueue.push({ query, mutation, variables });
+
+    if (!isRefreshing) {
+      isRefreshing = true;
+
+      await refreshToken(); 
+
+      processFailedQueue();
     }
-    
-} catch {
-    
-}
-}
+  } catch (err) {
+    failedQueue = [];
+    isRefreshing = false;
+  }
+};
+
 
 const errorHandler = (error:unknown, query?: Query<unknown, unknown, unknown, QueryKey>,
     mutation?: Mutation<unknown, unknown, unknown, unknown>,

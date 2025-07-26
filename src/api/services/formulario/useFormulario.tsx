@@ -2,6 +2,7 @@ import {createFormulario} from "@/api/mutations/adoption/formulario";
 import {useMutation, useQuery} from "@tanstack/react-query";
 import type {Formulário} from "@/api/dtos/formulario.dto";
 import {getFormulario} from "@/api/queries/adoption/formulario";
+import router from "next/router";
 
 export const useFormularioByPetId = (petId: string) => {
   return useQuery<Formulário | undefined>({
@@ -18,6 +19,7 @@ export const useFormulario = () => {
   return useMutation({
     mutationFn: async (formData: Formulário) => {
       const formularioCriado = await createFormulario(formData);
+      router.push("/adotar");
       return formularioCriado;
     },
   });

@@ -26,15 +26,10 @@ export function FormularioWrapper<T extends Record<string, unknown>>({
     if (isError) onError?.();
   }, [isSuccess, isError, onSuccess, onError]);
 
-  const log = () => {
-    console.log("clicado");
-  };
-
   return (
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        console.log("form submit event!");
         onSubmit(e);
       }}
       className="text-[var(--brown)]"
@@ -44,7 +39,6 @@ export function FormularioWrapper<T extends Record<string, unknown>>({
         intent="formulario"
         type="submit"
         className="mx-auto"
-        onClick={log}
         disabled={isPending}
       >
         {isPending ? "Enviando..." : "Enviar"}

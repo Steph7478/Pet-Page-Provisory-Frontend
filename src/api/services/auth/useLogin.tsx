@@ -10,7 +10,6 @@ export const useLogin = () => {
     mutationFn: loginUser,
     onSuccess: async () => {
       await queryClient.invalidateQueries({queryKey: ["auth"]});
-
       router.push("/adotar");
     },
   });

@@ -75,11 +75,6 @@ const Modal = ({
     formData.append("localizacao", data.localizacao);
     formData.append("fotoUrl", fotoFile);
 
-    console.log("Enviando FormData:");
-    for (const [key, value] of formData.entries()) {
-      console.log(key, value);
-    }
-
     mutate(formData, {
       onSuccess: () => {
         toast.success("Pet registrado com sucesso!");
@@ -130,8 +125,6 @@ const Modal = ({
       field: "fotoUrl",
       type: "text",
       placeholder: "URL da foto",
-      // Você pode esconder esse campo se quiser só enviar o arquivo
-      // ou manter para casos de URL externa
     },
   ];
 
