@@ -108,16 +108,20 @@ const AdoptionPanel: React.FC<AdoptionPanelProps> = ({type, userId}) => {
   );
 
   const handleCancelAdoption = useCallback(
-    (petId: string) => {
-      denyAdoption(petId, {
-        onSuccess: () => {
-          if (selectedDog?.petId === petId) setSelectedDog(null);
-          toast.error(`Adoção de ${getDogNameByPetId(petId)} foi cancelada!`);
-        },
-        onError: () => toast.error("Falha ao cancelar a adoção"),
-      });
+    (petId: string, clientId: string) => {
+      denyAdoption(
+        {id: petId, clientId},
+        {
+          onSuccess: () => {
+            updateDogStatus(petId, "disponivel");
+            if (selectedDog?.petId === petId) setSelectedDog(null);
+            toast.error(`Adoção de ${getDogNameByPetId(petId)} foi cancelada!`);
+          },
+          onError: () => toast.error("Falha ao cancelar a adoção"),
+        }
+      );
     },
-    [denyAdoption, selectedDog, getDogNameByPetId]
+    [denyAdoption, selectedDog, updateDogStatus, getDogNameByPetId]
   );
 
   const handleApproveAdoption = useCallback(
@@ -398,7 +402,10 @@ const AdoptionPanel: React.FC<AdoptionPanelProps> = ({type, userId}) => {
                       selectedDog.status === "pendente" && (
                         <Button
                           onClick={() =>
-                            handleCancelAdoption(selectedDog.petId ?? "")
+                            handleCancelAdoption(
+                              selectedDog.petId ?? "",
+                              formularioSelecionado?.clientId ?? ""
+                            )
                           }
                           intent="deny"
                         >
