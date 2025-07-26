@@ -48,16 +48,16 @@ const Navbar = () => {
           className="mr-auto text-white font-bold tracking-wide max-w-10 max-h-10 flex items-center gap-2"
           href="/"
         >
-          <Image
+          {/* <Image
             width={30}
             height={30}
             layout="responsive"
             src="/favicon.png"
             alt="logo"
-          />
+          /> */}
 
-          <p className="font-semibold text-green-400 brightness-110">
-            PataMansa
+          <p className="font-semibold text-white text-nowrap brightness-110">
+            Pet Page
           </p>
         </Link>
 
