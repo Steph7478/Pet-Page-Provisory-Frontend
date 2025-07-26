@@ -10,34 +10,6 @@ const Footer = () => {
         <div className="flex justify-center items-center flex-wrap gap-x-10 gap-y-5 ">
           <div className="flex justify-center items-center gap-2">
             <p className="text-green-400 font-semibold text-sm">
-              Maeli Palharini - Backend
-            </p>
-            <div className="flex gap-2">
-              {" "}
-              <Link
-                href="https://github.com/MaeliPalharini"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {" "}
-                <FaGithubAlt size={20} className="cursor-pointer text-white" />
-              </Link>
-              <Link
-                href="https://www.linkedin.com/in/maeli-palharini/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {" "}
-                <FaLinkedin
-                  size={20}
-                  className="text-blue-500 cursor-pointer rounded-xs bg-white"
-                />
-              </Link>
-            </div>
-          </div>
-
-          <div className="flex justify-center items-center gap-2">
-            <p className="text-rose-400 font-semibold text-sm">
               Stephanie Gurgel - Frontend
             </p>
             <div className="flex gap-2">
@@ -65,8 +37,7 @@ const Footer = () => {
         </div>
 
         <p className="text-xs text-gray-300 flex-wrap">
-          © 2025 Stephanie Gurgel e Maeli Palharini. Design inspirado no
-          trabalho de{" "}
+          © 2025 Stephanie Gurgel. Design inspirado no trabalho de{" "}
           <Link
             href="https://www.figma.com/@toskautd"
             target="_blank"

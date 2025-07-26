@@ -7,14 +7,7 @@ import Image from "next/image";
 import React from "react";
 
 const SobreNos = () => {
-  const fadeIn = [
-    useFadeIn(),
-    useFadeIn(),
-    useFadeIn(),
-    useFadeIn(),
-    useFadeIn(),
-    useFadeIn(),
-  ];
+  const fadeIn = [useFadeIn(), useFadeIn(), useFadeIn()];
 
   const sobre = (
     name: string[],
@@ -73,28 +66,15 @@ const SobreNos = () => {
       <div className="max-w-[800px] w-full flex justify-center items-center flex-col overflow-hidden py-[50px] gap-20 overflow-x-hidden">
         {sobre(
           [
-            `Olá, sou o <span class="text-green-500">Oelinton</span>`,
-            `Sou desenvolvedor <span class="text-red-500">Frontend.</span>`,
-          ],
-          "",
-          "/",
-          "",
-          0,
-          1,
-          2
-        )}
-
-        {sobre(
-          [
             `Ola! Eu sou a <span class="text-green-500">Stephanie Gurgel.</span>`,
             `Sou desenvolvedora <span class="text-red-500">Fullstack.</span>`,
           ],
           "Fullstack",
           "/Steph.png",
           "Desenvolvedora Fullstack com foco em performance, acessibilidade e escalabilidade. Utilizo React, Next.js, Tailwind CSS e TypeScript como stack principal. Tenho experiência sólida no consumo de APIs REST, gerenciamento de estado e cache com React Query, e construção de componentes reutilizáveis com atenção a boas práticas de UI/UX. Priorizo código limpo, modular e de fácil manutenção, com atenção especial à estrutura, responsividade e experiência do usuário.",
-          3,
-          4,
-          5
+          0,
+          1,
+          2
         )}
       </div>
     </div>
