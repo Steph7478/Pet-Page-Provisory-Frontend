@@ -5,7 +5,7 @@ export const refreshToken = async () => {
   try {
     const response = await api.post(API_PATHS.auth.refresh);
     return response.data;
-  } catch (error) {
+  } catch {
     throw new Error("Refresh token failed");
   }
 };

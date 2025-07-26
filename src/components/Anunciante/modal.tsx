@@ -1,15 +1,15 @@
-import React, {useState} from "react";
-import {useRegisterPet} from "@/api/services/pet/useRegisterPet";
-import {FormularioWrapper} from "@/hooks/components/useModal";
-import {toast} from "@/ui/CustomToaster";
-import {IoClose} from "react-icons/io5";
-import {PorteField} from "./PorteField";
-import {useForm} from "react-hook-form";
-import {zodResolver} from "@hookform/resolvers/zod";
-import {PetFormSchema, petSchema} from "@/schemas/pet";
-import FormField from "@/common/components/FormField";
-import {FieldConfigRegister} from "@/types/fields";
 import {useAuth} from "@/api/services/auth/useIsAuth";
+import {useRegisterPet} from "@/api/services/pet/useRegisterPet";
+import FormField from "@/common/components/FormField";
+import {FormularioWrapper} from "@/hooks/components/useModal";
+import {PetFormSchema, petSchema} from "@/schemas/pet";
+import {FieldConfigRegister} from "@/types/fields";
+import {zodResolver} from "@hookform/resolvers/zod";
+import {useState} from "react";
+import {useForm} from "react-hook-form";
+import {IoClose} from "react-icons/io5";
+import {toast} from "sonner";
+import {PorteField} from "./PorteField";
 
 const Modal = ({
   setIsOpen,
@@ -18,25 +18,9 @@ const Modal = ({
 }) => {
   const {mutate, isPending, isSuccess, isError} = useRegisterPet();
   const {data: authData, isLoading: authLoading} = useAuth();
-
-  if (authLoading) {
-    return (
-      <div className="fixed inset-0 bg-black/75 z-50 flex justify-center items-center text-white">
-        Carregando...
-      </div>
-    );
-  }
+  const [fotoFile, setFotoFile] = useState<File | null>(null);
 
   const clientId = authData?.id;
-  if (!clientId) {
-    return (
-      <div className="fixed inset-0 bg-black/75 z-50 flex justify-center items-center text-white">
-        Usuário não autenticado.
-      </div>
-    );
-  }
-
-  const [fotoFile, setFotoFile] = useState<File | null>(null);
 
   const {
     register,
@@ -47,7 +31,7 @@ const Modal = ({
   } = useForm<PetFormSchema>({
     resolver: zodResolver(petSchema),
     defaultValues: {
-      ownerId: clientId,
+      ownerId: clientId || "",
       nome: "",
       raca: "",
       porte: "Pequeno",
@@ -57,6 +41,22 @@ const Modal = ({
       fotoUrl: "",
     },
   });
+
+  if (authLoading) {
+    return (
+      <div className="fixed inset-0 bg-black/75 z-50 flex justify-center items-center text-white">
+        Carregando...
+      </div>
+    );
+  }
+
+  if (!clientId) {
+    return (
+      <div className="fixed inset-0 bg-black/75 z-50 flex justify-center items-center text-white">
+        Usuário não autenticado.
+      </div>
+    );
+  }
 
   const onSubmit = (data: PetFormSchema) => {
     if (!fotoFile) {

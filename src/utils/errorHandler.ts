@@ -38,7 +38,7 @@ const retry = async (
 
       processFailedQueue();
     }
-  } catch (err) {
+  } catch {
     failedQueue = [];
     isRefreshing = false;
   }
