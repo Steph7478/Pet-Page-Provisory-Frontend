@@ -1,7 +1,6 @@
 "use client";
 
 import Modal from "@/components/Detalhes/formulario";
-import {usePetById} from "@/api/services/pet/usePetInfo";
 import Button from "@/ui/button";
 import Image from "next/image";
 import React, {useState} from "react";
@@ -10,6 +9,7 @@ import {useRouteParam} from "@/hooks/routes/useRouteParams";
 import {isValidUrl} from "@/utils/isValidUrl";
 import {motion} from "framer-motion";
 import {fadeIn} from "@/ui/motionVariants";
+import {usePetById} from "@/api/services/pet/usePetInfo";
 
 const Detalhes = () => {
   const petId = useRouteParam("id");

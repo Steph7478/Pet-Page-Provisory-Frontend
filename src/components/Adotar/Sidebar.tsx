@@ -54,9 +54,9 @@ const Sidebar: React.FC<SidebarProps> = ({
       <div className="flex flex-col gap-2 w-full">
         <p className="font-semibold text-left">Tamanho</p>
         <div className="flex flex-col gap-1 items-start">
-          {filter("size", "pequeno", "Pequeno")}
-          {filter("size", "médio", "Médio")}
-          {filter("size", "grande", "Grande")}
+          {filter("size", "Pequeno", "Pequeno")}
+          {filter("size", "Médio", "Médio")}
+          {filter("size", "Grande", "Grande")}
         </div>
       </div>
 

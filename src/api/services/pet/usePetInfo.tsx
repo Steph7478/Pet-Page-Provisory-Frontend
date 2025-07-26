@@ -8,6 +8,15 @@ export const usePetInfo = () => {
   });
 };
 
+export const usePetById = (petId: string) => {
+  return useQuery({
+    queryKey: ["pet", petId],
+    queryFn: () => getPetById(petId),
+    enabled: !!petId,
+    staleTime: 5 * 60 * 1000,
+  });
+};
+
 export const usePetsByIds = (petIds: string[]) => {
   return useQuery({
     queryKey: ["pets", petIds],
