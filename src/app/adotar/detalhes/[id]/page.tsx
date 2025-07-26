@@ -37,7 +37,7 @@ const Detalhes = () => {
             <div className="w-full min-[800px]:w-[40%] max-[800px]:h-[400px]  md:h-auto relative">
               <Image
                 src={
-                  pet && isValidUrl(pet.fotoUrl)
+                  pet?.fotoUrl && isValidUrl(pet.fotoUrl)
                     ? pet.fotoUrl
                     : "/defaultdog.png"
                 }
