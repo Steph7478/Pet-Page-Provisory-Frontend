@@ -21,6 +21,7 @@ import {
   usePetsByAdvertiser,
   useAllowAdoption,
   useDenyAdoption,
+  useCancelAdoption,
 } from "@/api/services/user/useAnunciante";
 import {FormularioItem} from "@/types/formulario";
 import {isValidUrl} from "@/utils/isValidUrl";
@@ -41,6 +42,7 @@ const AdoptionPanel: React.FC<AdoptionPanelProps> = ({type, userId}) => {
 
   const {mutate: allowAdoption, isPending: approving} = useAllowAdoption();
   const {mutate: denyAdoption, isPending: denying} = useDenyAdoption();
+  const {mutate: cancelAdoption, isPending: cancelling} = useCancelAdoption();
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
@@ -109,7 +111,7 @@ const AdoptionPanel: React.FC<AdoptionPanelProps> = ({type, userId}) => {
 
   const handleCancelAdoption = useCallback(
     (petId: string, clientId: string) => {
-      denyAdoption(
+      cancelAdoption(
         {id: petId, clientId},
         {
           onSuccess: () => {
@@ -121,7 +123,7 @@ const AdoptionPanel: React.FC<AdoptionPanelProps> = ({type, userId}) => {
         }
       );
     },
-    [denyAdoption, selectedDog, updateDogStatus, getDogNameByPetId]
+    [cancelAdoption, selectedDog, updateDogStatus, getDogNameByPetId]
   );
 
   const handleApproveAdoption = useCallback(
@@ -409,7 +411,7 @@ const AdoptionPanel: React.FC<AdoptionPanelProps> = ({type, userId}) => {
                           }
                           intent="deny"
                         >
-                          {denying ? "Cancelando" : "Cancelar Adoção"}
+                          {cancelling ? "Cancelando" : "Cancelar Adoção"}
                         </Button>
                       )}
 

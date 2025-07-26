@@ -14,3 +14,8 @@ export const rejectAdoption = async (data: {id: string; clientId?: string}) => {
   const res = await api.post(`${API_PATHS.adocoes}/reject`, data);
   return res.data;
 };
+
+export const cancelAdoption = async (data: {id: string; clientId?: string}) => {
+  const res = await api.post(`${API_PATHS.adocoes}/cancel`, data);
+  return res.data;
+};

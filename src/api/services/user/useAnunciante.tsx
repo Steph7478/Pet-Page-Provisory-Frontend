@@ -1,5 +1,6 @@
 import {
   approveAdoption,
+  cancelAdoption,
   rejectAdoption,
 } from "@/api/mutations/adoption/adoption";
 import {getPetsByAdvertiserId} from "@/api/queries/pets/pets";
@@ -22,5 +23,10 @@ export const useAllowAdoption = () => {
 export const useDenyAdoption = () => {
   return useMutation({
     mutationFn: rejectAdoption,
+  });
+};
+export const useCancelAdoption = () => {
+  return useMutation({
+    mutationFn: cancelAdoption,
   });
 };
