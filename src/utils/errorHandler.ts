@@ -1,6 +1,6 @@
 import { Mutation, Query, QueryKey } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import { refreshToken } from "./refreshToekn";
+import { refreshToken } from "./refreshToken";
 
 let isRefreshing = false;
 
