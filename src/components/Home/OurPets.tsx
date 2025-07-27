@@ -26,7 +26,9 @@ const OurPets = () => {
     "bg-[var(--dark-yellow)]",
   ];
 
-  const limitedPets = pets?.slice(0, 3) ?? [];
+  const availablePets =
+    pets?.filter((pet) => pet.status === "disponivel") ?? [];
+  const limitedPets = availablePets.slice(0, 3);
 
   return (
     <section className="items-center py-10 flex justify-center min-h-screen w-full bg-[var(--yellow)]">
