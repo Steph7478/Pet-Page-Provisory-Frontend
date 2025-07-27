@@ -7,10 +7,19 @@ import {isValidUrl} from "@/utils/isValidUrl";
 import {motion} from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, {useEffect, useState} from "react";
 
 const OurPets = () => {
   const {data: pets, isLoading, isError} = usePetInfo();
+  const [displayPets, setDisplayPets] = useState<PetInfos[]>([]);
+
+  useEffect(() => {
+    if (pets && !isError) {
+      const availablePets = pets.filter((pet) => pet.status === "disponivel");
+      const limitedPets = availablePets.slice(0, 3);
+      setDisplayPets(limitedPets);
+    }
+  }, [pets, isError]);
 
   const fadeIn = [useFadeIn(), useFadeIn(), useFadeIn(), useFadeIn()];
 
@@ -26,10 +35,6 @@ const OurPets = () => {
     "bg-[var(--dark-yellow)]",
   ];
 
-  const availablePets =
-    pets?.filter((pet) => pet.status === "disponivel") ?? [];
-  const limitedPets = availablePets.slice(0, 3);
-
   return (
     <section className="items-center py-10 flex justify-center min-h-screen w-full bg-[var(--yellow)]">
       <div className="max-w-[1200px] w-full gap-y-10 flex-col min-h-screen flex justify-evenly items-center relative">
@@ -42,53 +47,65 @@ const OurPets = () => {
         </motion.h2>
 
         <div className="flex gap-6 flex-wrap justify-center items-center">
-          {limitedPets.map((pet: PetInfos, idx: number) => {
-            const fade = fadeIn[idx + 1] ?? fadeIn[0];
-            const name =
-              pet?.nome ??
-              (isLoading
-                ? "Carregando..."
-                : isError
-                ? "Erro ao carregar"
-                : "Sem nome");
-            const imageUrl = isValidUrl(pet.fotoUrl) ? pet.fotoUrl : "";
+          {(displayPets.length > 0 ? displayPets : new Array(3).fill(null)).map(
+            (pet, idx) => {
+              const fade = fadeIn[idx + 1] ?? fadeIn[0];
+              const name =
+                pet?.nome ??
+                (isLoading
+                  ? "Carregando..."
+                  : isError
+                  ? "Erro ao carregar"
+                  : "Sem nome");
+              const imageUrl =
+                pet && isValidUrl(pet.fotoUrl) ? pet.fotoUrl : "";
 
-            return (
-              <motion.div
-                key={pet.petId}
-                ref={fade.ref}
-                {...fade.animationProps}
-                className="flex justify-center items-center flex-col gap-6"
-              >
-                <div
-                  className={`${
-                    bgColors[idx % bgColors.length]
-                  } rounded-full items-center justify-center flex flex-col gap-y-5 w-[250px] h-[250px] overflow-hidden`}
+              return (
+                <motion.div
+                  key={pet?.petId ?? `loading-${idx}`}
+                  ref={fade.ref}
+                  {...fade.animationProps}
+                  className="flex justify-center items-center flex-col gap-6"
                 >
-                  {isLoading ? (
-                    <p>Carregando...</p>
-                  ) : !imageUrl ? (
-                    <p>Erro ao carregar a foto</p>
+                  <div
+                    className={`${
+                      bgColors[idx % bgColors.length]
+                    } rounded-full items-center justify-center flex flex-col gap-y-5 w-[250px] h-[250px] overflow-hidden`}
+                  >
+                    {pet ? (
+                      !imageUrl ? (
+                        <p>Erro ao carregar a foto</p>
+                      ) : (
+                        <Image
+                          src={imageUrl}
+                          width={800}
+                          height={800}
+                          className="w-full h-full object-cover rounded-full"
+                          alt={name}
+                        />
+                      )
+                    ) : (
+                      <p>Carregando...</p>
+                    )}
+                  </div>
+                  {pet?.petId ? (
+                    <Link href={`/adotar/detalhes/${pet.petId}`}>
+                      <Button intent={petIntents[idx % petIntents.length]}>
+                        {name}
+                      </Button>
+                    </Link>
                   ) : (
-                    <Image
-                      src={imageUrl}
-                      width={800}
-                      height={800}
-                      className="w-full h-full object-cover rounded-full"
-                      alt={name}
-                    />
-                  )}
-                </div>
-                {pet?.petId && (
-                  <Link href={`/adotar/detalhes/${pet.petId}`}>
-                    <Button intent={petIntents[idx % petIntents.length]}>
+                    <Button
+                      intent={petIntents[idx % petIntents.length]}
+                      disabled
+                    >
                       {name}
                     </Button>
-                  </Link>
-                )}
-              </motion.div>
-            );
-          })}
+                  )}
+                </motion.div>
+              );
+            }
+          )}
         </div>
       </div>
     </section>
