@@ -17,6 +17,7 @@ const Navbar = () => {
   const links = [
     {name: "Home", href: "/"},
     {name: "Sobre nós", href: "/sobre"},
+    {name: "Adotar", href: "/adotar"},
   ];
 
   const isLogout = [
@@ -31,7 +32,6 @@ const Navbar = () => {
         name: "Painel",
         href: user.role === "adotante" ? `/adotante` : `/anunciante`,
       },
-      {name: "Adotar", href: "/adotar"},
     ];
   }, [user]);
 
