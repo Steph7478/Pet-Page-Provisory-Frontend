@@ -58,11 +58,11 @@ const Detalhes = () => {
                 </div>
                 {!isLoading && !error && pet && (
                   <>
-                    {span("Raça", pet.raca)}
-                    {span("Idade", pet.idade)}
-                    {span("Porte", pet.porte)}
+                    {span("Raça:", pet.raca)}
+                    {span("Anos:", pet.idade)}
+                    {span("Porte:", pet.porte)}
                     {span("Localização:", pet.localizacao)}
-                    {span("Descrição", pet.descricao)}
+                    {span("Descrição:", pet.descricao)}
                   </>
                 )}
               </div>
