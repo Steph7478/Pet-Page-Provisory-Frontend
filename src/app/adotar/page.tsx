@@ -1,6 +1,5 @@
 "use client";
 import SimpleSlider from "@/components/Adotar/Slides";
-import ProtectedRoute from "@/common/routes/ProtectedRoute";
 import Image from "next/image";
 import React from "react";
 import {motion} from "framer-motion";
@@ -8,7 +7,7 @@ import {fadeIn} from "@/ui/motionVariants";
 
 const Adotar = () => {
   return (
-    <ProtectedRoute>
+    <>
       <div className="min-h-screen flex justify-center py-20 flex-col items-center bg-[var(--light-yellow)] ">
         <div className="max-w-[1000px] w-full justify-center flex items-center flex-col relative">
           <motion.h2
@@ -36,7 +35,7 @@ const Adotar = () => {
           </motion.div>
         </div>
       </div>
-    </ProtectedRoute>
+    </>
   );
 };
 
